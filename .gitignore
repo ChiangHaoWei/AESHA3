@@ -10,3 +10,6 @@ __pycache__/
 patterns/
 aes_patterns/
 sha3_patterns/
+
+# others
+progress.txt
