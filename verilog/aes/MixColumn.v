@@ -1,5 +1,5 @@
 module MixColumn (
-    in,out,dec
+    in,out,dec,out_test // out_test is original mixcolumn(include xor)
 );
 //in : 16 byte array, out : 4*4*4 byte array
 //in:    A0  A4  A8  A12
@@ -13,12 +13,28 @@ module MixColumn (
 //{C0,C1,C2...C15}
 input [127:0] in;
 output [511:0] out;
+output [127:0] out_test;
 
 //MixOneColumn m1(.in(A[0:3]),.out(C[0:3]),.dec(dec));
 MixOneColumn m1(.in(in[127:96]),.out(out[511:384]),.dec(dec)); // one output layer
 MixOneColumn m2(.in(in[95:64]),.out(out[383:256]),.dec(dec));
 MixOneColumn m3(.in(in[63:32]),.out(out[255:128]),.dec(dec));
 MixOneColumn m4(.in(in[31:0]),.out(out[127:0]),.dec(dec));
+
+wire [31:0] C_beforeXOR [0:15];
+wire [7:0] C_afterXOR [0:15];
+assign {C_beforeXOR[0],C_beforeXOR[1],C_beforeXOR[2],C_beforeXOR[3]
+        C_beforeXOR[4],C_beforeXOR[5],C_beforeXOR[6],C_beforeXOR[7]
+        C_beforeXOR[8],C_beforeXOR[9],C_beforeXOR[10],C_beforeXOR[11]
+        C_beforeXOR[12],C_beforeXOR[13],C_beforeXOR[14],C_beforeXOR[15]} = out;
+
+integer i;
+for (i=0;i<16;i=i+1) begin
+    assign C_afterXOR[i] = (
+    C_beforeXOR[i][31:24] ^ C_beforeXOR[i][23:16] ^ C_beforeXOR[i][15:8] ^ C_beforeXOR[i][7:0]
+    );
+end
+
     
 
 endmodule
