@@ -42,13 +42,13 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('-o', '--output', help="directory path of random patterns", required=False, default="aes_patterns")
-    parser.add_argument('-n', '--n_pattern', help="number of random pattern to be generated", required=False, default="10")
+    parser.add_argument('-n', '--n_pattern', help="number of random pattern to be generated", required=False, default="20")
     args = parser.parse_args()
 
     try:
         n_pat = int(args.n_pattern)
     except:
-        n_pat = 10
+        n_pat = 20
     os.makedirs(args.output, exist_ok=True)
     generate_testbench_pattern(args.output, n_pat)
         
