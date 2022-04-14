@@ -3,18 +3,19 @@
 `define CYCLE	10
 `define HCYCLE	5
 
-`define IN_DATA "aes_patterns/input_sub_bytes.dat"
-`define GOLDEN "aes_patterns/golden_sub_bytes.dat"
-`define INV_IN "aes_patterns/input_inv_sub_bytes.dat"
-`define INV_GOLDEN "aes_patterns/golden_inv_sub_bytes.dat"
+`define IN_DATA "aes_patterns/input_mix_col_add_key.dat"
+`define GOLDEN "aes_patterns/golden_mix_col_add_key.dat"
+`define INV_IN "aes_patterns/input_inv_mix_columns.dat"
+`define INV_GOLDEN "aes_patterns/golden_inv_mix_columns.dat"
 
 
 module tb_SubByte;
 
     localparam DataLength = 10;
-    reg  [127:0] in_data, inv_in;
-    reg  [127:0] out_ans, inv_ans;
-    wire [127:0] out_data, inv_out;
+    reg  [127:0] in_data;
+    reg  [127:0] out_ans;
+    wire [127:0] out_data;
+    reg mode; // 0: encrypt, 1: decrypt
 
     reg [127:0] in_mem         [0:DataLength-1];
     reg [127:0] inv_in_mem     [0:DataLength-1];
@@ -23,8 +24,8 @@ module tb_SubByte;
 
     integer i, err_num;
 
-    SubByte sub_byte(.in(in_data), .out(out_data));
-    InvSubByte inv_sub_byte(.in(inv_in), .out(inv_out));
+    MixColumn mix_column(.in(in_data),.dec(mode), .out_test(out_data));
+    // InvSubByte inv_sub_byte(.in(inv_in), .out(inv_out));
 
     initial	$readmemh (`IN_DATA,  in_mem);
     initial	$readmemh (`GOLDEN,  golden_mem);
@@ -32,7 +33,7 @@ module tb_SubByte;
     initial $readmemh (`INV_GOLDEN, inv_golden_mem);
 
    initial begin
-       $fsdbDumpfile("sub_bytes.fsdb");
+       $fsdbDumpfile("mix_columns.fsdb");
        $fsdbDumpvars;
    end
 
@@ -41,8 +42,9 @@ module tb_SubByte;
         out_ans = 0;
         i    = 0;
         err_num = 0;
+        mode = 0;
 
-        $display("Testing SubByte...");
+        $display("Testing MixColumn...");
         for (i=0; i<DataLength; i=i+1) begin
             #(`CYCLE);
             in_data = in_mem[i];
@@ -70,20 +72,21 @@ module tb_SubByte;
         end
 
         #(`CYCLE);
-        inv_in = 0;
-        inv_ans = 0;
+        in_data = 0;
+        out_ans = 0;
         i    = 0;
         err_num = 0;
+        mode = 1;
 
-        $display("Testing InvSubByte...");
+        $display("Testing InvMixColumn...");
         for (i=0; i<DataLength; i=i+1) begin
             #(`CYCLE);
-            inv_in = inv_in_mem[i];
-            inv_ans = inv_golden_mem[i];
+            in_data = inv_in_mem[i];
+            out_ans = inv_golden_mem[i];
 
             #(`HCYCLE);
-            if (inv_out != inv_ans) begin
-              $display("Error at %d: in=%h, output=%h, expect=%h", i, inv_in, inv_out, inv_ans);
+            if (out_data != out_ans) begin
+              $display("Error at %d: in=%h, output=%h, expect=%h", i, in_data, out_data, out_ans);
               err_num = err_num + 1;
             end
             

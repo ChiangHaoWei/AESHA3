@@ -15,22 +15,22 @@ output [127:0] out;
 wire [7:0] inbyte [0:15];
 wire [7:0] outbyte [0:15];
 
-assign inbyte[ 0] = [127:120];
-assign inbyte[ 1] = [119:112];
-assign inbyte[ 2] = [111:104];
-assign inbyte[ 3] = [103:96];
-assign inbyte[ 4] = [95:88];
-assign inbyte[ 5] = [87:80];
-assign inbyte[ 6] = [79:72];
-assign inbyte[ 7] = [71:64];
-assign inbyte[ 8] = [63:56];
-assign inbyte[ 9] = [55:48];
-assign inbyte[10] = [47:40];
-assign inbyte[11] = [39:32];
-assign inbyte[12] = [31:24];
-assign inbyte[13] = [23:16];
-assign inbyte[14] = [15:8];
-assign inbyte[15] = [7:0] ;
+assign inbyte[ 0] = in[127:120];
+assign inbyte[ 1] = in[119:112];
+assign inbyte[ 2] = in[111:104];
+assign inbyte[ 3] = in[103:96];
+assign inbyte[ 4] = in[95:88];
+assign inbyte[ 5] = in[87:80];
+assign inbyte[ 6] = in[79:72];
+assign inbyte[ 7] = in[71:64];
+assign inbyte[ 8] = in[63:56];
+assign inbyte[ 9] = in[55:48];
+assign inbyte[10] = in[47:40];
+assign inbyte[11] = in[39:32];
+assign inbyte[12] = in[31:24];
+assign inbyte[13] = in[23:16];
+assign inbyte[14] = in[15:8];
+assign inbyte[15] = in[7:0] ;
 
 assign outbyte[ 0] = inbyte[ 0];
 assign outbyte[ 1] = inbyte[ 5];
@@ -64,7 +64,7 @@ assign out = {outbyte[ 0],
             outbyte[12],
             outbyte[13],
             outbyte[14],
-            outbyte[15]}
+            outbyte[15]};
 
 
     

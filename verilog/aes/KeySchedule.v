@@ -23,8 +23,8 @@ wire [7:0] rcx2;
 wire [127:0] gen_out;
 
 //call module
-GenRoundKey gen0(.in(roundkeys_r[127:0]),.out(gen_out).rc(rc_r));
-Xtime X0(.in(rc_r),.out(rcx2))
+GenRoundKey gen0(.in(roundkeys_r[127:0]),.out(gen_out),.rc(rc_r));
+Xtime X0(.in(rc_r),.out(rcx2));
 
 //output assignment
 assign finish = (state_r == S_FIN);
@@ -62,7 +62,7 @@ always @(*) begin
             roundkeys_w[127:0] = key;
             rc_w = 1;
         end
-        S_COMPUTE:begin
+        S_COMP:begin
             roundkeys_w = {roundkeys_r[1151:0],gen_out};
             rc_w = rcx2;
         end
@@ -93,10 +93,10 @@ input [127:0] in;
 output [127:0] out;
 input [7:0] rc;
     
-reg [31:0] w0;
-reg [31:0] w1;
-reg [31:0] w2;
-reg [31:0] w3;
+wire [31:0] w0;
+wire [31:0] w1;
+wire [31:0] w2;
+wire [31:0] w3;
 assign {w0,w1,w2,w3} = in;
 
 wire [31:0] w_out [0:3];
@@ -127,9 +127,9 @@ assign {V[0],V[1],V[2],V[3]} = in;
 assign out = {V_o[0],V_o[1],V_o[2],V_o[3]};
 
 STable s0(.in(V[0]),.out(V_o[3]));
-STable s0(.in(V[1]),.out(V_o_temp));
-STable s0(.in(V[2]),.out(V_o[1]));
-STable s0(.in(V[3]),.out(V_o[2]));
+STable s1(.in(V[1]),.out(V_o_temp));
+STable s2(.in(V[2]),.out(V_o[1]));
+STable s3(.in(V[3]),.out(V_o[2]));
 
 assign V_o[0] = V_o_temp ^ rc;
 

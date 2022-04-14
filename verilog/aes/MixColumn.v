@@ -12,8 +12,11 @@ module MixColumn (
 //      second      first        --> C4
 //{C0,C1,C2...C15}
 input [127:0] in;
+input dec;
 output [511:0] out;
 output [127:0] out_test;
+
+
 
 //MixOneColumn m1(.in(A[0:3]),.out(C[0:3]),.dec(dec));
 MixOneColumn m1(.in(in[127:96]),.out(out[511:384]),.dec(dec)); // one output layer
@@ -23,17 +26,24 @@ MixOneColumn m4(.in(in[31:0]),.out(out[127:0]),.dec(dec));
 
 wire [31:0] C_beforeXOR [0:15];
 wire [7:0] C_afterXOR [0:15];
-assign {C_beforeXOR[0],C_beforeXOR[1],C_beforeXOR[2],C_beforeXOR[3]
-        C_beforeXOR[4],C_beforeXOR[5],C_beforeXOR[6],C_beforeXOR[7]
-        C_beforeXOR[8],C_beforeXOR[9],C_beforeXOR[10],C_beforeXOR[11]
+assign {C_beforeXOR[0],C_beforeXOR[1],C_beforeXOR[2],C_beforeXOR[3],
+        C_beforeXOR[4],C_beforeXOR[5],C_beforeXOR[6],C_beforeXOR[7],
+        C_beforeXOR[8],C_beforeXOR[9],C_beforeXOR[10],C_beforeXOR[11],
         C_beforeXOR[12],C_beforeXOR[13],C_beforeXOR[14],C_beforeXOR[15]} = out;
 
-integer i;
-for (i=0;i<16;i=i+1) begin
-    assign C_afterXOR[i] = (
-    C_beforeXOR[i][31:24] ^ C_beforeXOR[i][23:16] ^ C_beforeXOR[i][15:8] ^ C_beforeXOR[i][7:0]
-    );
-end
+assign out_test = { C_afterXOR[0],  C_afterXOR[1],  C_afterXOR[2],  C_afterXOR[3],
+                    C_afterXOR[4],  C_afterXOR[5],  C_afterXOR[6],  C_afterXOR[7],
+                    C_afterXOR[8],  C_afterXOR[9],  C_afterXOR[10], C_afterXOR[11],
+                    C_afterXOR[12], C_afterXOR[13], C_afterXOR[14], C_afterXOR[15]};
+
+genvar i;
+generate
+    for (i=0;i<16;i=i+1) begin
+        assign C_afterXOR[i] = (
+        C_beforeXOR[i][31:24] ^ C_beforeXOR[i][23:16] ^ C_beforeXOR[i][15:8] ^ C_beforeXOR[i][7:0]
+        );
+    end
+endgenerate
 
     
 
@@ -58,7 +68,7 @@ wire [7:0] C3 [0:3];
 assign out = {C0[0],C0[1],C0[2],C0[3],
               C1[0],C1[1],C1[2],C1[3],
               C2[0],C2[1],C2[2],C2[3],
-              C3[0],C3[1],C3[2],C3[3]}
+              C3[0],C3[1],C3[2],C3[3]};
 
 assign A[0] = in[31:24];
 assign A[1] = in[23:16];
