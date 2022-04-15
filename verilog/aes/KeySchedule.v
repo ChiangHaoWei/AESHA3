@@ -109,6 +109,7 @@ assign w_out[1] = w_out[0] ^ w1;
 assign w_out[2] = w_out[1] ^ w2;
 assign w_out[3] = w_out[2] ^ w3;
 
+assign out = {w_out[0], w_out[1], w_out[2], w_out[3]};
 
 
 endmodule

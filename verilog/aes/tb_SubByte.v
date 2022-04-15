@@ -11,7 +11,7 @@
 
 module tb_SubByte;
 
-    localparam DataLength = 10;
+    localparam DataLength = 20;
     reg  [127:0] in_data, inv_in;
     reg  [127:0] out_ans, inv_ans;
     wire [127:0] out_data, inv_out;

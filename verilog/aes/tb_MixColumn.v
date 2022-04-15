@@ -3,15 +3,15 @@
 `define CYCLE	10
 `define HCYCLE	5
 
-`define IN_DATA "aes_patterns/input_mix_col_add_key.dat"
-`define GOLDEN "aes_patterns/golden_mix_col_add_key.dat"
+`define IN_DATA "aes_patterns/input_mix_columns.dat"
+`define GOLDEN "aes_patterns/golden_mix_columns.dat"
 `define INV_IN "aes_patterns/input_inv_mix_columns.dat"
 `define INV_GOLDEN "aes_patterns/golden_inv_mix_columns.dat"
 
 
 module tb_SubByte;
 
-    localparam DataLength = 10;
+    localparam DataLength = 20;
     reg  [127:0] in_data;
     reg  [127:0] out_ans;
     wire [127:0] out_data;
@@ -51,7 +51,7 @@ module tb_SubByte;
             out_ans = golden_mem[i];
 
             #(`HCYCLE);
-            if (out_data != out_ans) begin
+            if (out_data !== out_ans) begin
               $display("Error at %d: in=%h, output=%h, expect=%h", i, in_data, out_data, out_ans);
               err_num = err_num + 1;
             end
@@ -85,7 +85,7 @@ module tb_SubByte;
             out_ans = inv_golden_mem[i];
 
             #(`HCYCLE);
-            if (out_data != out_ans) begin
+            if (out_data !== out_ans) begin
               $display("Error at %d: in=%h, output=%h, expect=%h", i, in_data, out_data, out_ans);
               err_num = err_num + 1;
             end
