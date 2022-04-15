@@ -49,7 +49,7 @@ module tb_SubByte;
             out_ans = golden_mem[i];
 
             #(`HCYCLE);
-            if (out_data != out_ans) begin
+            if (out_data !== out_ans) begin
               $display("Error at %d: in=%h, output=%h, expect=%h", i, in_data, out_data, out_ans);
               err_num = err_num + 1;
             end
@@ -82,7 +82,7 @@ module tb_SubByte;
             inv_ans = inv_golden_mem[i];
 
             #(`HCYCLE);
-            if (inv_out != inv_ans) begin
+            if (inv_out !== inv_ans) begin
               $display("Error at %d: in=%h, output=%h, expect=%h", i, inv_in, inv_out, inv_ans);
               err_num = err_num + 1;
             end

@@ -24,7 +24,7 @@ module tb_SubByte;
     integer i, err_num;
 
     ShiftRow shift_row(.in(in_data), .out(out_data));
-    // InvSubByte inv_sub_byte(.in(inv_in), .out(inv_out));
+    InvShiftRow inv_shift_row(.in(inv_in), .out(inv_out));
 
     initial	$readmemh (`IN_DATA,  in_mem);
     initial	$readmemh (`GOLDEN,  golden_mem);
@@ -49,7 +49,7 @@ module tb_SubByte;
             out_ans = golden_mem[i];
 
             #(`HCYCLE);
-            if (out_data != out_ans) begin
+            if (out_data !== out_ans) begin
               $display("Error at %d: in=%h, output=%h, expect=%h", i, in_data, out_data, out_ans);
               err_num = err_num + 1;
             end
@@ -69,38 +69,38 @@ module tb_SubByte;
             $display("---------------------------------------------\n");
         end
 
-        // #(`CYCLE);
-        // inv_in = 0;
-        // inv_ans = 0;
-        // i    = 0;
-        // err_num = 0;
+        #(`CYCLE);
+        inv_in = 0;
+        inv_ans = 0;
+        i    = 0;
+        err_num = 0;
 
-        // $display("Testing InvShiftRow...");
-        // for (i=0; i<DataLength; i=i+1) begin
-        //     #(`CYCLE);
-        //     inv_in = inv_in_mem[i];
-        //     inv_ans = inv_golden_mem[i];
+        $display("Testing InvShiftRow...");
+        for (i=0; i<DataLength; i=i+1) begin
+            #(`CYCLE);
+            inv_in = inv_in_mem[i];
+            inv_ans = inv_golden_mem[i];
 
-        //     #(`HCYCLE);
-        //     if (inv_out != inv_ans) begin
-        //       $display("Error at %d: in=%h, output=%h, expect=%h", i, inv_in, inv_out, inv_ans);
-        //       err_num = err_num + 1;
-        //     end
+            #(`HCYCLE);
+            if (inv_out !== inv_ans) begin
+              $display("Error at %d: in=%h, output=%h, expect=%h", i, inv_in, inv_out, inv_ans);
+              err_num = err_num + 1;
+            end
             
-        //     #(`HCYCLE);
-        // end
-        // if (err_num==0) begin
-        //     $display("---------------------------------------------\n");
-        //     $display("All data have been generated successfully!\n");
-        //     $display("--------------------PASS--------------------\n");
-        //     $display("---------------------------------------------\n");
-        // end
-        // else begin
-        //     $display("---------------------------------------------\n");
-        //     $display("There are %d errors!\n", err_num);
-        //     $display("--------------------FAIL--------------------\n");
-        //     $display("---------------------------------------------\n");
-        // end
+            #(`HCYCLE);
+        end
+        if (err_num==0) begin
+            $display("---------------------------------------------\n");
+            $display("All data have been generated successfully!\n");
+            $display("--------------------PASS--------------------\n");
+            $display("---------------------------------------------\n");
+        end
+        else begin
+            $display("---------------------------------------------\n");
+            $display("There are %d errors!\n", err_num);
+            $display("--------------------FAIL--------------------\n");
+            $display("---------------------------------------------\n");
+        end
         
         // finish tb
         #(`CYCLE) $finish;
