@@ -2,7 +2,9 @@ from sha_3 import iota2, chi2 ,pai2,rho2,theta,_3Dto1D,bits_to_hex1
 import os
 import numpy as np
 
-def generate_sha3_testbench_pattern(dir_path,n_pattern=20):
+from aes_ebc import share_resource
+
+def generate_sha3_testbench_pattern(dir_path,n_pattern=24):
 
 
 
@@ -15,7 +17,7 @@ def generate_sha3_testbench_pattern(dir_path,n_pattern=20):
         lambda s,r:rho2(s),
         lambda s,r:pai2(s),
         lambda s,r:chi2(s),
-        lambda s,r:iota2(s,5)
+        lambda s,r:iota2(s,r)
     ]
 
     for h in range(len(names)):
@@ -35,16 +37,5 @@ def generate_sha3_testbench_pattern(dir_path,n_pattern=20):
             res_fout.write('\n')
 
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-o', '--output', help="directory path of random patterns", required=False, default="sha3_patterns")
-    parser.add_argument('-n', '--n_pattern', help="number of random pattern to be generated", required=False, default="20")
-    args = parser.parse_args()
-
-    try:
-        n_pat = int(args.n_pattern)
-    except:
-        n_pat = 20
-
-    os.makedirs(args.output, exist_ok=True)
-    generate_sha3_testbench_pattern(args.output, n_pat)
+    os.makedirs("sha3_patterns", exist_ok=True)
+    generate_sha3_testbench_pattern("sha3_patterns")
