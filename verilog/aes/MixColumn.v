@@ -1,5 +1,5 @@
 module MixColumn (
-    in,out,dec,out_test // out_test is original mixcolumn(include xor)
+    in,dec,out_test // out_test is original mixcolumn(include xor)
 );
 //in : 16 byte array, out : 4*4*4 byte array
 //in:    A0  A4  A8  A12
@@ -13,7 +13,7 @@ module MixColumn (
 //{C0,C1,C2...C15}
 input [127:0] in;
 input dec;
-output [511:0] out;
+wire [511:0] out;
 output [127:0] out_test;
 
 
