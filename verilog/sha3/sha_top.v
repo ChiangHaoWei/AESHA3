@@ -109,6 +109,7 @@ begin
             end
             else begin
                 f_nxt=f_in;
+                round_nxt=0;
                 state_nxt=second_idle;
             end
 

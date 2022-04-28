@@ -37,6 +37,17 @@ def bits_to_hex1(b):
         
     return  res
 # arg is string item
+def bytestobits(bytess):
+    result = []
+    for c in bytess:
+        bits = bin(c)[2:]
+        bits = '00000000'[len(bits):] + bits
+        tem = list(bits)
+        tem.reverse()
+        result.extend([int(b) for b in tem])
+    return result
+
+
 def tobits(s):
     result = []
     for c in s:
@@ -203,7 +214,7 @@ def rho(A):
         x=y
         y=(2*x_tem+3*y)%5
     print("after rho")
-    print(bits_to_hex2(_3Dto1D(A_out)))
+    # print(bits_to_hex2(_3Dto1D(A_out)))
     return A_out
     
 def pai(A):
@@ -213,7 +224,7 @@ def pai(A):
             for k in range(64):
                 A_out[i][j][k] = A[(i+3*j)%5][i][k]
     print("after pai")
-    print(bits_to_hex2(_3Dto1D(A_out)))
+    # print(bits_to_hex2(_3Dto1D(A_out)))
     return A_out
 
 def pai2(A_in):
@@ -240,7 +251,7 @@ def chi(A):
             for k in range(64):
                 A_out[i][j][k]=(A[i][j][k]+(((A[(i + 1)%5][j][k]  +1 )% 2)&(A[(i + 2)%5][j][k]))) % 2
     print("after chi")
-    print(bits_to_hex2(_3Dto1D(A_out)))
+    # print(bits_to_hex2(_3Dto1D(A_out)))
     
     return A_out
 
@@ -282,7 +293,7 @@ def iota(A,round):
     for l in range(7):
         A_out[0][0][2**l-1]^=rc[l+7*round]
     print("after iota")
-    print(bits_to_hex2(_3Dto1D(A_out)))
+    # print(bits_to_hex2(_3Dto1D(A_out)))
     return(A_out)
 
 def iota2(A_in, round):
@@ -296,7 +307,7 @@ def iota2(A_in, round):
 
     for l in range(7):
         A_out[0][0][2**l - 1] = ((A_out[0][0][2**l - 1] + rc[l + 7*round]) )% 2
-    print(rc)
+    # print(rc)
     return A_out
 a=np.random.randint(9,size=(5,5,64))
 iota2(a,1)
