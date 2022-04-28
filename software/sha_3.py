@@ -296,8 +296,10 @@ def iota2(A_in, round):
 
     for l in range(7):
         A_out[0][0][2**l - 1] = ((A_out[0][0][2**l - 1] + rc[l + 7*round]) )% 2
-
+    print(rc)
     return A_out
+a=np.random.randint(9,size=(5,5,64))
+iota2(a,1)
 
 def Rnd(arry_3d,ir):
     global flag
@@ -354,7 +356,7 @@ def SHA3_256_str_to_hex(s):
     print("***************result*****************\n")
     return res
 
-print(SHA3_256_str_to_hex(""))
+# print(SHA3_256_str_to_hex(""))
     
 
 def generatetwofile():
