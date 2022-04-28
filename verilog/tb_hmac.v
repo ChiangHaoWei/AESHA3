@@ -30,12 +30,7 @@ module tb_hmac;
     initial $readmemh(`KEY_IN, key_mem);
     initial $readmemh(`GOLDEN, mac_mem);
 
-    initial begin
-        clk = 0;
-        rst_n = 1;
-    end
 
-    always #(`HCYCLE) clk = ~clk;
 
     initial begin
         $fsdbDumpfile("hmac.fsdb");
@@ -63,6 +58,13 @@ module tb_hmac;
         start = 0;
     end
 
+    initial begin
+        clk = 0;
+        rst_n = 1;
+    end
+
+    always #(`HCYCLE) clk = ~clk;
+
     always @(posedge hmac_ready) begin
         #(`HCYCLE);
         if (hmac_value !== golden) begin
@@ -78,11 +80,12 @@ module tb_hmac;
             #(`CYCLE);
             rst_n = 1;
             #(`CYCLE);
+            #(`HCYCLE);
             start = 1;
             key_in = key_mem[n];
             msg_in = msg_mem[n];
             golden = mac_mem[n];
-            #(`CYCLE*2);
+            #(`CYCLE);
             start = 0;
         end
     end

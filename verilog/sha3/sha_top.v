@@ -24,7 +24,7 @@ reg [4:0] round;
 
 
 
-reg  [2:0] state,state_nxt;
+reg  [1:0] state,state_nxt;
 
 wire [1599:0] f_out;
 reg [1599:0] f_in,f_nxt;
@@ -126,7 +126,9 @@ begin
 
         default:
         begin
-
+            round_nxt = 0;
+            state_nxt = 0;
+            f_nxt = 0;
         end
 
     endcase

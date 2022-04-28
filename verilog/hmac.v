@@ -65,6 +65,7 @@ module HMAC (
         ready_w = ready_r;
         more_w = more_r;
         hash_out_w = hash_out_r;
+        xor_res = 0;
         case (state_r)
             IDLE: begin
                 ready_w = 0;
