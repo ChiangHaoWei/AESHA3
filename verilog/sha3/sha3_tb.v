@@ -36,6 +36,10 @@ end
 initial begin
     clk=1'b1;
     rst_n = 1;
+    #(`CYCLE)
+    rst_n=0;
+    #(`CYCLE)
+    rst_n=1;
     more =0;
     in_valid=0;
     out_ans=0;
@@ -54,6 +58,7 @@ initial begin
         in_data=1088'b0;
         #(`CYCLE*23)
          # (`CYCLE)
+         in_valid=1;
          more=0;
         in_data=in_mem[i+1];
         # (`CYCLE)
@@ -62,7 +67,7 @@ initial begin
         #(`CYCLE*23)
          out_ans=golden_mem[i];
         if (out_valid) begin
-            if (out_ans!=out_data) begin
+            if (out_ans!==out_data) begin
                 $display("Error at pattern number %d\nin=%h\noutput=%h\nexpect=%h", i,{in_mem[i],in_mem[i+1]} ,out_data, out_ans);
                 err_num=err_num+1;
             end

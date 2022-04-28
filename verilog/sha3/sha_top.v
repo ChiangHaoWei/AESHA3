@@ -139,6 +139,7 @@ begin
     begin
         round <=5'b0;
         f_in<=0;
+        state<=0;
     end
 
     else
