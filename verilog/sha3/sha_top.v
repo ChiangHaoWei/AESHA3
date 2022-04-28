@@ -2,6 +2,14 @@ module SHA3TOP(
            clk, in ,more,in_valid,hash_next, out, out_valid ,rst_n
        );
 
+
+
+// Definition of states
+parameter IDLE = 3'b000;
+parameter computing  = 3'b001;
+parameter second_idle  = 3'b010;
+parameter OUT  = 3'b011;
+
 input [1087:0] in;
 input clk;
 input more;
@@ -14,26 +22,21 @@ output out_valid;
 reg [4:0] round_nxt;
 reg [4:0] round;
 
-output me;
 
+
+reg  [2:0] state,state_nxt;
 
 wire [1599:0] f_out;
 reg [1599:0] f_in,f_nxt;
 
-assign hash_next = ((state==second_idle)&&(!in_valid))?1'b1:1'b0 ;
-assign out_valid = ((state==OUT))?1'b1:1'b0 ;
+assign hash_next = ((state==second_idle)&&(!in_valid))? 1'b1:1'b0 ;
+assign out_valid = ((state==OUT))? 1'b1:1'b0 ;
 
 assign out =((state==OUT))?f_out[1599:1344]:256'b0;
 Ffunction funcs(f_in,f_out,round);
 
 
 
-reg  [2:0] state,state_nxt;
-// Definition of states
-parameter IDLE = 3'b000;
-parameter computing  = 3'b001;
-parameter second_idle  = 3'b010;
-parameter OUT  = 3'b011;
 
 always @(*)
 begin

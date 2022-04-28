@@ -3,8 +3,8 @@
 `define CYCLE	20
 `define HCYCLE	10
 `define NUM_DATA 4
-`define IN_DATA "sha3_patterns/input_sha3top.dat"
-`define GOLDEN "sha3_patterns/golden_sha3top.dat"
+`define IN_DATA "sha3_patterns/input_sha_top.dat"
+`define GOLDEN "sha3_patterns/golden_sha_top.dat"
 
 module tb_sha3top;
 
