@@ -2,8 +2,8 @@ module HMAC (
   clk, rst_n, start, key, message, mac_value, ready
 );
     localparam BLOCK_SIZE = 136;
-    localparam IPAD = 1088'h5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c;
-    localparam OPAD = 1088'h36363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636;
+    localparam OPAD = 1088'h5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c;
+    localparam IPAD = 1088'h36363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636363636;
     localparam IDLE = 0;
     localparam HASH_S1 = 1;
     localparam HASH_S2 = 2;
@@ -23,17 +23,40 @@ module HMAC (
     wire hash_ready, hash_next;
     wire [255:0] hash_out;
 
-    assign ready = ready_r;
-    assign mac_value = hash_out;
+    reg [1087:0] xor_res, flip_res;
+    reg [255:0]  flip_out;
 
-    SHA3 sha3_256(
+    assign ready = ready_r;
+    assign mac_value = hash_out_r;
+
+    integer i, j;
+
+    SHA3TOP sha3_256(
+        .clk(clk),
+        .rst_n(rst_n),
         .in(k_r),
         .more(more_r), // more=1 if there are still some inputs needed to be fed in
-        .input_valid(hash_start_r),
+        .in_valid(hash_start_r),
         .out(hash_out),
-        .next(hash_next),   
-        .ready(hash_ready)
+        .hash_next(hash_next),   
+        .out_valid(hash_ready)
     );
+
+    always @(*) begin
+        for (i=135; i>=0; i=i-1) begin
+            for (j=0; j<8; j=j+1) begin
+                flip_res[i*8+7-j] = xor_res[i*8+j];
+            end
+        end
+    end
+
+    always @(*) begin
+        for (i=31; i>=0; i=i-1) begin
+            for (j=0; j<8; j=j+1) begin
+                flip_out[i*8+7-j] = hash_out[i*8+j];
+            end
+        end
+    end
 
     always @(*) begin
         k_w = k_r;
@@ -47,7 +70,8 @@ module HMAC (
                 ready_w = 0;
                 if (start) begin
                     state_w = HASH_S1;
-                    k_w = key ^ IPAD;
+                    xor_res = key ^ IPAD;
+                    k_w = flip_res;
                     hash_start_w = 1;
                     more_w = 1;
                 end
@@ -55,10 +79,11 @@ module HMAC (
             HASH_S1: begin
                 if (hash_ready) begin
                     state_w = HASH_S2;
-                    k_w = key ^ OPAD;
+                    xor_res = key ^ OPAD;
+                    k_w = flip_res;
                     hash_start_w = 1;
                     more_w = 1;
-                    hash_out_w = hash_out;
+                    hash_out_w = flip_out;
                 end
                 else if (hash_next) begin
                     k_w = message;
@@ -76,7 +101,7 @@ module HMAC (
                     hash_out_w = hash_out;
                 end
                 else if (hash_next) begin
-                    k_w = {hash_out, 3'b011, 828'd0, 1'b1};
+                    k_w = {hash_out_r, 3'b011, 828'd0, 1'b1};
                     hash_start_w = 1;
                     more_w = 0;
                 end
@@ -93,7 +118,7 @@ module HMAC (
         endcase
     end
 
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             hash_start_r <= 0;
             ready_r <= 0;

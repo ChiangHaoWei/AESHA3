@@ -39,16 +39,25 @@ def PBKDF2(passward, salt, c, dkLen=32):
 def generate_hmac_pattern(dir_path, n_pattern=20):
   os.makedirs(dir_path, exist_ok=True)
   f_key = open(os.path.join(dir_path, "hmac_key_input.dat"), 'w')
+  f_mid = open(os.path.join(dir_path, "hmac_mid_out.dat"), 'w')
+  f_rev_msg = open(os.path.join(dir_path, "hmac_rev_msg_input.dat"), 'w')
   f_msg = open(os.path.join(dir_path, "hmac_msg_input.dat"), 'w')
   f_golden = open(os.path.join(dir_path, "hmac_golden.dat"), 'w')
   for i in range(n_pattern):
     key = os.urandom(136)
-    message = os.urandom(135) + bytes([1])
-    golden = hmac_sha3_256(key, message)[1]
+    message = os.urandom(135)
+    rev_msg = bytes()
+    for b in message:
+      rev_msg += bytes([int(f"{b:08b}"[::-1], 2)])
+    mid, golden = hmac_sha3_256(key, message)
+    f_mid.write(mid.hex()+'\n')
+    f_rev_msg.write((rev_msg+bytes([97])).hex()+'\n')
     f_key.write(key.hex()+'\n')
-    f_msg.write(message.hex()+'\n')
+    f_msg.write((message+bytes([97])).hex()+'\n')
     f_golden.write(golden.hex()+'\n')
   f_key.close()
+  f_mid.close()
+  f_rev_msg.close()
   f_msg.close()
   f_golden.close()
     
@@ -91,6 +100,6 @@ if __name__ == "__main__":
   except:
     c = 15
   generate_pbkdf2_pattern(args.dir, c, n_pat)
-  # generate_hmac_pattern("../hmac_patterns", n_pat)
+  generate_hmac_pattern("../hmac_patterns", n_pat)
 
 
