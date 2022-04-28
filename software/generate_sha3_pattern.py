@@ -1,4 +1,4 @@
-from sha_3 import iota2, chi2 ,pai2,rho2,theta,_3Dto1D,bits_to_hex1, strround, fround, partition_in,sponge
+from sha_3 import iota2, chi2 ,pai2,rho2,theta,_3Dto1D,bits_to_hex1,bits_to_hex2, strround, fround, partition_in,sponge
 import os
 import numpy as np
 
@@ -49,7 +49,7 @@ def generate_sha3_testbench_pattern(dir_path,n_pattern=24):
             in_f.write('\n')
             in_f.write(bits_to_hex1(b[1]))
             in_f.write('\n')
-            out_f.write(bits_to_hex1(c))
+            out_f.write(bits_to_hex2(c))
             out_f.write('\n')
         
 

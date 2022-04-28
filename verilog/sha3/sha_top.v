@@ -16,9 +16,9 @@ input more;
 input rst_n;
 input in_valid;
 output hash_next;
-output [255:0] out;
+output reg [255:0] out;
 output out_valid;
-
+wire [255:0] out_rev;
 reg [4:0] round_nxt;
 reg [4:0] round;
 
@@ -32,8 +32,26 @@ reg [1599:0] f_in,f_nxt;
 assign hash_next = ((state==second_idle)&&(!in_valid))? 1'b1:1'b0 ;
 assign out_valid = ((state==OUT))? 1'b1:1'b0 ;
 
-assign out =((state==OUT))?f_out[1599:1344]:256'b0;
+assign out_rev =((state==OUT))?f_out[1599:1344]:256'b0;
+
+integer i,j;
+
+
+always @(*) begin
+    for (i=0; i<=248; i=i+8) begin
+        for(j=0;j<8;j=j+1) begin
+            out[i+j]=out_rev[i+7-j];
+
+        end
+        
+    end
+end
+
+
+
 Ffunction funcs(f_in,f_out,round);
+
+
 
 
 
