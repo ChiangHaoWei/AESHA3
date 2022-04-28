@@ -1,10 +1,11 @@
 module KeySchedule (
-    key, roundkeys, clk, rst, start, finish
+    key, roundkeys, clk, rst_n, start, finish,shift_l,shift_r
 );
 input [127:0] key;
 output [1279:0] roundkeys;
-input clk,rst;
+input clk,rst_n;
 input start;
+input shift_l,shift_r;
 output finish;
 
 //state param
@@ -49,6 +50,8 @@ always @(*) begin
             end
         end
         S_FIN:begin
+            // if(start)
+            //     state_w = S_COMP;
             state_w = S_IDLE;
         end
     endcase
@@ -59,7 +62,8 @@ always @(*) begin
     rc_w = rc_r;
     case (state_r)
         S_IDLE:begin
-            roundkeys_w[127:0] = key;
+            if(start)
+                roundkeys_w[127:0] = key;
             rc_w = 1;
         end
         S_COMP:begin
@@ -70,8 +74,8 @@ always @(*) begin
 end
 
 //seq
-always @(posedge clk or posedge rst) begin
-    if(rst)begin
+always @(posedge clk or negedge rst_n) begin
+    if(!rst_n)begin
         state_r <= S_IDLE;
         counter_r <= 0;
         rc_r <= 1;
@@ -79,8 +83,13 @@ always @(posedge clk or posedge rst) begin
     else begin
         state_r <= state_w;
         counter_r <= counter_w;
-        roundkeys_r <= roundkeys_w;
         rc_r <= rc_w;
+        if (shift_l)
+            roundkeys_r <= {roundkeys_w[1151:0],roundkeys_w[1279:1152]};
+        else if (shift_r)
+            roundkeys_r <= {roundkeys_w[127:0],roundkeys_w[1279:128]};
+        else 
+            roundkeys_r <= roundkeys_w;
     end
 end
 

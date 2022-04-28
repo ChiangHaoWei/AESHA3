@@ -1,9 +1,10 @@
 module AESOneRound (
-    in,out,roundkey,dec
+    in,out,roundkey,dec,nomix//nomix = 1 when no mixcolumn
 );
 input [127:0] in,roundkey;
 input dec;
 output reg [127:0] out;
+input nomix;
 
 
 reg [127:0]  key_in ,sub_in ,inv_sub_in ,inv_sh_in ,mix_in ,sh_in;
@@ -17,7 +18,10 @@ InvShiftRow s3(.in(inv_sh_in),.out(inv_sh_out));
 MixColumn m0(.in(mix_in),.out_test(mix_out),.dec(dec));
 
 always @(*) begin
-    inv_sh_in = mix_out;
+    if(nomix)
+        inv_sh_in = key_out;
+    else
+        inv_sh_in = mix_out;
     inv_sub_in = inv_sh_out;
     sub_in = in;
     sh_in = sub_out;
@@ -32,7 +36,10 @@ always @(*) begin
         //sub_in = in;
         //sh_in = sub_out;
         mix_in = sh_out;
-        key_in = mix_out;
+        if(nomix)
+            key_in = sh_out;
+        else
+            key_in = mix_out;
         out = key_out;
     end
 end
