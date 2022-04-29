@@ -33,7 +33,7 @@ def PBKDF2(passward, salt, c, dkLen=32):
   u = hmac_sha3_256(passward, salt+bytes([0, 0, 0, 1]))[1]
   u_i = u
   for j in range(2, c+1):
-    print(u_i.hex())
+    # print(u_i.hex())
     u_i = hmac_sha3_256(passward, u_i)[1]
     u = xor_bytes(u, u_i)
   return u

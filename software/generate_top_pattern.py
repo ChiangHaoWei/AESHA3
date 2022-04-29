@@ -6,7 +6,8 @@ import os
 
 def generate_top_pattern(dir_path, n_pattern=20):
 
-  fsaltkey = open(os.path.join(dir_path, "input_salt_key.dat"), 'w')
+  fsalt = open(os.path.join(dir_path, "input_salt.dat"), 'w')
+  fpw = open(os.path.join(dir_path, "input_password.dat"), 'w')
   fmsg = open(os.path.join(dir_path, "input_msg.dat"), 'w')
   fmac = open(os.path.join(dir_path, "golden_hmac_value.dat"), 'w')
   fcipher = open(os.path.join(dir_path, "golden_cipher.dat"), 'w')
@@ -19,11 +20,13 @@ def generate_top_pattern(dir_path, n_pattern=20):
     cipher = AES(key).encrypt_block(message)
     mac_value = hmac_sha3_256(hmac_key, salt+cipher)
 
-    fsaltkey.write((salt+passward).hex() + '\n')
+    fsalt.write(salt.hex() + '\n')
+    fpw.write(passward.hex() + '\n')
     fmsg.write(message.hex()+'\n')
     fmac.write(mac_value.hex()+'\n')
     fcipher.write(cipher.hex()+'\n')
-  fsaltkey.close()
+  fsalt.close()
+  fpw.close()
   fmsg.close()
   fmac.close()
   fcipher.close()

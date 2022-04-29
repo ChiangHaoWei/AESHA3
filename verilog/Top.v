@@ -32,19 +32,21 @@ module Top (
     wire [127:0] passward, salt;
     wire [1087:0] hmac_key, hmac_msg;
 
-    wire [127:0] cipher, aes_msg;
+    wire [127:0] cipher, cipher_rev, aes_msg;
     wire pbk_ready, hmac_ready, aes_ready;
     wire [255:0] mac_value, keys;
 
     assign salt = in_buf_r[127:0];
-    assign passward = {in_buf_r[255:128], 960'd1};
+    assign passward = {in_buf_r[255:128], 960'd0};
     assign hmac_key = {hmac_key_r, 960'd0};
-    assign hmac_msg = {cipher_r, 1'b0, 958'd0, 1'b1};
+    assign hmac_msg = {cipher_rev, 1'b0, 958'd0, 1'b1};
     assign aes_msg = in_buf_r[127:0];
 
     assign o_valid = output_valid_r;
     assign o_ien = input_enable_r;
     assign o_data = out_buf_r[7:0];
+
+    ShiftBytes#(256) sb(.in(cipher_r), .out(cipher_rev));
     
 
     PBKDF2 pbkdf2(
@@ -106,29 +108,26 @@ module Top (
                     if (counter_r==5'd31) begin
                         state_w = GET_KEY;
                         pbk_start_w = 1;
+                        input_enable_w = 1;
                     end
                 end
                 else begin
                     input_enable_w = 1;
+                    in_buf_w = {in_buf_r[247:0], 8'd0};
                     if (counter_r==5'd31) begin
-                        in_buf_w = {in_buf_r[247:0], 8'b1000_0000};
                         state_w = GET_KEY;
                         pbk_start_w = 1;
                     end
-                    else begin
-                        in_buf_w = {in_buf_r[247:0], 8'b1000_0000};
-                        state_w = PAD;
-                    end
                 end
             end
-            PAD: begin
-                counter_w = counter_r + 1;
-                in_buf_w = {in_buf_r[247:0], 8'd0};
-                if (counter_r==5'd31) begin
-                    state_w = GET_KEY;
-                    pbk_start_w = 1;
-                end
-            end
+            // PAD: begin
+            //     counter_w = counter_r + 1;
+            //     in_buf_w = {in_buf_r[247:0], 8'd0};
+            //     if (counter_r==5'd31) begin
+            //         state_w = GET_KEY;
+            //         pbk_start_w = 1;
+            //     end
+            // end
             GET_KEY: begin
                 pbk_start_w = 0;
                 if (pbk_ready) begin
