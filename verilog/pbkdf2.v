@@ -17,7 +17,10 @@ module PBKDF2 (
     reg [1087:0] hmac_msg_r, hmac_msg_w;
     reg [255:0] key_r, key_w;
 
-    wire [255:0] hmac_out, hmac_ready;
+    wire [255:0] hmac_out;
+    wire hmac_ready;
+    wire [127:0] salt_rev;
+    wire [255:0] hmac_out_rev;
 
     assign o_ready = ready_r;
     assign o_key = key_r;
@@ -32,6 +35,9 @@ module PBKDF2 (
         .ready(hmac_ready)
     );
 
+    ShiftBytes#(128) sb1(.in(i_salt), .out(salt_rev));
+    ShiftBytes#(256) sb2(.in(hmac_out), .out(hmac_out_rev));
+
     always @(*) begin
         state_w = state_r;
         counter_w = counter_r;
@@ -43,7 +49,7 @@ module PBKDF2 (
             IDLE: begin
                 if (i_start) begin
                     state_w = HASH;
-                    hmac_msg_w = {i_salt, 32'd1, 3'b011, 924'd0, 1'b1};
+                    hmac_msg_w = {salt_rev, 32'h0000_0080, 3'b011, 924'd0, 1'b1};
                     hmac_start_w = 1;
                 end
                 ready_w = 0;
@@ -59,7 +65,7 @@ module PBKDF2 (
                     else begin
                         counter_w = counter_r - 1;
                         hmac_start_w = 1;
-                        hmac_msg_w = {hmac_out, 3'b011, 828'd0, 1'b1};
+                        hmac_msg_w = {hmac_out_rev, 3'b011, 828'd0, 1'b1};
                     end
                 end
                 else hmac_start_w = 0;
@@ -67,7 +73,7 @@ module PBKDF2 (
         endcase
     end
 
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             state_r <= IDLE;
             counter_r <= ITER_TIMES;

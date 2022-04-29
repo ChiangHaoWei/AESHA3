@@ -29,9 +29,11 @@ salt = os.urandom(16)
 # print(key)
 
 def PBKDF2(passward, salt, c, dkLen=32):
+  assert dkLen <= 32, "only support output less than 32 bytes"
   u = hmac_sha3_256(passward, salt+bytes([0, 0, 0, 1]))[1]
   u_i = u
   for j in range(2, c+1):
+    print(u_i.hex())
     u_i = hmac_sha3_256(passward, u_i)[1]
     u = xor_bytes(u, u_i)
   return u
@@ -65,17 +67,23 @@ def generate_hmac_pattern(dir_path, n_pattern=20):
 def generate_pbkdf2_pattern(dir_path, c=15, n_pattern=20):
   os.makedirs(dir_path, exist_ok=True)
   f_passward = open(os.path.join(dir_path, "pbkdf2_passward_input.dat"), 'w')
+  # f_rev_pw = open(os.path.join(dir_path, "pbkdf2_pw_rev.dat"), 'w')
   f_salt = open(os.path.join(dir_path, "pbkdf2_salt_input.dat"), 'w')
   f_golden = open(os.path.join(dir_path, "pbkdf2_golden.dat"), 'w')
 
   for _ in range(n_pattern):
-    passward = os.urandom(135)+bytes([1])
+    passward = os.urandom(136)
+    # rev_pw = bytes()
+    # for b in passward:
+    #   rev_pw += bytes([int(f"{b:08b}"[::-1], 2)])
     salt = os.urandom(16)
-    golden = PBKDF2(passward, salt, 15)
+    golden = PBKDF2(passward, salt, 16)
     f_passward.write(passward.hex()+'\n')
+    # f_rev_pw.write((rev_pw+bytes([97])).hex()+'\n')
     f_salt.write(salt.hex()+'\n')
     f_golden.write(golden.hex()+'\n')
   f_passward.close()
+  # f_rev_pw.close()
   f_salt.close()
   f_golden.close()
 
