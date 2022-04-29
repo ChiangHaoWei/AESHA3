@@ -23,11 +23,13 @@ module HMAC (
     wire hash_ready, hash_next;
     wire [255:0] hash_out;
 
-    reg [1087:0] xor_res, flip_res;
+    reg [1087:0] xor_in, flip_res;
     reg [255:0]  flip_out;
+    wire [1087:0] xor_res;
 
     assign ready = ready_r;
     assign mac_value = hash_out_r;
+    assign xor_res = key ^ xor_in;
 
     integer i, j;
 
@@ -65,13 +67,13 @@ module HMAC (
         ready_w = ready_r;
         more_w = more_r;
         hash_out_w = hash_out_r;
-        xor_res = 0;
+        xor_in = IPAD;
         case (state_r)
             IDLE: begin
                 ready_w = 0;
                 if (start) begin
                     state_w = HASH_S1;
-                    xor_res = key ^ IPAD;
+                    xor_in = IPAD;
                     k_w = flip_res;
                     hash_start_w = 1;
                     more_w = 1;
@@ -80,7 +82,7 @@ module HMAC (
             HASH_S1: begin
                 if (hash_ready) begin
                     state_w = HASH_S2;
-                    xor_res = key ^ OPAD;
+                    xor_in = OPAD;
                     k_w = flip_res;
                     hash_start_w = 1;
                     more_w = 1;

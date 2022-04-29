@@ -24,7 +24,7 @@ reg [4:0] round;
 
 
 
-reg  [1:0] state,state_nxt;
+reg  [2:0] state,state_nxt;
 
 wire [1599:0] f_out;
 reg [1599:0] f_in,f_nxt;
@@ -109,7 +109,7 @@ begin
             end
             else begin
                 f_nxt=f_in;
-                round_nxt=0;
+                round_nxt=round;
                 state_nxt=second_idle;
             end
 
