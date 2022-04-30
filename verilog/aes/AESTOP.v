@@ -29,10 +29,9 @@ reg [127:0] temp_out_w,temp_out_r;
 //module reg and wire
 wire key_start;
 wire key_finish;
-reg key_shl,key_shr;
 wire [1279:0] roundkeys;
 wire [127:0] oneround_in,oneround_out;
-wire [127:0] oneround_key;
+reg [127:0] oneround_key;
 wire [127:0] xor_in,xor_out;
 reg nomix;
 
@@ -43,9 +42,7 @@ KeySchedule key0(
     .clk(clk), 
     .rst_n(rst_n), 
     .start(key_start), 
-    .finish(key_finish),
-    .shift_l(key_shl),
-    .shift_r(key_shr)
+    .finish(key_finish)
 );
 AESOneRound oneround(
     .in(oneround_in),
@@ -65,7 +62,7 @@ AddRoundKey xor0( //to xor before start of enc / after end of dec
 assign xor_in = (mode)? oneround_out:i_in;
 assign oneround_in = temp_out_r;
 assign key_start = (state_r == S_ROUNDKEY);
-assign oneround_key = roundkeys[1279 -: 128];
+//assign oneround_key = roundkeys[1279 -: 128];
 
 //output assignment
 assign o_cipher = temp_out_r;
@@ -100,10 +97,9 @@ always @(*) begin
 end
 
 always @(*) begin
-    key_shl = 0;
-    key_shr = 0;
     temp_out_w = temp_out_r;
     nomix = 0;
+    oneround_key = roundkeys[127:0];
     case (state_r)
         S_IDLE:begin
             if(mode)
@@ -111,11 +107,11 @@ always @(*) begin
             else 
                 temp_out_w = xor_out;
         end
-        S_ROUNDKEY:begin
-            if(key_finish && mode)begin
-                key_shr = 1;//let roundkeys[1279 -: 128] be 10th round
-            end
-        end
+        // S_ROUNDKEY:begin
+        //     if(key_finish && mode)begin
+        //         key_shr = 1;//let roundkeys[1279 -: 128] be 10th round
+        //     end
+        // end
         S_COMPUTE:begin
             temp_out_w = oneround_out;
             if ((counter_r == 9) && (mode))
@@ -124,10 +120,14 @@ always @(*) begin
                 nomix = 1;
             if (counter_r == 0 && mode)
                 nomix = 1;
+            //round 1 key : roundkeys[1279 -: 128]
+            //round 2 key : roundkeys[1279-128 -: 128]
+            //round 3 key : roundkeys[1279-128*2 -: 128]
+            //round n key : roundkeys[1279-128*(counter_r) -: 128]
             if (mode)
-                key_shr = 1;
+                oneround_key = roundkeys[1279-128*(9-counter_r) -: 128];
             else
-                key_shl = 1;
+                oneround_key = roundkeys[1279-128*(counter_r) -: 128];
         end
     endcase
 end

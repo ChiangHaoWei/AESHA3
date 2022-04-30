@@ -14,8 +14,10 @@ module tb_SubByte;
     localparam DataLength = 10;
     reg  [127:0] in_data;
     reg  [127:0] out_ans;
+    reg  [127:0] in_key;
     wire [127:0] out_data;
     reg clk,rst_n;
+    reg start;
     reg mode; // 0: encrypt, 1: decrypt
 
     reg [127:0] in_mem         [0:DataLength-1];
@@ -54,9 +56,9 @@ module tb_SubByte;
         in_data = 0;
         out_ans = 0;
         i    = 0;
-        rst_n = 1
         err_num = 0;
         mode = 0;
+        rst_n = 1;
         start = 0;
         #(`CYCLE)
         rst_n = 0;
@@ -65,10 +67,10 @@ module tb_SubByte;
         #(`HCYCLE)
 
         $display("Testing Encode...");
-        for (i=0; i<DataLength; i=i) begin
+        for (i=0; i<DataLength; i=i+1) begin
             start = 1;
             in_data = in_mem[i];
-            in_key = key_in_mem[i]
+            in_key = key_in_mem[i];
             out_ans = golden_mem[i];
             #(`CYCLE);
             start = 0;
@@ -102,10 +104,10 @@ module tb_SubByte;
         mode = 1;
 
         $display("Testing Decode...");
-        for (i=0; i<DataLength; i=i) begin
+        for (i=0; i<DataLength; i=i+1) begin
             start = 1;
             in_data = in_mem[i];
-            in_key = key_in_mem[i]
+            in_key = key_in_mem[i];
             out_ans = dec_golden_mem[i];
             #(`CYCLE);
             start = 0;
