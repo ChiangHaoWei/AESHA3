@@ -1,0 +1,32 @@
+ 
+****************************************
+Report : area
+Design : SHA3TOP
+Version: R-2020.09-SP5
+Date   : Thu May  5 22:45:19 2022
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'SHA3TOP' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    fsa0m_a_generic_core_tt1p8v25c (File: /home/raid7_2/userb08/b08065/ICDLAB/Final/verilog/synthesis/fsa0m_a_generic_core_tt1p8v25c.db)
+
+Number of ports:                        17355
+Number of nets:                         36218
+Number of cells:                        19121
+Number of combinational cells:          17509
+Number of sequential cells:              1607
+Number of macros/black boxes:               0
+Number of buf/inv:                       7822
+Number of references:                      24
+
+Combinational area:             370863.759431
+Buf/Inv area:                    88119.359065
+Noncombinational area:           95409.519302
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                466273.278733
+Total area:                 undefined
+1

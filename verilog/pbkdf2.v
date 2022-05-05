@@ -1,11 +1,16 @@
 module PBKDF2 (
-  clk, rst_n, i_start, i_pw, i_salt, o_key, o_ready
+  clk, rst_n, i_start, i_salt, i_hmac_out, i_hmac_ready, o_key, o_ready,o_hmac_start, o_hmac_msg
 );
     input clk, rst_n, i_start;
-    input [1087:0] i_pw;  // input passward 1088 bit -> maximum password size 136 bytes
+    // input [1087:0] i_pw;  // input passward 1088 bit -> maximum password size 136 bytes
     input [127:0] i_salt; // input salt     128 bit
     output [255:0] o_key; // output key     256 bit
     output o_ready;       // ready
+
+    input [255:0] i_hmac_out;
+    input i_hmac_ready;
+    output o_hmac_start;
+    output [1087:0] o_hmac_msg;
 
     localparam IDLE = 0;
     localparam HASH = 1;
@@ -17,26 +22,26 @@ module PBKDF2 (
     reg [1087:0] hmac_msg_r, hmac_msg_w;
     reg [255:0] key_r, key_w;
 
-    wire [255:0] hmac_out;
-    wire hmac_ready;
     wire [127:0] salt_rev;
     wire [255:0] hmac_out_rev;
 
     assign o_ready = ready_r;
     assign o_key = key_r;
+    assign o_hmac_start = hmac_start_r;
+    assign o_hmac_msg = hmac_msg_r;
 
-    HMAC hmac(
-        .clk(clk),
-        .rst_n(rst_n),
-        .start(hmac_start_r),
-        .key(i_pw),
-        .message(hmac_msg_r),
-        .mac_value(hmac_out),
-        .ready(hmac_ready)
-    );
+    // HMAC hmac(
+    //     .clk(clk),
+    //     .rst_n(rst_n),
+    //     .start(hmac_start_r),
+    //     .key(i_pw),
+    //     .message(hmac_msg_r),
+    //     .mac_value(hmac_out),
+    //     .ready(hmac_ready)
+    // );
 
     ShiftBytes#(128) sb1(.in(i_salt), .out(salt_rev));
-    ShiftBytes#(256) sb2(.in(hmac_out), .out(hmac_out_rev));
+    ShiftBytes#(256) sb2(.in(i_hmac_out), .out(hmac_out_rev));
 
     always @(*) begin
         state_w = state_r;
@@ -55,8 +60,8 @@ module PBKDF2 (
                 ready_w = 0;
             end
             HASH: begin
-                if (hmac_ready) begin
-                    key_w = key_r ^ hmac_out;
+                if (i_hmac_ready) begin
+                    key_w = key_r ^ i_hmac_out;
                     if (counter_r == 0) begin
                         state_w = IDLE;
                         ready_w = 1;

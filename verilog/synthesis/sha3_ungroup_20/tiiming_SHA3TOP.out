@@ -1,0 +1,77 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : SHA3TOP
+Version: R-2020.09-SP5
+Date   : Thu May  5 22:45:23 2022
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: enclosed
+
+  Startpoint: round_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: f_in_reg[1598]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  SHA3TOP            G200K                 fsa0m_a_generic_core_tt1p8v25c
+  Iota               enG5K                 fsa0m_a_generic_core_tt1p8v25c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.50       0.50
+  round_reg[0]/CK (QDFFRBN)                0.00 #     0.50 r
+  round_reg[0]/Q (QDFFRBN)                 0.52       1.02 r
+  funcs/i0/round[0] (Iota)                 0.00       1.02 r
+  funcs/i0/U444/O (BUF1CK)                 0.29       1.32 r
+  funcs/i0/U136/O (INV1S)                  0.36       1.68 f
+  funcs/i0/U1821/O (AN2)                   0.34       2.02 f
+  funcs/i0/U1819/O (AN2)                   0.21       2.23 f
+  funcs/i0/U442/CO (FA1S)                  0.37       2.60 f
+  funcs/i0/U440/CO (FA1S)                  0.44       3.03 f
+  funcs/i0/U1817/O (OR2)                   0.23       3.27 f
+  funcs/i0/U1816/O (XNR2HS)                0.35       3.61 r
+  funcs/i0/U132/O (INV1S)                  0.29       3.90 f
+  funcs/i0/U6/O (AN2)                      0.40       4.30 f
+  funcs/i0/U5/O (OR3B2)                    0.34       4.64 r
+  funcs/i0/U92/O (INV1S)                   0.22       4.86 f
+  funcs/i0/U3/O (AN2B1S)                   0.25       5.11 r
+  funcs/i0/U63/O (AN2)                     0.22       5.33 r
+  funcs/i0/U100/O (ND3)                    0.29       5.62 f
+  funcs/i0/U179/O (OR3B2)                  0.37       5.99 f
+  funcs/i0/U21/O (INV1S)                   0.19       6.18 r
+  funcs/i0/U176/O (ND2)                    0.27       6.45 f
+  funcs/i0/U58/O (AOI22S)                  0.25       6.71 r
+  funcs/i0/U59/O (AN4B1S)                  0.24       6.95 r
+  funcs/i0/U174/O (ND2)                    0.09       7.03 f
+  funcs/i0/U139/O (XOR2HS)                 0.23       7.27 f
+  funcs/i0/out[1] (Iota)                   0.00       7.27 f
+  U5734/O (OAI12HS)                        0.20       7.47 r
+  U270/O (AO222)                           0.31       7.78 r
+  f_in_reg[1598]/D (QDFFRBN)               0.00       7.78 r
+  data arrival time                                   7.78
+
+  clock clk (rise edge)                   20.00      20.00
+  clock network delay (ideal)              0.50      20.50
+  clock uncertainty                       -0.10      20.40
+  f_in_reg[1598]/CK (QDFFRBN)              0.00      20.40 r
+  library setup time                      -0.10      20.30
+  data required time                                 20.30
+  -----------------------------------------------------------
+  data required time                                 20.30
+  data arrival time                                  -7.78
+  -----------------------------------------------------------
+  slack (MET)                                        12.53
+
+
+1

@@ -1,0 +1,32 @@
+ 
+****************************************
+Report : area
+Design : Top
+Version: R-2020.09-SP5
+Date   : Thu May  5 22:48:57 2022
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'Top' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    fsa0m_a_generic_core_tt1p8v25c (File: /home/b08901065/private/verilog/synthesis/fsa0m_a_generic_core_tt1p8v25c.db)
+
+Number of ports:                        33392
+Number of nets:                         89374
+Number of cells:                        58167
+Number of combinational cells:          52429
+Number of sequential cells:              5608
+Number of macros/black boxes:               0
+Number of buf/inv:                      18881
+Number of references:                      33
+
+Combinational area:             880015.545595
+Buf/Inv area:                   181313.393272
+Noncombinational area:          369266.986931
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:               1249282.532526
+Total area:                 undefined
+1

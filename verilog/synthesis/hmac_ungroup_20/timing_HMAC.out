@@ -1,0 +1,79 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : HMAC
+Version: R-2020.09-SP5
+Date   : Thu May  5 22:27:06 2022
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: enclosed
+
+  Startpoint: sha3_256/round_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: hash_out_r_reg[248]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  HMAC               G200K                 fsa0m_a_generic_core_tt1p8v25c
+  Iota               enG5K                 fsa0m_a_generic_core_tt1p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.50       0.50
+  sha3_256/round_reg[0]/CK (QDFFRBN)                      0.00 #     0.50 r
+  sha3_256/round_reg[0]/Q (QDFFRBN)                       0.52       1.02 r
+  sha3_256/funcs/round[0] (Ffunction)                     0.00       1.02 r
+  sha3_256/funcs/i0/round[0] (Iota)                       0.00       1.02 r
+  sha3_256/funcs/i0/U467/O (BUF1CK)                       0.29       1.32 r
+  sha3_256/funcs/i0/U136/O (INV1S)                        0.36       1.68 f
+  sha3_256/funcs/i0/U1821/O (AN2)                         0.34       2.02 f
+  sha3_256/funcs/i0/U1819/O (AN2)                         0.21       2.23 f
+  sha3_256/funcs/i0/U465/CO (FA1S)                        0.37       2.60 f
+  sha3_256/funcs/i0/U463/CO (FA1S)                        0.44       3.03 f
+  sha3_256/funcs/i0/U1817/O (OR2)                         0.23       3.27 f
+  sha3_256/funcs/i0/U1816/O (XNR2HS)                      0.35       3.61 r
+  sha3_256/funcs/i0/U132/O (INV1S)                        0.29       3.90 f
+  sha3_256/funcs/i0/U6/O (AN2)                            0.40       4.30 f
+  sha3_256/funcs/i0/U5/O (OR3B2)                          0.34       4.64 r
+  sha3_256/funcs/i0/U92/O (INV1S)                         0.22       4.86 f
+  sha3_256/funcs/i0/U3/O (AN2B1S)                         0.25       5.11 r
+  sha3_256/funcs/i0/U63/O (AN2)                           0.22       5.33 r
+  sha3_256/funcs/i0/U100/O (ND3)                          0.29       5.62 f
+  sha3_256/funcs/i0/U180/O (OR3B2)                        0.37       5.99 f
+  sha3_256/funcs/i0/U21/O (INV1S)                         0.19       6.18 r
+  sha3_256/funcs/i0/U177/O (ND2)                          0.27       6.45 f
+  sha3_256/funcs/i0/U69/O (MOAI1S)                        0.33       6.79 f
+  sha3_256/funcs/i0/U70/O (AN4B1S)                        0.16       6.95 r
+  sha3_256/funcs/i0/U170/O (ND2)                          0.09       7.03 f
+  sha3_256/funcs/i0/U140/O (XOR2HS)                       0.25       7.28 r
+  sha3_256/funcs/i0/out[7] (Iota)                         0.00       7.28 r
+  sha3_256/funcs/out[1592] (Ffunction)                    0.00       7.28 r
+  U10157/O (INV1S)                                        0.19       7.48 f
+  U10708/O (OAI222S)                                      0.27       7.75 r
+  hash_out_r_reg[248]/D (QDFFRBT)                         0.00       7.75 r
+  data arrival time                                                  7.75
+
+  clock clk (rise edge)                                  20.00      20.00
+  clock network delay (ideal)                             0.50      20.50
+  clock uncertainty                                      -0.10      20.40
+  hash_out_r_reg[248]/CK (QDFFRBT)                        0.00      20.40 r
+  library setup time                                     -0.11      20.29
+  data required time                                                20.29
+  --------------------------------------------------------------------------
+  data required time                                                20.29
+  data arrival time                                                 -7.75
+  --------------------------------------------------------------------------
+  slack (MET)                                                       12.54
+
+
+1

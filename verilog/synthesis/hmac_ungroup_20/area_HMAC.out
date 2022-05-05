@@ -1,0 +1,32 @@
+ 
+****************************************
+Report : area
+Design : HMAC
+Version: R-2020.09-SP5
+Date   : Thu May  5 22:27:02 2022
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'HMAC' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    fsa0m_a_generic_core_tt1p8v25c (File: /home/raid7_2/userb08/b08065/ICDLAB/Final/verilog/synthesis/fsa0m_a_generic_core_tt1p8v25c.db)
+
+Number of ports:                        21646
+Number of nets:                         46354
+Number of cells:                        24966
+Number of combinational cells:          22004
+Number of sequential cells:              2956
+Number of macros/black boxes:               0
+Number of buf/inv:                       9863
+Number of references:                      29
+
+Combinational area:             440656.166867
+Buf/Inv area:                   107436.872459
+Noncombinational area:          177910.488960
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                618566.655827
+Total area:                 undefined
+1

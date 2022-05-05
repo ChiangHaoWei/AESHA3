@@ -36,12 +36,15 @@ module Top (
     wire [127:0] cipher, cipher_rev, aes_msg;
     wire pbk_ready, hmac_ready, aes_ready;
     wire [255:0] mac_value, keys;
+    wire [1087:0] pbkdf2_hamc_msg;
+    wire pbkdf2_hmac_start;
 
     assign salt = in_buf_r[255:128];
-    assign passward = {in_buf_r[127:0], 960'd0};
-    assign hmac_key = {hmac_key_r, 960'd0};
-    assign hmac_msg = {cipher_rev, 3'b011, 956'd0, 1'b1};
+    // assign passward = {in_buf_r[127:0], 960'd0};
+    assign hmac_key = (state_r==GET_KEY) ? {in_buf_r[127:0], 960'd0} :{hmac_key_r, 960'd0};
+    assign hmac_msg = (state_r==GET_KEY) ? pbkdf2_hamc_msg : {cipher_rev, 3'b011, 956'd0, 1'b1};
     assign aes_msg = in_buf_r[127:0];
+    assign hmac_start = (state_r==GET_KEY) ? pbkdf2_hmac_start : hmac_start_r;
 
     assign o_valid = output_valid_r;
     assign o_ien = input_enable_r;
@@ -54,16 +57,19 @@ module Top (
         .clk(clk),
         .rst_n(rst_n),
         .i_start(pbk_start_r),
-        .i_pw(passward),
         .i_salt(salt),
+        .i_hmac_out(mac_value),
+        .i_hmac_ready(hmac_ready),
         .o_key(keys),
-        .o_ready(pbk_ready)
+        .o_ready(pbk_ready),
+        .o_hmac_start(pbkdf2_hmac_start),
+        .o_hmac_msg(pbkdf2_hamc_msg)
     );
 
     HMAC hmac(
         .clk(clk),
         .rst_n(rst_n),
-        .start(hmac_start_r),
+        .start(hmac_start),
         .key(hmac_key),
         .message(hmac_msg),
         .mac_value(mac_value),
