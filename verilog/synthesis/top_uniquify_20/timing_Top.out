@@ -1,0 +1,122 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : Top
+Version: R-2020.09-SP5
+Date   : Thu May  5 20:22:29 2022
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: enclosed
+
+  Startpoint: i_mode (input port clocked by clk)
+  Endpoint: aes_top/temp_out_r_reg[19]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  Top                G200K                 fsa0m_a_generic_core_tt1p8v25c
+  AESTOP             enG100K               fsa0m_a_generic_core_tt1p8v25c
+  AESOneRound        enG50K                fsa0m_a_generic_core_tt1p8v25c
+  ProductGenerator_5 enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  MixColumn          enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  InvSTable_13       enG5K                 fsa0m_a_generic_core_tt1p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.50       0.50
+  input external delay                                    1.00       1.50 r
+  i_mode (in)                                             0.07       1.57 r
+  aes_top/mode (AESTOP)                                   0.00       1.57 r
+  aes_top/U1397/O (BUF1CK)                                0.28       1.85 r
+  aes_top/U1129/O (INV1S)                                 0.44       2.29 f
+  aes_top/U1061/O (BUF1CK)                                0.40       2.69 f
+  aes_top/U878/O (BUF1CK)                                 0.34       3.03 f
+  aes_top/U608/O (BUF1CK)                                 0.30       3.33 f
+  aes_top/U381/O (NR2)                                    0.59       3.92 r
+  aes_top/U369/O (BUF1CK)                                 0.44       4.36 r
+  aes_top/U365/O (BUF1CK)                                 0.41       4.77 r
+  aes_top/U356/O (BUF1CK)                                 0.41       5.18 r
+  aes_top/U318/O (BUF1CK)                                 0.42       5.60 r
+  aes_top/U190/O (AO222)                                  0.41       6.00 r
+  aes_top/oneround/roundkey[47] (AESOneRound)             0.00       6.00 r
+  aes_top/oneround/ainv/key[47] (AddRoundKey_0)           0.00       6.00 r
+  aes_top/oneround/ainv/U10/O (XOR2HS)                    0.22       6.22 r
+  aes_top/oneround/ainv/out[47] (AddRoundKey_0)           0.00       6.22 r
+  aes_top/oneround/U572/O (AO22)                          0.52       6.74 r
+  aes_top/oneround/m0/in[47] (MixColumn)                  0.00       6.74 r
+  aes_top/oneround/m0/m3/in[15] (MixOneColumn_1)          0.00       6.74 r
+  aes_top/oneround/m0/m3/p2/in[7] (ProductGenerator_5)
+                                                          0.00       6.74 r
+  aes_top/oneround/m0/m3/p2/x1/in[7] (Xtime_17)           0.00       6.74 r
+  aes_top/oneround/m0/m3/p2/x1/U4/O (BUF1CK)              0.22       6.96 r
+  aes_top/oneround/m0/m3/p2/x1/out[0] (Xtime_17)          0.00       6.96 r
+  aes_top/oneround/m0/m3/p2/U14/O (AN2)                   0.19       7.14 r
+  aes_top/oneround/m0/m3/p2/x2/in[0] (Xtime_16)           0.00       7.14 r
+  aes_top/oneround/m0/m3/p2/x2/U5/O (XOR2HS)              0.17       7.32 r
+  aes_top/oneround/m0/m3/p2/x2/out[1] (Xtime_16)          0.00       7.32 r
+  aes_top/oneround/m0/m3/p2/x3/in[1] (Xtime_15)           0.00       7.32 r
+  aes_top/oneround/m0/m3/p2/x3/U4/O (BUF1CK)              0.19       7.51 r
+  aes_top/oneround/m0/m3/p2/x3/out[2] (Xtime_15)          0.00       7.51 r
+  aes_top/oneround/m0/m3/p2/U30/O (XOR2HS)                0.26       7.77 r
+  aes_top/oneround/m0/m3/p2/U11/O (XOR2HS)                0.16       7.93 r
+  aes_top/oneround/m0/m3/p2/out2[2] (ProductGenerator_5)
+                                                          0.00       7.93 r
+  aes_top/oneround/m0/m3/out[74] (MixOneColumn_1)         0.00       7.93 r
+  aes_top/oneround/m0/U55/O (XOR4)                        0.38       8.31 r
+  aes_top/oneround/m0/out_test[50] (MixColumn)            0.00       8.31 r
+  aes_top/oneround/U248/O (INV1S)                         0.13       8.44 f
+  aes_top/oneround/U743/O (MOAI1S)                        0.32       8.76 r
+  aes_top/oneround/s3/in[50] (InvShiftRow)                0.00       8.76 r
+  aes_top/oneround/s3/U51/O (BUF1CK)                      0.25       9.01 r
+  aes_top/oneround/s3/out[18] (InvShiftRow)               0.00       9.01 r
+  aes_top/oneround/s1/in[18] (InvSubByte)                 0.00       9.01 r
+  aes_top/oneround/s1/s2/in[2] (InvSTable_13)             0.00       9.01 r
+  aes_top/oneround/s1/s2/U469/O (INV1S)                   0.14       9.15 f
+  aes_top/oneround/s1/s2/U468/O (NR2)                     0.51       9.65 r
+  aes_top/oneround/s1/s2/U426/O (ND2)                     0.42      10.07 f
+  aes_top/oneround/s1/s2/U157/O (INV1S)                   0.77      10.84 r
+  aes_top/oneround/s1/s2/U329/O (ND2)                     0.12      10.96 f
+  aes_top/oneround/s1/s2/U37/O (AN4S)                     0.28      11.24 f
+  aes_top/oneround/s1/s2/U59/O (AN4B1S)                   0.25      11.48 f
+  aes_top/oneround/s1/s2/U316/O (AN3)                     0.26      11.74 f
+  aes_top/oneround/s1/s2/U48/O (ND3)                      0.12      11.86 r
+  aes_top/oneround/s1/s2/U140/O (NR3)                     0.13      11.99 f
+  aes_top/oneround/s1/s2/U313/O (AN3)                     0.27      12.26 f
+  aes_top/oneround/s1/s2/U136/O (AN4B1S)                  0.26      12.52 f
+  aes_top/oneround/s1/s2/U483/O (ND3)                     0.16      12.67 r
+  aes_top/oneround/s1/s2/out[3] (InvSTable_13)            0.00      12.67 r
+  aes_top/oneround/s1/out[19] (InvSubByte)                0.00      12.67 r
+  aes_top/oneround/U475/O (AO22)                          0.24      12.92 r
+  aes_top/oneround/out[19] (AESOneRound)                  0.00      12.92 r
+  aes_top/U93/O (AO22)                                    0.26      13.18 r
+  aes_top/xor0/in[19] (AddRoundKey_2)                     0.00      13.18 r
+  aes_top/xor0/U39/O (XOR2HS)                             0.08      13.26 f
+  aes_top/xor0/out[19] (AddRoundKey_2)                    0.00      13.26 f
+  aes_top/U1228/O (AOI22S)                                0.23      13.49 r
+  aes_top/U589/O (ND2)                                    0.11      13.60 f
+  aes_top/temp_out_r_reg[19]/D (QDFFN)                    0.00      13.60 f
+  data arrival time                                                 13.60
+
+  clock clk (rise edge)                                  20.00      20.00
+  clock network delay (ideal)                             0.50      20.50
+  clock uncertainty                                      -0.10      20.40
+  aes_top/temp_out_r_reg[19]/CK (QDFFN)                   0.00      20.40 r
+  library setup time                                     -0.08      20.32
+  data required time                                                20.32
+  --------------------------------------------------------------------------
+  data required time                                                20.32
+  data arrival time                                                -13.60
+  --------------------------------------------------------------------------
+  slack (MET)                                                        6.72
+
+
+1

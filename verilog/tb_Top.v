@@ -1,9 +1,9 @@
 `timescale 1ns/10ps
-`define CYCLE	10
-`define HCYCLE	5
+`define CYCLE	15
+`define HCYCLE	7.5
 
 `define SALT_IN "top_patterns/input_salt.dat"
-`define PASSWARD_IN "top_patterns/input_passward.dat"
+`define PASSWARD_IN "top_patterns/input_password.dat"
 `define MSG_IN "top_patterns/input_msg.dat"
 `define CIPHER_GOLDEN "top_patterns/golden_cipher.dat"
 `define MAC_GOLDEN "top_patterns/golden_hmac_value.dat"
@@ -13,7 +13,7 @@
 module tb_top;
 
     localparam DataLength = 20;
-    localparam PwLength = 15*8;
+    localparam PwLength = 10;
     localparam INPUT_SALT_KEY = 0;
     localparam INPUT_MSG = 1;
     localparam OUTPUT_CIPHER = 0;
@@ -26,10 +26,10 @@ module tb_top;
 
     reg [127:0] cipher_golden, cipher_out;
     reg [255:0] hmac_golden, hmac_out;
-    reg has_error;
+    reg has_error, start_flag;
 
     reg [127:0]         salt_mem   [0:DataLength-1];
-    reg [PwLength-1:0]  pw_mem     [0:DataLength-1];         
+    reg [PwLength*8-1:0]  pw_mem     [0:DataLength-1];         
     reg [127:0]         cipher_mem [0:DataLength-1];
     reg [255:0]         hmac_mem   [0:DataLength-1];
     reg [127:0]         msg_mem    [0:DataLength-1];
@@ -48,7 +48,7 @@ module tb_top;
     );
 
     `ifdef SDF
-        initial $sdf_annotate(`SDFFILE, pbkdf2);
+        initial $sdf_annotate(`SDFFILE, top);
     `endif
 
 
@@ -77,20 +77,22 @@ module tb_top;
         start = 0; mode = 0; data_in = 0;
         stop = 0; i = 0; j=0;
         has_error = 0; cipher_err = 0; hmac_err = 0;
+        start_flag = 0;
         #(`CYCLE);
         rst_n = 0;
         #(`CYCLE);
         rst_n = 1;
         #(`CYCLE);
-
+        start_flag = 1;
         #(`HCYCLE);
         start = 1;
         for (j=15; j>=0; j=j-1) begin
-            data_in = salt_mem[i][j*8+7:j*8];
+            data_in = salt_mem[i][j*8+:8];
             #(`CYCLE);
         end
-        for (j=PwLength/8-1; j>=0; j=j-1) begin
-            data_in = pw_mem[i][j*8+7:j*8];
+
+        for (j=PwLength-1; j>=0; j=j-1) begin
+            data_in = pw_mem[i][j*8+:8];
             #(`CYCLE);
         end
         start = 0;
@@ -100,37 +102,13 @@ module tb_top;
     end
 
     always @(negedge running) begin
-        if (input_state == INPUT_SALT_KEY) begin
-            #(`HCYCLE);
-            input_state = INPUT_MSG;
-            start = 1;
-            for (j=15; j>=0; j=j-1) begin
-                data_in = msg_mem[i][j*8+7:j*8];
-                #(`CYCLE);
-            end
-            start = 0;
-            #(`HCYCLE);
-        end
-        else begin
-            input_state = INPUT_SALT_KEY;
-            i = i+1;
-            if (i==DataLength) stop = 1;
-            else begin
-                // TODO: start next pattern
-                #(`CYCLE*2);
-                rst_n = 0;
-                #(`CYCLE);
-                rst_n = 1;
-                #(`CYCLE);
-
+        if (start_flag) begin
+            if (input_state == INPUT_SALT_KEY) begin
                 #(`HCYCLE);
+                input_state = INPUT_MSG;
                 start = 1;
                 for (j=15; j>=0; j=j-1) begin
-                    data_in = salt_mem[i][j*8+7:j*8];
-                    #(`CYCLE);
-                end
-                for (j=PwLength/8-1; j>=0; j=j-1) begin
-                    data_in = pw_mem[i][j*8+7:j*8];
+                    data_in = msg_mem[i][j*8+:8];
                     #(`CYCLE);
                 end
                 start = 0;
@@ -145,7 +123,8 @@ module tb_top;
             output_state = OUTPUT_MAC;
             cipher_golden = cipher_mem[i];
             for (j=0; j<16; j=j+1) begin
-                cipher_out[j*8+7:j*8] = data_out;
+                cipher_out[j*8+:8] = data_out;
+                #(`CYCLE);
             end
             if (cipher_out !== cipher_golden) begin
                 cipher_err = cipher_err + 1;
@@ -157,11 +136,41 @@ module tb_top;
             output_state = OUTPUT_CIPHER;
             hmac_golden = hmac_mem[i];
             for (j=0; j<32; j=j+1) begin
-                hmac_out[j*8+7:j*8] = data_out;
+                hmac_out[j*8+:8] = data_out;
+                #(`CYCLE);
             end
             if (hmac_out !== hmac_golden) begin
                 hmac_err = hmac_err + 1;
                 $display("Error at %d:\nsalt=%h\npassward=%h\nmsg=%h\nhmac=%h\nexpect=%h", i, salt_mem[i], pw_mem[i], msg_mem[i], hmac_out, hmac_golden);
+            end
+            #(`CYCLE*2);
+            input_state = INPUT_SALT_KEY;
+            $display("# %02dth pattern is generated successfully", i);
+            i = i+1;
+            if (i==DataLength) stop = 1;
+            else begin
+                #(`CYCLE);
+                if (i==DataLength>>1) mode = 1;
+                // TODO: start next pattern
+                #(`CYCLE*2);
+                rst_n = 0;
+                #(`CYCLE);
+                rst_n = 1;
+                #(`CYCLE);
+                #(`HCYCLE);
+                start = 1;
+                for (j=15; j>=0; j=j-1) begin
+                    data_in = salt_mem[i][j*8+:8];
+                    #(`CYCLE);
+                end
+
+                for (j=PwLength-1; j>=0; j=j-1) begin
+                    data_in = pw_mem[i][j*8+:8];
+                    #(`CYCLE);
+                end
+                start = 0;
+                #(`HCYCLE);
+                #(`CYCLE*2);
             end
         end
     end
@@ -177,13 +186,13 @@ module tb_top;
         else begin
             if (cipher_err!=0) begin
                 $display("---------------------------------------------\n");
-                $display("There are %d errors!\n", cipher_err);
+                $display("There are %d cipher errors!\n", cipher_err);
                 $display("--------------------FAIL--------------------\n");
                 $display("---------------------------------------------\n");
             end
             if (hmac_err!=0) begin
                 $display("---------------------------------------------\n");
-                $display("There are %d errors!\n", hmac_err);
+                $display("There are %d hmac errors!\n", hmac_err);
                 $display("--------------------FAIL--------------------\n");
                 $display("---------------------------------------------\n");
             end
@@ -196,7 +205,7 @@ module tb_top;
     end
 
     initial begin
-        #(`CYCLE*100000*DataLength);
+        #(`CYCLE*10000*DataLength);
         $display("--------------------FAIL--------------------\n");
         $display("Too slow....");
         #(`CYCLE) $finish;

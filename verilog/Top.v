@@ -20,7 +20,7 @@ module Top (
     reg [127:0] aes_key_r, aes_key_w;
     reg [127:0] hmac_key_r, hmac_key_w;
     reg [127:0] cipher_r, cipher_w;
-    reg [1:0] state_r, state_w;
+    reg [2:0] state_r, state_w;
     reg [4:0] counter_r, counter_w;
     reg input_enable_r, input_enable_w;
     reg output_valid_r, output_valid_w;
@@ -29,24 +29,25 @@ module Top (
     reg hmac_start_r, hmac_start_w;
     reg aes_start_r, aes_start_w;
 
-    wire [127:0] passward, salt;
+    wire [1087:0] passward;
+    wire [127:0] salt;
     wire [1087:0] hmac_key, hmac_msg;
 
     wire [127:0] cipher, cipher_rev, aes_msg;
     wire pbk_ready, hmac_ready, aes_ready;
     wire [255:0] mac_value, keys;
 
-    assign salt = in_buf_r[127:0];
-    assign passward = {in_buf_r[255:128], 960'd0};
+    assign salt = in_buf_r[255:128];
+    assign passward = {in_buf_r[127:0], 960'd0};
     assign hmac_key = {hmac_key_r, 960'd0};
-    assign hmac_msg = {cipher_rev, 1'b0, 958'd0, 1'b1};
+    assign hmac_msg = {cipher_rev, 3'b011, 956'd0, 1'b1};
     assign aes_msg = in_buf_r[127:0];
 
     assign o_valid = output_valid_r;
     assign o_ien = input_enable_r;
     assign o_data = out_buf_r[7:0];
 
-    ShiftBytes#(256) sb(.in(cipher_r), .out(cipher_rev));
+    ShiftBytes#(128) sb(.in(cipher_r), .out(cipher_rev));
     
 
     PBKDF2 pbkdf2(
@@ -181,7 +182,7 @@ module Top (
             end
 
             OUT: begin
-                if (counter_r==5'd15) begin
+                if (counter_r==5'd31) begin
                     state_w = IDLE;
                     output_valid_w = 0;
                     counter_w = 0;

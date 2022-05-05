@@ -1,0 +1,64 @@
+Loading db file '/home/raid7_2/userb08/b08065/ICDLAB/Final/verilog/synthesis/fsa0m_a_generic_core_tt1p8v25c.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : PBKDF2
+Version: R-2020.09-SP5
+Date   : Thu May  5 22:05:23 2022
+****************************************
+
+
+Library(s) Used:
+
+    fsa0m_a_generic_core_tt1p8v25c (File: /home/raid7_2/userb08/b08065/ICDLAB/Final/verilog/synthesis/fsa0m_a_generic_core_tt1p8v25c.db)
+
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: enclosed
+
+Design        Wire Load Model            Library
+------------------------------------------------
+PBKDF2                 G200K             fsa0m_a_generic_core_tt1p8v25c
+SHA3TOP                enG100K           fsa0m_a_generic_core_tt1p8v25c
+Ffunction              enG30K            fsa0m_a_generic_core_tt1p8v25c
+Theta                  enG30K            fsa0m_a_generic_core_tt1p8v25c
+Rho                    enG5K             fsa0m_a_generic_core_tt1p8v25c
+Pi                     enG5K             fsa0m_a_generic_core_tt1p8v25c
+Chi                    enG10K            fsa0m_a_generic_core_tt1p8v25c
+Iota                   enG5K             fsa0m_a_generic_core_tt1p8v25c
+
+
+Global Operating Voltage = 1.62 
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  =  14.6748 mW   (76%)
+  Net Switching Power  =   4.6327 mW   (24%)
+                         ---------
+Total Dynamic Power    =  19.3075 mW  (100%)
+
+Cell Leakage Power     =   2.9124 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register          10.1984            0.7966        7.7678e+05           10.9957  (  56.94%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational      4.4764            3.8361        2.1356e+06            8.3147  (  43.06%)
+--------------------------------------------------------------------------------------------------
+Total             14.6748 mW         4.6326 mW     2.9124e+06 pW        19.3104 mW
+1

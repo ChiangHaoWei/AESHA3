@@ -1,0 +1,81 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : PBKDF2
+Version: R-2020.09-SP5
+Date   : Thu May  5 22:05:23 2022
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: enclosed
+
+  Startpoint: hmac/sha3_256/round_reg[0]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: hmac/sha3_256/f_in_reg[1598]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  PBKDF2             G200K                 fsa0m_a_generic_core_tt1p8v25c
+  SHA3TOP            enG100K               fsa0m_a_generic_core_tt1p8v25c
+  Iota               enG5K                 fsa0m_a_generic_core_tt1p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.50       0.50
+  hmac/sha3_256/round_reg[0]/CK (QDFFRBN)                 0.00 #     0.50 r
+  hmac/sha3_256/round_reg[0]/Q (QDFFRBN)                  0.57       1.07 r
+  hmac/sha3_256/funcs/round[0] (Ffunction)                0.00       1.07 r
+  hmac/sha3_256/funcs/i0/round[0] (Iota)                  0.00       1.07 r
+  hmac/sha3_256/funcs/i0/U1278/O (BUF1CK)                 0.32       1.39 r
+  hmac/sha3_256/funcs/i0/U137/O (INV1S)                   0.16       1.55 f
+  hmac/sha3_256/funcs/i0/U1823/O (AN2)                    0.26       1.81 f
+  hmac/sha3_256/funcs/i0/U1821/O (AN2)                    0.21       2.02 f
+  hmac/sha3_256/funcs/i0/U1276/CO (FA1S)                  0.37       2.39 f
+  hmac/sha3_256/funcs/i0/U1274/CO (FA1S)                  0.44       2.82 f
+  hmac/sha3_256/funcs/i0/U1819/O (OR2)                    0.23       3.05 f
+  hmac/sha3_256/funcs/i0/U1818/O (XNR2HS)                 0.35       3.40 r
+  hmac/sha3_256/funcs/i0/U133/O (INV1S)                   0.29       3.69 f
+  hmac/sha3_256/funcs/i0/U6/O (AN2)                       0.40       4.09 f
+  hmac/sha3_256/funcs/i0/U5/O (OR3B2)                     0.34       4.43 r
+  hmac/sha3_256/funcs/i0/U93/O (INV1S)                    0.22       4.65 f
+  hmac/sha3_256/funcs/i0/U3/O (AN2B1S)                    0.25       4.90 r
+  hmac/sha3_256/funcs/i0/U64/O (AN2)                      0.22       5.12 r
+  hmac/sha3_256/funcs/i0/U101/O (ND3)                     0.29       5.41 f
+  hmac/sha3_256/funcs/i0/U180/O (OR3B2)                   0.37       5.78 f
+  hmac/sha3_256/funcs/i0/U22/O (INV1S)                    0.19       5.97 r
+  hmac/sha3_256/funcs/i0/U177/O (ND2)                     0.27       6.24 f
+  hmac/sha3_256/funcs/i0/U59/O (AOI22S)                   0.25       6.50 r
+  hmac/sha3_256/funcs/i0/U60/O (AN4B1S)                   0.24       6.74 r
+  hmac/sha3_256/funcs/i0/U175/O (ND2)                     0.09       6.82 f
+  hmac/sha3_256/funcs/i0/U140/O (XOR2HS)                  0.22       7.04 r
+  hmac/sha3_256/funcs/i0/out[1] (Iota)                    0.00       7.04 r
+  hmac/sha3_256/funcs/out[1598] (Ffunction)               0.00       7.04 r
+  hmac/sha3_256/U1922/O (INV1S)                           0.19       7.23 f
+  hmac/sha3_256/U2472/O (AO12)                            0.29       7.51 f
+  hmac/sha3_256/U2470/O (AO222)                           0.42       7.94 f
+  hmac/sha3_256/f_in_reg[1598]/D (QDFFRBN)                0.00       7.94 f
+  data arrival time                                                  7.94
+
+  clock clk (rise edge)                                  20.00      20.00
+  clock network delay (ideal)                             0.50      20.50
+  clock uncertainty                                      -0.10      20.40
+  hmac/sha3_256/f_in_reg[1598]/CK (QDFFRBN)               0.00      20.40 r
+  library setup time                                     -0.06      20.34
+  data required time                                                20.34
+  --------------------------------------------------------------------------
+  data required time                                                20.34
+  data arrival time                                                 -7.94
+  --------------------------------------------------------------------------
+  slack (MET)                                                       12.40
+
+
+1

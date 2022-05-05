@@ -15,6 +15,11 @@ pbkdf2_patterns/
 top_patterns/
 *patterns/
 
+# synthesis file
+.synopsys_dc.setup
+fsa0m*
+*.sdf
+
 # others
 progress.txt
 test.py

@@ -1,0 +1,32 @@
+ 
+****************************************
+Report : area
+Design : PBKDF2
+Version: R-2020.09-SP5
+Date   : Thu May  5 22:05:19 2022
+****************************************
+
+Information: Updating design information... (UID-85)
+Warning: Design 'PBKDF2' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    fsa0m_a_generic_core_tt1p8v25c (File: /home/raid7_2/userb08/b08065/ICDLAB/Final/verilog/synthesis/fsa0m_a_generic_core_tt1p8v25c.db)
+
+Number of ports:                        22036
+Number of nets:                         50119
+Number of cells:                        28340
+Number of combinational cells:          24855
+Number of sequential cells:              3478
+Number of macros/black boxes:               0
+Number of buf/inv:                      12492
+Number of references:                      27
+
+Combinational area:             464854.617610
+Buf/Inv area:                   124898.254673
+Noncombinational area:          208927.254036
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                673781.871645
+Total area:                 undefined
+1
