@@ -38,11 +38,10 @@ reg [4:0] round_nxt;
 reg [4:0] round;
 reg  [2:0] state,state_nxt;
 // Definition of states
-parameter IDLE = 3'b000;
-parameter computing1  = 3'b001;
-parameter computing2  =3'b010;
-parameter second_idle  = 3'b011;
-parameter OUT  = 3'b100;
+parameter IDLE = 2'b00;
+parameter computing1  = 2'b01;
+parameter computing2  =2'b10;
+parameter second_idle  =2'b11;
 
 reg  [2:0] xor_state,xor_state_nxt;
 // Definition of xor_states
@@ -62,10 +61,12 @@ wire [0:1599] chi_in,chi_out;
 wire [1599:0]  rho_out,pi_out;
 assign theta_in=f_in;
 assign theta_out=xor_out;
-assign chi_out=xor_out;
+assign chi_out=((state==computing2))?xor_out:0;
+assign chi_in=f_mid_r;
 
 assign out_rev=f_out[1599:1344];
-assign out_valid = ((state==OUT))? 1'b1:1'b0 ;
+assign out_valid = ((state==computing2)&&(round==23)&&(!more))? 1'b1:1'b0 ;
+assign hash_next =((state==computing2)&&(round==23)&&(more))? 1'b1:1'b0 ;
 
 integer i,j,k;
 always @(*) begin
@@ -102,7 +103,7 @@ end
 
 //comb
 
-
+//f_mid_w,xor_a,xor_b,round_nxt,state_nxt,f_nxt
 integer a,b,c;
 always @(*) begin
     f_mid_w=pi_out;
@@ -162,7 +163,7 @@ always @(*) begin
                     end
                     else begin
                         xor_b[(a*5+b)*64+c]=columns[((b-1)%5)*64+c] ^ columns[((b+1)%5)*64+((c-1)%64)];
-                        xor_a[(a*5+b)*64+c]=theta_in[(a*5+b)*64+c];;
+                        xor_a[(a*5+b)*64+c]=theta_in[(a*5+b)*64+c];
                         
                     end
                    
@@ -174,7 +175,7 @@ always @(*) begin
     end
     computing2:
     begin
-        round_nxt=round+1;
+        
         f_nxt=f_out;
         for (a=0;a<5;a=a+1) begin
             for (b=0;b<5;b=b+1) begin
@@ -184,17 +185,20 @@ always @(*) begin
                 end
             end
         end
-        if((round ==22) && (more))begin
+        if((round ==23) && (more))begin
             state_nxt=second_idle;
+            round_nxt=0;
             
         end
-        else if (round==22)
+        else if (round==23)
         begin
-            state_nxt=OUT;
+            state_nxt=IDLE;
+            round_nxt=0;
             
         end
         else
         begin
+            round_nxt=round+1;
             state_nxt=computing1;
         end
 
@@ -202,10 +206,11 @@ always @(*) begin
     end
     second_idle:
     begin
+        xor_a=f_in;
+        xor_b={ in,{512'b0}};
         if (in_valid) begin
-            xor_a={f_out[1599:512] ,{512'b0}};
-            xor_b={ in,{512'b0}};
-            f_nxt=xor_out;
+            
+            f_nxt=f_out;
             round_nxt=0;
             state_nxt=computing1;
 
@@ -214,24 +219,20 @@ always @(*) begin
 
         end
         else begin
-            f_nxt=f_in;
-            round_nxt=round;
+
+            f_nxt=0;
+            round_nxt=0;
             state_nxt=second_idle;
         end
 
-
-    end
-    OUT:
-    begin
-        state_nxt=IDLE;
-        round_nxt=0;
-        f_nxt=0;
 
     end
 
 
     default:
     begin
+        xor_a=0;
+        xor_b=0;
         round_nxt = 0;
         state_nxt = 0;
         f_nxt = 0;
@@ -243,7 +244,7 @@ always @(*) begin
 
 end
 
-
+//round, state,f_mid_r,f_mid_w
 
 //seq
 always @(posedge clk or negedge rst_n) begin
@@ -259,6 +260,7 @@ begin
      round<=round_nxt;
      state<=state_nxt;
      f_mid_r<=f_mid_w;
+     f_in<=f_nxt;
     
 end
 
