@@ -1,6 +1,6 @@
 ############in sdc file
 # Set the Optimization Constraints 
-create_clock -period 15 -name "clk" -waveform {0 5} "clk"
+create_clock -period 400 -name "clk" -waveform {0 200} "clk"
 set_dont_touch_network [get_ports clk]
 set_fix_hold [get_clocks clk]
 

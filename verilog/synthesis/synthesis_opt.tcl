@@ -16,8 +16,8 @@ read_file -format verilog "../sha3/Rho.v"
 read_file -format verilog "../sha3/Pi.v"
 read_file -format verilog "../sha3/Iota.v"
 current_design $DESIGN
- uniquify
-# ungroup
+# uniquify
+ungroup
 link
 
 source -echo -verbose ./synthesis.sdc
@@ -26,8 +26,8 @@ check_design
 # remove_attribute [find -hierarchy design {"*"}] dont_touch
 
 # Map and Optimize the Design
-compile -exact_map -map_effort medium -area_effort high -power_effort none
-
+#compile -exact_map -map_effort medium -area_effort high -power_effort none
+compile_ultra
 # Analyze and debug the design
 report_area > "$DIR"\area_$DESIGN\.out
 report_power > "$DIR"\power_$DESIGN.out
