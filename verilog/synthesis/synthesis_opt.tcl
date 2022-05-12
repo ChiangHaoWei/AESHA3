@@ -17,7 +17,7 @@ read_file -format verilog "../sha3/Pi.v"
 read_file -format verilog "../sha3/Iota.v"
 current_design $DESIGN
 # uniquify
-ungroup
+ungroup -all
 link
 
 source -echo -verbose ./synthesis.sdc
