@@ -25,17 +25,12 @@ output reg [255:0] out;
 
 
 // intermediate
-wire [1599:0] f_out;
 reg [1599:0]  xor_a;
 wire [1599:0]  xor_out;
 reg [1599:0]  xor_b;
-reg [1599:0]  f_mid_w;
-reg [1599:0]  f_mid_r;
-
-
 reg [4:0] round_nxt;
 reg [4:0] round;
-reg  [2:0] state,state_nxt;
+reg  [1:0] state,state_nxt; 
 // Definition of states
 parameter IDLE = 2'b00;
 parameter computing1  = 2'b01;
@@ -57,13 +52,18 @@ wire [255:0] out_rev;
 reg [1599:0] f_in,f_nxt;
 wire [0:1599] theta_out,theta_in;
 wire [0:1599] chi_in,chi_out;
+wire [1599:0] rho_in,Iota_in;
 wire [1599:0]  rho_out,pi_out;
+wire [1599:0] Iota_out;
 assign theta_in=f_in;
 assign theta_out=xor_out;
-assign chi_out=((state==computing2))?xor_out:0;
-assign chi_in=f_mid_r;
+assign rho_in=theta_out;
 
-assign out_rev=f_out[1599:1344];
+assign chi_out=xor_out;
+assign Iota_in=chi_out;
+assign chi_in=f_in;
+
+assign out_rev=Iota_out[1599:1344];
 assign out_valid = ((state==computing2)&&(round==23)&&(!more))? 1'b1:1'b0 ;
 assign hash_next =((state==computing2)&&(round==23)&&(more))? 1'b1:1'b0 ;
 
@@ -80,14 +80,9 @@ end
 
 
 xor_unit  xor_me(.a(xor_a),.b(xor_b),.xor_o(xor_out));
-
-
-
-Rho    R1(.in(theta_out),.out(rho_out));
-
+Rho    R1(.in(rho_in),.out(rho_out));
 Pi     p1(.in(rho_out),.out(pi_out));
-
-Iota  io1(.in(chi_out),.out(f_out),.round(round));
+Iota  io1(.in(Iota_in),.out(Iota_out),.round(round));
 
 
 
@@ -101,34 +96,32 @@ always @(*) begin
 end
 
 //comb
-
-//f_mid_w,xor_a,xor_b,round_nxt,state_nxt,f_nxt
+//xor_a,xor_b,round_nxt,state_nxt,f_nxt
 integer a,b,c;
 always @(*) begin
-    f_mid_w=pi_out;
     case(state)
-    
     IDLE:
     begin
-        xor_b=1600'b0;
-        xor_a=1600'b0;
+        xor_a=f_in;
+        xor_b={ in,{512'b0}};
         round_nxt=0;
+        f_nxt[1599:512]=in;
+        f_nxt[511:0]=512'b0;
         if (in_valid)
         begin
             state_nxt=computing1;
-            f_nxt[1599:512]=in;
-            f_nxt[511:0]=512'b0;
+            
         end
         else
         begin
             state_nxt=IDLE;
-            f_nxt=0;
+            
         end
     end
 
     computing1:
     begin
-        f_nxt=f_out;
+        f_nxt=pi_out;
         round_nxt=round;
         state_nxt=computing2;
         for (a = 0; a<5;a=a+1 ) begin
@@ -175,7 +168,7 @@ always @(*) begin
     computing2:
     begin
         
-        f_nxt=f_out;
+        f_nxt=Iota_out;
         for (a=0;a<5;a=a+1) begin
             for (b=0;b<5;b=b+1) begin
                 for (c=0;c<64;c=c+1) begin
@@ -205,23 +198,20 @@ always @(*) begin
     end
     second_idle:
     begin
-        xor_a=f_in;
+        xor_a=chi_out;
+        state_nxt=computing1;
         xor_b={ in,{512'b0}};
         if (in_valid) begin
             
-            f_nxt=f_out;
+            f_nxt=xor_out;
             round_nxt=0;
-            state_nxt=computing1;
-
-
-
 
         end
         else begin
 
-            f_nxt=0;
+            f_nxt=xor_out;
             round_nxt=0;
-            state_nxt=second_idle;
+            
         end
 
 
@@ -247,10 +237,10 @@ end
 
 //seq
 always @(posedge clk or negedge rst_n) begin
+
 if (!rst_n)
 begin
     round <=5'b0;
-    f_mid_r<=0;
     state<=0;
     f_in<=f_nxt;
 end
@@ -258,7 +248,6 @@ else
 begin
      round<=round_nxt;
      state<=state_nxt;
-     f_mid_r<=f_mid_w;
      f_in<=f_nxt;
     
 end

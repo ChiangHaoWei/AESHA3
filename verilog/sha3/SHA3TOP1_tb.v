@@ -32,9 +32,9 @@ initial begin
     $fsdbDumpfile("SHA3TOP.fsdb");
     $fsdbDumpvars;
 end
-
+//more in_valid in_data  out_ans;
 initial begin
-    clk=1'b1;
+    clk=1'b0;
     rst_n = 1;
     #(`CYCLE)
     rst_n=0;
@@ -45,27 +45,26 @@ initial begin
     out_ans=0;
     in_data=0;
     err_num=0;
+    i    = 0;
     $display("-------------------------------------------");
     $display("Test function of SHATOP...");
     for (i=0; i<`NUM_DATA; i=i+2) begin
         delay_num = $urandom%3;
         #(`CYCLE*delay_num)
-         in_valid=1;
-        more=1;
         in_data=in_mem[i];
+        in_valid=1;
+        more=1;
         #(`CYCLE)
-         in_valid=0;
-        in_data=1088'b0;
-        #(`CYCLE*47)
-         in_valid=1;
-        
-        in_data=in_mem[i+1];
-        # (`CYCLE)
-         more=0;
-          in_data=1088'b0;
+        in_data=0;
         in_valid=0;
+        #(`CYCLE*48)
+        in_data=in_mem[i+1];
+        in_valid=1;
+        #(`CYCLE)
+        in_data=0;
+        in_valid=0;
+        more=0;
         #(`CYCLE*47)
-         out_ans=golden_mem[i];
         if (out_valid) begin
             if (out_ans!==out_data) begin
                 $display("Error at pattern number %d\nin=%h\noutput=%h\nexpect=%h", i,{in_mem[i],in_mem[i+1]} ,out_data, out_ans);
@@ -73,26 +72,14 @@ initial begin
             end
         end
         else begin
-            $display("Does not detect out_valid");
+            $display("Error :no out_valid");
         end
-        #(`CYCLE)
-         out_ans=0;
-
-        #(`CYCLE);
-
-
-
-
-
-
-
-
-
-
     end
     if (err_num == 0)
         $display("Success!! You passed the simulation");
+    #(`CYCLE)
     $finish;
+
 end
 
 always  #(`HCYCLE) clk = ~clk ;
