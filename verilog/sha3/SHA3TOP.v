@@ -3,7 +3,7 @@ module xor_unit(a,b,xor_o);
 input [1599:0] a;
 input [1599:0] b;
 output  [1599:0]   xor_o;
-assign xor_o=a^b;
+assign xor_o=a ^ b;
 
 
 
@@ -12,12 +12,11 @@ endmodule
 
 
 module SHA3(
-    in, more, in_valid, out, hash_next, ready,clk,out_valid,rst_n
+    in, more, in_valid, out, hash_next,clk,out_valid,rst_n
 );
 input [1087:0] in;
 input more, in_valid,rst_n;
 
-output  ready;
 input clk;
 output hash_next;
 output out_valid;
