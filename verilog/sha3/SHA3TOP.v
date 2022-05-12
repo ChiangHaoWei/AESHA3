@@ -198,7 +198,7 @@ always @(*) begin
     end
     second_idle:
     begin
-        xor_a=chi_out;
+        xor_a=f_in;
         state_nxt=computing1;
         xor_b={ in,{512'b0}};
         if (in_valid) begin
