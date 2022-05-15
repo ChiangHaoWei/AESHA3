@@ -1,0 +1,1580 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : Top
+Version: R-2020.09-SP5
+Date   : Mon May 16 01:32:39 2022
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: enclosed
+
+  Startpoint: i_mode[0] (input port clocked by clk)
+  Endpoint: aes_top/temp_out_r_reg[119]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  Top                G200K                 fsa0m_a_generic_core_tt1p8v25c
+  AESOneRound        enG30K                fsa0m_a_generic_core_tt1p8v25c
+  MixColumn          enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  MultiplyMinv_0     enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  SubOneByte_0       enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  MultiplyM_0        enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  MultiplyMinv_10    enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  SubOneByte_10      enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  MultiplyM_10       enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  MultiplyMinv_5     enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  SubOneByte_5       enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  MultiplyM_5        enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  MultiplyMinv_15    enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  SubOneByte_15      enG5K                 fsa0m_a_generic_core_tt1p8v25c
+  MultiplyM_15       enG5K                 fsa0m_a_generic_core_tt1p8v25c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.50       0.50
+  input external delay                                    1.00       1.50 r
+  i_mode[0] (in)                                          0.06       1.56 r
+  aes_top/oneround/dec (AESOneRound)                      0.00       1.56 r
+  aes_top/oneround/U108/O (INV1S)                         0.21       1.77 f
+  aes_top/oneround/U138/O (BUF1)                          0.33       2.10 f
+  aes_top/oneround/U367/O (BUF1)                          0.30       2.40 f
+  aes_top/oneround/U460/O (BUF1)                          0.30       2.70 f
+  aes_top/oneround/U392/O (MOAI1S)                        1.27       3.97 r
+  aes_top/oneround/mix/in[15] (MixColumn)                 0.00       3.97 r
+  aes_top/oneround/mix/U678/O (MOAI1S)                    0.40       4.37 f
+  aes_top/oneround/mix/U853/O (MOAI1S)                    0.54       4.91 f
+  aes_top/oneround/mix/U854/O (MOAI1S)                    0.39       5.30 f
+  aes_top/oneround/mix/U855/O (MOAI1S)                    0.35       5.66 f
+  aes_top/oneround/mix/U856/O (MOAI1S)                    0.39       6.05 f
+  aes_top/oneround/mix/U739/O (MOAI1S)                    0.31       6.36 f
+  aes_top/oneround/mix/out_inv[2] (MixColumn)             0.00       6.36 f
+  aes_top/oneround/U772/O (MOAI1S)                        0.30       6.65 f
+  aes_top/oneround/invshift/in[2] (InvShiftRow)           0.00       6.65 f
+  aes_top/oneround/invshift/U19/O (BUF1)                  0.18       6.84 f
+  aes_top/oneround/invshift/out[34] (InvShiftRow)         0.00       6.84 f
+  aes_top/oneround/U458/O (MUX2)                          0.34       7.18 f
+  aes_top/oneround/sub96/in[2] (SubByte_96)               0.00       7.18 f
+  aes_top/oneround/sub96/genblk1[11].s0/in[2] (SubOneByte_0)
+                                                          0.00       7.18 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/in[2] (MultiplyMinv_0)
+                                                          0.00       7.18 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/U4/O (MOAI1S)
+                                                          0.60       7.77 r
+  aes_top/oneround/sub96/genblk1[11].s0/m1/U5/O (MOAI1S)
+                                                          0.15       7.92 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/out[3] (MultiplyMinv_0)
+                                                          0.00       7.92 f
+  aes_top/oneround/sub96/genblk1[11].s0/c0/in[3] (AddCinv_0)
+                                                          0.00       7.92 f
+  aes_top/oneround/sub96/genblk1[11].s0/c0/U4/O (BUF1)
+                                                          0.21       8.13 f
+  aes_top/oneround/sub96/genblk1[11].s0/c0/out[3] (AddCinv_0)
+                                                          0.00       8.13 f
+  aes_top/oneround/sub96/genblk1[11].s0/U7/O (AOI22S)     0.37       8.50 r
+  aes_top/oneround/sub96/genblk1[11].s0/U18/O (ND2S)      0.27       8.77 f
+  aes_top/oneround/sub96/genblk1[11].s0/U19/O (NR2)       0.48       9.26 r
+  aes_top/oneround/sub96/genblk1[11].s0/U75/O (INV1S)     0.10       9.36 f
+  aes_top/oneround/sub96/genblk1[11].s0/U5/O (INV1S)      0.14       9.50 r
+  aes_top/oneround/sub96/genblk1[11].s0/U6/O (INV1S)      0.08       9.58 f
+  aes_top/oneround/sub96/genblk1[11].s0/U120/O (NR2)      0.42      10.00 r
+  aes_top/oneround/sub96/genblk1[11].s0/U131/O (INV1S)
+                                                          0.22      10.22 f
+  aes_top/oneround/sub96/genblk1[11].s0/U97/O (ND3)       0.21      10.43 r
+  aes_top/oneround/sub96/genblk1[11].s0/U351/O (INV1S)
+                                                          0.13      10.55 f
+  aes_top/oneround/sub96/genblk1[11].s0/U356/O (AN4B1S)
+                                                          0.27      10.83 f
+  aes_top/oneround/sub96/genblk1[11].s0/U357/O (ND3)      0.11      10.94 r
+  aes_top/oneround/sub96/genblk1[11].s0/U100/O (AN4B1S)
+                                                          0.11      11.05 f
+  aes_top/oneround/sub96/genblk1[11].s0/U319/O (ND3)      0.12      11.16 r
+  aes_top/oneround/sub96/genblk1[11].s0/U155/O (AOI22S)
+                                                          0.11      11.28 f
+  aes_top/oneround/sub96/genblk1[11].s0/U447/O (ND2S)     0.29      11.56 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/in[7] (MultiplyM_0)
+                                                          0.00      11.56 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U1/O (MOAI1S)
+                                                          0.31      11.87 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U7/O (MOAI1S)
+                                                          0.32      12.19 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/out[2] (MultiplyM_0)
+                                                          0.00      12.19 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/in[2] (AddC_0)
+                                                          0.00      12.19 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/U5/O (BUF1)
+                                                          0.20      12.40 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/out[2] (AddC_0)
+                                                          0.00      12.40 f
+  aes_top/oneround/sub96/genblk1[11].s0/U393/O (MUX2)     0.27      12.66 f
+  aes_top/oneround/sub96/genblk1[11].s0/out[2] (SubOneByte_0)
+                                                          0.00      12.66 f
+  aes_top/oneround/sub96/out[2] (SubByte_96)              0.00      12.66 f
+  aes_top/oneround/U867/O (AO222)                         0.34      13.00 f
+  aes_top/oneround/add/in[2] (AddRoundKey_0)              0.00      13.00 f
+  aes_top/oneround/add/U122/O (MAOI1)                     0.18      13.18 r
+  aes_top/oneround/add/out[2] (AddRoundKey_0)             0.00      13.18 r
+  aes_top/oneround/U449/O (INV1S)                         0.19      13.37 f
+  aes_top/oneround/U21/O (MOAI1S)                         1.11      14.48 r
+  aes_top/oneround/mix/in[2] (MixColumn)                  0.00      14.48 r
+  aes_top/oneround/mix/U630/O (MOAI1S)                    0.52      15.00 f
+  aes_top/oneround/mix/U635/O (MOAI1S)                    0.96      15.96 r
+  aes_top/oneround/mix/U992/O (MOAI1S)                    0.18      16.14 f
+  aes_top/oneround/mix/U993/O (MOAI1S)                    0.34      16.47 f
+  aes_top/oneround/mix/U994/O (MOAI1S)                    0.33      16.81 f
+  aes_top/oneround/mix/out_inv[18] (MixColumn)            0.00      16.81 f
+  aes_top/oneround/U756/O (MOAI1S)                        0.33      17.14 f
+  aes_top/oneround/invshift/in[18] (InvShiftRow)          0.00      17.14 f
+  aes_top/oneround/invshift/U24/O (BUF1)                  0.18      17.32 f
+  aes_top/oneround/invshift/out[114] (InvShiftRow)        0.00      17.32 f
+  aes_top/oneround/U477/O (MUX2)                          0.34      17.67 f
+  aes_top/oneround/sub96/in[82] (SubByte_96)              0.00      17.67 f
+  aes_top/oneround/sub96/genblk1[1].s0/in[2] (SubOneByte_10)
+                                                          0.00      17.67 f
+  aes_top/oneround/sub96/genblk1[1].s0/m1/in[2] (MultiplyMinv_10)
+                                                          0.00      17.67 f
+  aes_top/oneround/sub96/genblk1[1].s0/m1/U4/O (MOAI1S)
+                                                          0.60      18.26 r
+  aes_top/oneround/sub96/genblk1[1].s0/m1/U5/O (MOAI1S)
+                                                          0.15      18.41 f
+  aes_top/oneround/sub96/genblk1[1].s0/m1/out[3] (MultiplyMinv_10)
+                                                          0.00      18.41 f
+  aes_top/oneround/sub96/genblk1[1].s0/c0/in[3] (AddCinv_10)
+                                                          0.00      18.41 f
+  aes_top/oneround/sub96/genblk1[1].s0/c0/U5/O (BUF1)     0.21      18.63 f
+  aes_top/oneround/sub96/genblk1[1].s0/c0/out[3] (AddCinv_10)
+                                                          0.00      18.63 f
+  aes_top/oneround/sub96/genblk1[1].s0/U7/O (AOI22S)      0.37      19.00 r
+  aes_top/oneround/sub96/genblk1[1].s0/U29/O (NR2)        0.15      19.15 f
+  aes_top/oneround/sub96/genblk1[1].s0/U39/O (ND2S)       0.31      19.46 r
+  aes_top/oneround/sub96/genblk1[1].s0/U41/O (INV1S)      0.35      19.81 f
+  aes_top/oneround/sub96/genblk1[1].s0/U74/O (ND2S)       0.31      20.12 r
+  aes_top/oneround/sub96/genblk1[1].s0/U75/O (INV1S)      0.19      20.31 f
+  aes_top/oneround/sub96/genblk1[1].s0/U184/O (NR2)       0.23      20.54 r
+  aes_top/oneround/sub96/genblk1[1].s0/U258/O (AN4B1S)
+                                                          0.25      20.79 r
+  aes_top/oneround/sub96/genblk1[1].s0/U259/O (ND3)       0.11      20.90 f
+  aes_top/oneround/sub96/genblk1[1].s0/U308/O (AN3B1S)
+                                                          0.37      21.27 r
+  aes_top/oneround/sub96/genblk1[1].s0/U429/O (ND3)       0.11      21.38 f
+  aes_top/oneround/sub96/genblk1[1].s0/U435/O (AOI22S)
+                                                          0.23      21.60 r
+  aes_top/oneround/sub96/genblk1[1].s0/U436/O (ND2S)      0.20      21.80 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/in[6] (MultiplyM_10)
+                                                          0.00      21.80 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U1/O (MOAI1S)
+                                                          0.61      22.41 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U7/O (MOAI1S)
+                                                          0.15      22.56 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/out[2] (MultiplyM_10)
+                                                          0.00      22.56 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/in[2] (AddC_10)
+                                                          0.00      22.56 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/U5/O (BUF1)     0.20      22.76 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/out[2] (AddC_10)
+                                                          0.00      22.76 f
+  aes_top/oneround/sub96/genblk1[1].s0/U393/O (MUX2)      0.27      23.03 f
+  aes_top/oneround/sub96/genblk1[1].s0/out[2] (SubOneByte_10)
+                                                          0.00      23.03 f
+  aes_top/oneround/sub96/out[82] (SubByte_96)             0.00      23.03 f
+  aes_top/oneround/U889/O (AO222)                         0.34      23.37 f
+  aes_top/oneround/add/in[18] (AddRoundKey_0)             0.00      23.37 f
+  aes_top/oneround/add/U121/O (MAOI1)                     0.18      23.55 r
+  aes_top/oneround/add/out[18] (AddRoundKey_0)            0.00      23.55 r
+  aes_top/oneround/U447/O (INV1S)                         0.19      23.74 f
+  aes_top/oneround/U24/O (MOAI1S)                         1.11      24.85 r
+  aes_top/oneround/mix/in[18] (MixColumn)                 0.00      24.85 r
+  aes_top/oneround/mix/U824/O (MOAI1S)                    0.36      25.20 f
+  aes_top/oneround/mix/U828/O (MOAI1S)                    0.37      25.57 f
+  aes_top/oneround/mix/out_inv[20] (MixColumn)            0.00      25.57 f
+  aes_top/oneround/U754/O (MOAI1S)                        0.31      25.89 f
+  aes_top/oneround/invshift/in[20] (InvShiftRow)          0.00      25.89 f
+  aes_top/oneround/invshift/U15/O (BUF1)                  0.18      26.07 f
+  aes_top/oneround/invshift/out[116] (InvShiftRow)        0.00      26.07 f
+  aes_top/oneround/U856/O (MUX2)                          0.34      26.42 f
+  aes_top/oneround/sub96/in[84] (SubByte_96)              0.00      26.42 f
+  aes_top/oneround/sub96/genblk1[1].s0/in[4] (SubOneByte_10)
+                                                          0.00      26.42 f
+  aes_top/oneround/sub96/genblk1[1].s0/m1/in[4] (MultiplyMinv_10)
+                                                          0.00      26.42 f
+  aes_top/oneround/sub96/genblk1[1].s0/m1/U1/O (MOAI1S)
+                                                          0.59      27.00 r
+  aes_top/oneround/sub96/genblk1[1].s0/m1/U3/O (MOAI1S)
+                                                          0.16      27.17 f
+  aes_top/oneround/sub96/genblk1[1].s0/m1/out[2] (MultiplyMinv_10)
+                                                          0.00      27.17 f
+  aes_top/oneround/sub96/genblk1[1].s0/c0/in[2] (AddCinv_10)
+                                                          0.00      27.17 f
+  aes_top/oneround/sub96/genblk1[1].s0/c0/U2/O (INV1S)
+                                                          0.14      27.31 r
+  aes_top/oneround/sub96/genblk1[1].s0/c0/out[2] (AddCinv_10)
+                                                          0.00      27.31 r
+  aes_top/oneround/sub96/genblk1[1].s0/U166/O (AOI22S)
+                                                          0.19      27.49 f
+  aes_top/oneround/sub96/genblk1[1].s0/U169/O (ND2S)      0.44      27.93 r
+  aes_top/oneround/sub96/genblk1[1].s0/U170/O (INV1S)     0.28      28.21 f
+  aes_top/oneround/sub96/genblk1[1].s0/U174/O (ND2S)      0.27      28.48 r
+  aes_top/oneround/sub96/genblk1[1].s0/U315/O (INV1S)     0.19      28.68 f
+  aes_top/oneround/sub96/genblk1[1].s0/U163/O (NR2)       0.21      28.88 r
+  aes_top/oneround/sub96/genblk1[1].s0/U254/O (AN4B1S)
+                                                          0.44      29.32 r
+  aes_top/oneround/sub96/genblk1[1].s0/U413/O (ND3)       0.11      29.44 f
+  aes_top/oneround/sub96/genblk1[1].s0/U414/O (AOI22S)
+                                                          0.21      29.64 r
+  aes_top/oneround/sub96/genblk1[1].s0/U415/O (ND2S)      0.20      29.84 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/in[2] (MultiplyM_10)
+                                                          0.00      29.84 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U6/O (MOAI1S)
+                                                          0.85      30.70 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U13/O (MOAI1S)
+                                                          0.14      30.84 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/out[4] (MultiplyM_10)
+                                                          0.00      30.84 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/in[4] (AddC_10)
+                                                          0.00      30.84 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/U7/O (BUF1)     0.22      31.06 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/out[4] (AddC_10)
+                                                          0.00      31.06 f
+  aes_top/oneround/sub96/genblk1[1].s0/U342/O (MUX2)      0.27      31.33 f
+  aes_top/oneround/sub96/genblk1[1].s0/out[4] (SubOneByte_10)
+                                                          0.00      31.33 f
+  aes_top/oneround/sub96/out[84] (SubByte_96)             0.00      31.33 f
+  aes_top/oneround/U891/O (AO222)                         0.34      31.67 f
+  aes_top/oneround/add/in[20] (AddRoundKey_0)             0.00      31.67 f
+  aes_top/oneround/add/U114/O (MAOI1)                     0.18      31.85 r
+  aes_top/oneround/add/out[20] (AddRoundKey_0)            0.00      31.85 r
+  aes_top/oneround/U423/O (INV1S)                         0.19      32.04 f
+  aes_top/oneround/U424/O (MOAI1S)                        1.17      33.21 r
+  aes_top/oneround/mix/in[20] (MixColumn)                 0.00      33.21 r
+  aes_top/oneround/mix/U341/O (INV1S)                     0.10      33.30 f
+  aes_top/oneround/mix/U342/O (INV1S)                     0.31      33.62 r
+  aes_top/oneround/mix/U192/O (MOAI1S)                    0.41      34.03 f
+  aes_top/oneround/mix/U835/O (MOAI1S)                    0.50      34.52 f
+  aes_top/oneround/mix/U836/O (MOAI1S)                    0.53      35.05 f
+  aes_top/oneround/mix/U837/O (MOAI1S)                    0.40      35.45 f
+  aes_top/oneround/mix/U838/O (MOAI1S)                    0.33      35.78 f
+  aes_top/oneround/mix/out_inv[4] (MixColumn)             0.00      35.78 f
+  aes_top/oneround/U770/O (MOAI1S)                        0.33      36.12 f
+  aes_top/oneround/invshift/in[4] (InvShiftRow)           0.00      36.12 f
+  aes_top/oneround/invshift/U20/O (BUF1)                  0.18      36.30 f
+  aes_top/oneround/invshift/out[36] (InvShiftRow)         0.00      36.30 f
+  aes_top/oneround/U455/O (MUX2)                          0.34      36.64 f
+  aes_top/oneround/sub96/in[4] (SubByte_96)               0.00      36.64 f
+  aes_top/oneround/sub96/genblk1[11].s0/in[4] (SubOneByte_0)
+                                                          0.00      36.64 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/in[4] (MultiplyMinv_0)
+                                                          0.00      36.64 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/U1/O (MOAI1S)
+                                                          0.59      37.23 r
+  aes_top/oneround/sub96/genblk1[11].s0/m1/U3/O (MOAI1S)
+                                                          0.16      37.40 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/out[2] (MultiplyMinv_0)
+                                                          0.00      37.40 f
+  aes_top/oneround/sub96/genblk1[11].s0/c0/in[2] (AddCinv_0)
+                                                          0.00      37.40 f
+  aes_top/oneround/sub96/genblk1[11].s0/c0/U2/O (INV1S)
+                                                          0.12      37.51 r
+  aes_top/oneround/sub96/genblk1[11].s0/c0/out[2] (AddCinv_0)
+                                                          0.00      37.51 r
+  aes_top/oneround/sub96/genblk1[11].s0/U455/O (MUX2)     0.28      37.79 r
+  aes_top/oneround/sub96/genblk1[11].s0/U460/O (INV1S)
+                                                          0.17      37.96 f
+  aes_top/oneround/sub96/genblk1[11].s0/U47/O (ND2S)      0.46      38.42 r
+  aes_top/oneround/sub96/genblk1[11].s0/U151/O (INV1S)
+                                                          0.22      38.64 f
+  aes_top/oneround/sub96/genblk1[11].s0/U152/O (ND2S)     0.40      39.04 r
+  aes_top/oneround/sub96/genblk1[11].s0/U153/O (INV1S)
+                                                          0.17      39.20 f
+  aes_top/oneround/sub96/genblk1[11].s0/U163/O (NR2)      0.18      39.38 r
+  aes_top/oneround/sub96/genblk1[11].s0/U304/O (AN4B1S)
+                                                          0.35      39.73 r
+  aes_top/oneround/sub96/genblk1[11].s0/U335/O (AN2)      0.21      39.94 r
+  aes_top/oneround/sub96/genblk1[11].s0/U360/O (AN4B1S)
+                                                          0.23      40.17 r
+  aes_top/oneround/sub96/genblk1[11].s0/U361/O (ND3)      0.10      40.27 f
+  aes_top/oneround/sub96/genblk1[11].s0/U382/O (AOI22S)
+                                                          0.22      40.49 r
+  aes_top/oneround/sub96/genblk1[11].s0/U413/O (ND2S)     0.21      40.71 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/in[2] (MultiplyM_0)
+                                                          0.00      40.71 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U6/O (MOAI1S)
+                                                          0.85      41.56 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U15/O (MOAI1S)
+                                                          0.14      41.70 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/out[4] (MultiplyM_0)
+                                                          0.00      41.70 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/in[4] (AddC_0)
+                                                          0.00      41.70 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/U7/O (BUF1)
+                                                          0.22      41.92 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/out[4] (AddC_0)
+                                                          0.00      41.92 f
+  aes_top/oneround/sub96/genblk1[11].s0/U342/O (MUX2)     0.27      42.19 f
+  aes_top/oneround/sub96/genblk1[11].s0/out[4] (SubOneByte_0)
+                                                          0.00      42.19 f
+  aes_top/oneround/sub96/out[4] (SubByte_96)              0.00      42.19 f
+  aes_top/oneround/U869/O (AO222)                         0.34      42.53 f
+  aes_top/oneround/add/in[4] (AddRoundKey_0)              0.00      42.53 f
+  aes_top/oneround/add/U125/O (MAOI1)                     0.18      42.71 r
+  aes_top/oneround/add/out[4] (AddRoundKey_0)             0.00      42.71 r
+  aes_top/oneround/U507/O (INV1S)                         0.19      42.90 f
+  aes_top/oneround/U59/O (MOAI1S)                         1.25      44.14 r
+  aes_top/oneround/mix/in[4] (MixColumn)                  0.00      44.14 r
+  aes_top/oneround/mix/U436/O (BUF1)                      0.17      44.31 r
+  aes_top/oneround/mix/U876/O (MOAI1S)                    0.20      44.51 f
+  aes_top/oneround/mix/U927/O (MOAI1S)                    0.34      44.85 f
+  aes_top/oneround/mix/out[12] (MixColumn)                0.00      44.85 f
+  aes_top/oneround/U882/O (AO222)                         0.46      45.31 f
+  aes_top/oneround/add/in[12] (AddRoundKey_0)             0.00      45.31 f
+  aes_top/oneround/add/U3/O (MAOI1)                       0.23      45.54 f
+  aes_top/oneround/add/out[12] (AddRoundKey_0)            0.00      45.54 f
+  aes_top/oneround/U462/O (INV1S)                         0.20      45.74 r
+  aes_top/oneround/U464/O (MOAI1S)                        0.15      45.89 f
+  aes_top/oneround/U465/O (MUX2)                          0.39      46.28 f
+  aes_top/oneround/sub96/in[44] (SubByte_96)              0.00      46.28 f
+  aes_top/oneround/sub96/genblk1[6].s0/in[4] (SubOneByte_5)
+                                                          0.00      46.28 f
+  aes_top/oneround/sub96/genblk1[6].s0/m1/in[4] (MultiplyMinv_5)
+                                                          0.00      46.28 f
+  aes_top/oneround/sub96/genblk1[6].s0/m1/U1/O (MOAI1S)
+                                                          0.59      46.87 r
+  aes_top/oneround/sub96/genblk1[6].s0/m1/U3/O (MOAI1S)
+                                                          0.22      47.08 r
+  aes_top/oneround/sub96/genblk1[6].s0/m1/out[2] (MultiplyMinv_5)
+                                                          0.00      47.08 r
+  aes_top/oneround/sub96/genblk1[6].s0/c0/in[2] (AddCinv_5)
+                                                          0.00      47.08 r
+  aes_top/oneround/sub96/genblk1[6].s0/c0/U2/O (INV1S)
+                                                          0.11      47.19 f
+  aes_top/oneround/sub96/genblk1[6].s0/c0/out[2] (AddCinv_5)
+                                                          0.00      47.19 f
+  aes_top/oneround/sub96/genblk1[6].s0/U55/O (AOI22S)     0.40      47.59 r
+  aes_top/oneround/sub96/genblk1[6].s0/U460/O (NR2)       0.14      47.73 f
+  aes_top/oneround/sub96/genblk1[6].s0/U9/O (ND2S)        0.31      48.04 r
+  aes_top/oneround/sub96/genblk1[6].s0/U35/O (INV1S)      0.31      48.34 f
+  aes_top/oneround/sub96/genblk1[6].s0/U39/O (ND2S)       0.45      48.79 r
+  aes_top/oneround/sub96/genblk1[6].s0/U170/O (INV1S)     0.28      49.08 f
+  aes_top/oneround/sub96/genblk1[6].s0/U192/O (NR2)       0.19      49.27 r
+  aes_top/oneround/sub96/genblk1[6].s0/U195/O (ND3)       0.09      49.36 f
+  aes_top/oneround/sub96/genblk1[6].s0/U196/O (NR3)       0.32      49.68 r
+  aes_top/oneround/sub96/genblk1[6].s0/U199/O (ND3)       0.10      49.79 f
+  aes_top/oneround/sub96/genblk1[6].s0/U200/O (NR3)       0.25      50.03 r
+  aes_top/oneround/sub96/genblk1[6].s0/U282/O (ND3)       0.11      50.15 f
+  aes_top/oneround/sub96/genblk1[6].s0/U391/O (AOI22S)
+                                                          0.20      50.35 r
+  aes_top/oneround/sub96/genblk1[6].s0/U404/O (ND2S)      0.20      50.55 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/in[2] (MultiplyM_5)
+                                                          0.00      50.55 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U6/O (MOAI1S)
+                                                          0.84      51.39 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U16/O (MOAI1S)
+                                                          0.10      51.49 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/out[2] (MultiplyM_5)
+                                                          0.00      51.49 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/in[2] (AddC_5)
+                                                          0.00      51.49 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/U5/O (BUF1)     0.21      51.71 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/out[2] (AddC_5)
+                                                          0.00      51.71 f
+  aes_top/oneround/sub96/genblk1[6].s0/U405/O (MUX2)      0.27      51.97 f
+  aes_top/oneround/sub96/genblk1[6].s0/out[2] (SubOneByte_5)
+                                                          0.00      51.97 f
+  aes_top/oneround/sub96/out[42] (SubByte_96)             0.00      51.97 f
+  aes_top/oneround/U880/O (AO222)                         0.34      52.31 f
+  aes_top/oneround/add/in[10] (AddRoundKey_0)             0.00      52.31 f
+  aes_top/oneround/add/U42/O (MAOI1)                      0.18      52.49 r
+  aes_top/oneround/add/out[10] (AddRoundKey_0)            0.00      52.49 r
+  aes_top/oneround/U448/O (INV1S)                         0.19      52.68 f
+  aes_top/oneround/U23/O (MOAI1S)                         1.10      53.78 r
+  aes_top/oneround/mix/in[10] (MixColumn)                 0.00      53.78 r
+  aes_top/oneround/mix/U171/O (INV1S)                     0.10      53.88 f
+  aes_top/oneround/mix/U172/O (INV1S)                     0.25      54.13 r
+  aes_top/oneround/mix/U629/O (MOAI1S)                    0.14      54.27 f
+  aes_top/oneround/mix/U61/O (INV1S)                      0.14      54.41 r
+  aes_top/oneround/mix/U68/O (INV1S)                      0.24      54.65 f
+  aes_top/oneround/mix/U840/O (MOAI1S)                    0.39      55.05 f
+  aes_top/oneround/mix/U848/O (MOAI1S)                    0.32      55.37 f
+  aes_top/oneround/mix/U849/O (MOAI1S)                    0.36      55.73 f
+  aes_top/oneround/mix/U850/O (MOAI1S)                    0.31      56.03 f
+  aes_top/oneround/mix/out_inv[19] (MixColumn)            0.00      56.03 f
+  aes_top/oneround/U755/O (MOAI1S)                        0.31      56.34 f
+  aes_top/oneround/invshift/in[19] (InvShiftRow)          0.00      56.34 f
+  aes_top/oneround/invshift/U25/O (BUF1)                  0.18      56.53 f
+  aes_top/oneround/invshift/out[115] (InvShiftRow)        0.00      56.53 f
+  aes_top/oneround/U855/O (MUX2)                          0.34      56.87 f
+  aes_top/oneround/sub96/in[83] (SubByte_96)              0.00      56.87 f
+  aes_top/oneround/sub96/genblk1[1].s0/in[3] (SubOneByte_10)
+                                                          0.00      56.87 f
+  aes_top/oneround/sub96/genblk1[1].s0/m1/in[3] (MultiplyMinv_10)
+                                                          0.00      56.87 f
+  aes_top/oneround/sub96/genblk1[1].s0/m1/U10/O (MOAI1S)
+                                                          0.58      57.46 r
+  aes_top/oneround/sub96/genblk1[1].s0/m1/U11/O (MOAI1S)
+                                                          0.21      57.66 r
+  aes_top/oneround/sub96/genblk1[1].s0/m1/out[6] (MultiplyMinv_10)
+                                                          0.00      57.66 r
+  aes_top/oneround/sub96/genblk1[1].s0/c0/in[6] (AddCinv_10)
+                                                          0.00      57.66 r
+  aes_top/oneround/sub96/genblk1[1].s0/c0/U7/O (BUF1)     0.14      57.81 r
+  aes_top/oneround/sub96/genblk1[1].s0/c0/out[6] (AddCinv_10)
+                                                          0.00      57.81 r
+  aes_top/oneround/sub96/genblk1[1].s0/U274/O (MUX2)      0.26      58.06 r
+  aes_top/oneround/sub96/genblk1[1].s0/U452/O (INV1S)     0.15      58.22 f
+  aes_top/oneround/sub96/genblk1[1].s0/U22/O (AN2)        0.25      58.46 f
+  aes_top/oneround/sub96/genblk1[1].s0/U71/O (ND2S)       0.39      58.85 r
+  aes_top/oneround/sub96/genblk1[1].s0/U260/O (INV1S)     0.21      59.06 f
+  aes_top/oneround/sub96/genblk1[1].s0/U261/O (ND2S)      0.31      59.37 r
+  aes_top/oneround/sub96/genblk1[1].s0/U262/O (OR2B1S)
+                                                          0.13      59.50 f
+  aes_top/oneround/sub96/genblk1[1].s0/U265/O (OR3B2S)
+                                                          0.20      59.71 f
+  aes_top/oneround/sub96/genblk1[1].s0/U266/O (AN4B1S)
+                                                          0.29      59.99 r
+  aes_top/oneround/sub96/genblk1[1].s0/U349/O (ND3)       0.11      60.11 f
+  aes_top/oneround/sub96/genblk1[1].s0/U323/O (AOI22S)
+                                                          0.22      60.33 r
+  aes_top/oneround/sub96/genblk1[1].s0/U418/O (ND2S)      0.21      60.54 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/in[4] (MultiplyM_10)
+                                                          0.00      60.54 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U15/O (MOAI1S)
+                                                          0.27      60.82 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/out[0] (MultiplyM_10)
+                                                          0.00      60.82 r
+  aes_top/oneround/sub96/genblk1[1].s0/c1/in[0] (AddC_10)
+                                                          0.00      60.82 r
+  aes_top/oneround/sub96/genblk1[1].s0/c1/U1/O (INV1S)
+                                                          0.09      60.90 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/out[0] (AddC_10)
+                                                          0.00      60.90 f
+  aes_top/oneround/sub96/genblk1[1].s0/U427/O (MUX2)      0.29      61.19 f
+  aes_top/oneround/sub96/genblk1[1].s0/out[0] (SubOneByte_10)
+                                                          0.00      61.19 f
+  aes_top/oneround/sub96/out[80] (SubByte_96)             0.00      61.19 f
+  aes_top/oneround/U887/O (AO222)                         0.34      61.53 f
+  aes_top/oneround/add/in[16] (AddRoundKey_0)             0.00      61.53 f
+  aes_top/oneround/add/U126/O (MAOI1)                     0.23      61.77 f
+  aes_top/oneround/add/out[16] (AddRoundKey_0)            0.00      61.77 f
+  aes_top/oneround/U468/O (INV1S)                         0.21      61.98 r
+  aes_top/oneround/U469/O (MOAI1S)                        0.15      62.13 f
+  aes_top/oneround/U471/O (MUX2)                          0.38      62.51 f
+  aes_top/oneround/sub96/in[80] (SubByte_96)              0.00      62.51 f
+  aes_top/oneround/sub96/genblk1[1].s0/in[0] (SubOneByte_10)
+                                                          0.00      62.51 f
+  aes_top/oneround/sub96/genblk1[1].s0/U275/O (MUX2)      0.33      62.84 f
+  aes_top/oneround/sub96/genblk1[1].s0/U276/O (ND2S)      0.24      63.08 r
+  aes_top/oneround/sub96/genblk1[1].s0/U45/O (OR2)        0.32      63.40 r
+  aes_top/oneround/sub96/genblk1[1].s0/U267/O (NR2)       0.13      63.53 f
+  aes_top/oneround/sub96/genblk1[1].s0/U269/O (AN4B1S)
+                                                          0.16      63.69 r
+  aes_top/oneround/sub96/genblk1[1].s0/U270/O (ND3)       0.10      63.80 f
+  aes_top/oneround/sub96/genblk1[1].s0/U417/O (AOI22S)
+                                                          0.23      64.02 r
+  aes_top/oneround/sub96/genblk1[1].s0/U388/O (ND2S)      0.21      64.24 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/in[0] (MultiplyM_10)
+                                                          0.00      64.24 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U5/O (MOAI1S)
+                                                          0.60      64.84 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U8/O (MOAI1S)
+                                                          0.21      65.05 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/out[1] (MultiplyM_10)
+                                                          0.00      65.05 r
+  aes_top/oneround/sub96/genblk1[1].s0/c1/in[1] (AddC_10)
+                                                          0.00      65.05 r
+  aes_top/oneround/sub96/genblk1[1].s0/c1/U2/O (INV1S)
+                                                          0.09      65.14 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/out[1] (AddC_10)
+                                                          0.00      65.14 f
+  aes_top/oneround/sub96/genblk1[1].s0/U410/O (MUX2)      0.29      65.43 f
+  aes_top/oneround/sub96/genblk1[1].s0/out[1] (SubOneByte_10)
+                                                          0.00      65.43 f
+  aes_top/oneround/sub96/out[81] (SubByte_96)             0.00      65.43 f
+  aes_top/oneround/U888/O (AO222)                         0.34      65.77 f
+  aes_top/oneround/add/in[17] (AddRoundKey_0)             0.00      65.77 f
+  aes_top/oneround/add/U127/O (MAOI1)                     0.18      65.95 r
+  aes_top/oneround/add/out[17] (AddRoundKey_0)            0.00      65.95 r
+  aes_top/oneround/U472/O (INV1S)                         0.19      66.14 f
+  aes_top/oneround/U473/O (MOAI1S)                        0.29      66.43 r
+  aes_top/oneround/U474/O (MUX2)                          0.38      66.81 r
+  aes_top/oneround/sub96/in[81] (SubByte_96)              0.00      66.81 r
+  aes_top/oneround/sub96/genblk1[1].s0/in[1] (SubOneByte_10)
+                                                          0.00      66.81 r
+  aes_top/oneround/sub96/genblk1[1].s0/U271/O (MUX2)      0.30      67.11 r
+  aes_top/oneround/sub96/genblk1[1].s0/U272/O (INV1S)     0.17      67.28 f
+  aes_top/oneround/sub96/genblk1[1].s0/U277/O (NR2)       0.48      67.77 r
+  aes_top/oneround/sub96/genblk1[1].s0/U278/O (INV1S)     0.30      68.07 f
+  aes_top/oneround/sub96/genblk1[1].s0/U279/O (NR2)       0.43      68.50 r
+  aes_top/oneround/sub96/genblk1[1].s0/U282/O (NR3)       0.35      68.84 f
+  aes_top/oneround/sub96/genblk1[1].s0/U283/O (AN3S)      0.33      69.18 f
+  aes_top/oneround/sub96/genblk1[1].s0/U402/O (ND3)       0.13      69.31 r
+  aes_top/oneround/sub96/genblk1[1].s0/U403/O (AOI22S)
+                                                          0.08      69.39 f
+  aes_top/oneround/sub96/genblk1[1].s0/U404/O (ND2S)      0.30      69.69 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/in[1] (MultiplyM_10)
+                                                          0.00      69.69 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U10/O (MOAI1S)
+                                                          0.23      69.91 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/out[5] (MultiplyM_10)
+                                                          0.00      69.91 r
+  aes_top/oneround/sub96/genblk1[1].s0/c1/in[5] (AddC_10)
+                                                          0.00      69.91 r
+  aes_top/oneround/sub96/genblk1[1].s0/c1/U3/O (INV1S)
+                                                          0.09      70.00 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/out[5] (AddC_10)
+                                                          0.00      70.00 f
+  aes_top/oneround/sub96/genblk1[1].s0/U301/O (MUX2)      0.29      70.29 f
+  aes_top/oneround/sub96/genblk1[1].s0/out[5] (SubOneByte_10)
+                                                          0.00      70.29 f
+  aes_top/oneround/sub96/out[85] (SubByte_96)             0.00      70.29 f
+  aes_top/oneround/U892/O (AO222)                         0.34      70.63 f
+  aes_top/oneround/add/in[21] (AddRoundKey_0)             0.00      70.63 f
+  aes_top/oneround/add/U2/O (MAOI1)                       0.18      70.81 r
+  aes_top/oneround/add/out[21] (AddRoundKey_0)            0.00      70.81 r
+  aes_top/oneround/U371/O (INV1S)                         0.19      71.00 f
+  aes_top/oneround/U373/O (MOAI1S)                        0.29      71.29 r
+  aes_top/oneround/U377/O (MUX2)                          0.38      71.67 r
+  aes_top/oneround/sub96/in[85] (SubByte_96)              0.00      71.67 r
+  aes_top/oneround/sub96/genblk1[1].s0/in[5] (SubOneByte_10)
+                                                          0.00      71.67 r
+  aes_top/oneround/sub96/genblk1[1].s0/U354/O (MUX2)      0.26      71.94 r
+  aes_top/oneround/sub96/genblk1[1].s0/U355/O (INV1S)     0.16      72.10 f
+  aes_top/oneround/sub96/genblk1[1].s0/U157/O (NR2)       0.55      72.65 r
+  aes_top/oneround/sub96/genblk1[1].s0/U9/O (INV1S)       0.11      72.76 f
+  aes_top/oneround/sub96/genblk1[1].s0/U10/O (INV1S)      0.21      72.97 r
+  aes_top/oneround/sub96/genblk1[1].s0/U359/O (AOI22S)
+                                                          0.12      73.09 f
+  aes_top/oneround/sub96/genblk1[1].s0/U387/O (ND2S)      0.29      73.39 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/in[3] (MultiplyM_10)
+                                                          0.00      73.39 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U11/O (MOAI1S)
+                                                          0.19      73.58 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U12/O (MOAI1S)
+                                                          0.32      73.90 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/out[3] (MultiplyM_10)
+                                                          0.00      73.90 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/in[3] (AddC_10)
+                                                          0.00      73.90 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/U6/O (BUF1)     0.18      74.09 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/out[3] (AddC_10)
+                                                          0.00      74.09 f
+  aes_top/oneround/sub96/genblk1[1].s0/U416/O (MUX2)      0.27      74.36 f
+  aes_top/oneround/sub96/genblk1[1].s0/out[3] (SubOneByte_10)
+                                                          0.00      74.36 f
+  aes_top/oneround/sub96/out[83] (SubByte_96)             0.00      74.36 f
+  aes_top/oneround/U890/O (AO222)                         0.34      74.70 f
+  aes_top/oneround/add/in[19] (AddRoundKey_0)             0.00      74.70 f
+  aes_top/oneround/add/U120/O (MAOI1)                     0.18      74.88 r
+  aes_top/oneround/add/out[19] (AddRoundKey_0)            0.00      74.88 r
+  aes_top/oneround/U107/O (INV1S)                         0.19      75.07 f
+  aes_top/oneround/U113/O (MOAI1S)                        1.23      76.30 r
+  aes_top/oneround/mix/in[19] (MixColumn)                 0.00      76.30 r
+  aes_top/oneround/mix/U600/O (MOAI1S)                    0.09      76.39 f
+  aes_top/oneround/mix/U57/O (INV1S)                      0.21      76.60 r
+  aes_top/oneround/mix/U60/O (INV1S)                      0.26      76.86 f
+  aes_top/oneround/mix/U602/O (MOAI1S)                    0.84      77.70 r
+  aes_top/oneround/mix/U603/O (MOAI1S)                    0.49      78.19 f
+  aes_top/oneround/mix/U874/O (MOAI1S)                    0.39      78.58 f
+  aes_top/oneround/mix/out_inv[6] (MixColumn)             0.00      78.58 f
+  aes_top/oneround/U768/O (MOAI1S)                        0.33      78.92 f
+  aes_top/oneround/invshift/in[6] (InvShiftRow)           0.00      78.92 f
+  aes_top/oneround/invshift/U10/O (BUF1)                  0.18      79.10 f
+  aes_top/oneround/invshift/out[38] (InvShiftRow)         0.00      79.10 f
+  aes_top/oneround/U446/O (MUX2)                          0.34      79.44 f
+  aes_top/oneround/sub96/in[6] (SubByte_96)               0.00      79.44 f
+  aes_top/oneround/sub96/genblk1[11].s0/in[6] (SubOneByte_0)
+                                                          0.00      79.44 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/in[6] (MultiplyMinv_0)
+                                                          0.00      79.44 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/U7/O (MOAI1S)
+                                                          0.58      80.02 r
+  aes_top/oneround/sub96/genblk1[11].s0/m1/U9/O (MOAI1S)
+                                                          0.15      80.17 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/out[4] (MultiplyMinv_0)
+                                                          0.00      80.17 f
+  aes_top/oneround/sub96/genblk1[11].s0/c0/in[4] (AddCinv_0)
+                                                          0.00      80.17 f
+  aes_top/oneround/sub96/genblk1[11].s0/c0/U5/O (BUF1)
+                                                          0.21      80.38 f
+  aes_top/oneround/sub96/genblk1[11].s0/c0/out[4] (AddCinv_0)
+                                                          0.00      80.38 f
+  aes_top/oneround/sub96/genblk1[11].s0/U453/O (AOI22S)
+                                                          0.35      80.74 r
+  aes_top/oneround/sub96/genblk1[11].s0/U454/O (AN2)      0.35      81.09 r
+  aes_top/oneround/sub96/genblk1[11].s0/U456/O (ND2S)     0.22      81.31 f
+  aes_top/oneround/sub96/genblk1[11].s0/U76/O (NR2)       0.30      81.61 r
+  aes_top/oneround/sub96/genblk1[11].s0/U187/O (NR2)      0.13      81.75 f
+  aes_top/oneround/sub96/genblk1[11].s0/U204/O (AN4B1S)
+                                                          0.27      82.02 f
+  aes_top/oneround/sub96/genblk1[11].s0/U364/O (ND3)      0.15      82.18 r
+  aes_top/oneround/sub96/genblk1[11].s0/U359/O (AOI22S)
+                                                          0.11      82.28 f
+  aes_top/oneround/sub96/genblk1[11].s0/U414/O (ND2S)     0.31      82.60 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/in[3] (MultiplyM_0)
+                                                          0.00      82.60 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U12/O (MOAI1S)
+                                                          0.19      82.79 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U13/O (MOAI1S)
+                                                          0.29      83.07 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/out[3] (MultiplyM_0)
+                                                          0.00      83.07 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/in[3] (AddC_0)
+                                                          0.00      83.07 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/U6/O (BUF1)
+                                                          0.21      83.29 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/out[3] (AddC_0)
+                                                          0.00      83.29 f
+  aes_top/oneround/sub96/genblk1[11].s0/U415/O (MUX2)     0.27      83.56 f
+  aes_top/oneround/sub96/genblk1[11].s0/out[3] (SubOneByte_0)
+                                                          0.00      83.56 f
+  aes_top/oneround/sub96/out[3] (SubByte_96)              0.00      83.56 f
+  aes_top/oneround/U868/O (AO222)                         0.34      83.90 f
+  aes_top/oneround/add/in[3] (AddRoundKey_0)              0.00      83.90 f
+  aes_top/oneround/add/U113/O (MAOI1)                     0.23      84.13 f
+  aes_top/oneround/add/out[3] (AddRoundKey_0)             0.00      84.13 f
+  aes_top/oneround/U511/O (INV1S)                         0.21      84.35 r
+  aes_top/oneround/U790/O (MOAI1S)                        0.15      84.50 f
+  aes_top/oneround/U791/O (MUX2)                          0.39      84.89 f
+  aes_top/oneround/sub96/in[3] (SubByte_96)               0.00      84.89 f
+  aes_top/oneround/sub96/genblk1[11].s0/in[3] (SubOneByte_0)
+                                                          0.00      84.89 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/in[3] (MultiplyMinv_0)
+                                                          0.00      84.89 f
+  aes_top/oneround/sub96/genblk1[11].s0/m1/U10/O (MOAI1S)
+                                                          0.58      85.47 r
+  aes_top/oneround/sub96/genblk1[11].s0/m1/U11/O (MOAI1S)
+                                                          0.21      85.68 r
+  aes_top/oneround/sub96/genblk1[11].s0/m1/out[6] (MultiplyMinv_0)
+                                                          0.00      85.68 r
+  aes_top/oneround/sub96/genblk1[11].s0/c0/in[6] (AddCinv_0)
+                                                          0.00      85.68 r
+  aes_top/oneround/sub96/genblk1[11].s0/c0/U7/O (BUF1)
+                                                          0.14      85.82 r
+  aes_top/oneround/sub96/genblk1[11].s0/c0/out[6] (AddCinv_0)
+                                                          0.00      85.82 r
+  aes_top/oneround/sub96/genblk1[11].s0/U221/O (MUX2)     0.26      86.08 r
+  aes_top/oneround/sub96/genblk1[11].s0/U458/O (INV1S)
+                                                          0.15      86.23 f
+  aes_top/oneround/sub96/genblk1[11].s0/U22/O (AN2)       0.25      86.48 f
+  aes_top/oneround/sub96/genblk1[11].s0/U71/O (ND2S)      0.39      86.87 r
+  aes_top/oneround/sub96/genblk1[11].s0/U58/O (INV1S)     0.21      87.07 f
+  aes_top/oneround/sub96/genblk1[11].s0/U62/O (ND2S)      0.43      87.51 r
+  aes_top/oneround/sub96/genblk1[11].s0/U320/O (ND2S)     0.13      87.64 f
+  aes_top/oneround/sub96/genblk1[11].s0/U322/O (AN4B1S)
+                                                          0.28      87.92 r
+  aes_top/oneround/sub96/genblk1[11].s0/U329/O (ND3)      0.11      88.04 f
+  aes_top/oneround/sub96/genblk1[11].s0/U323/O (AOI22S)
+                                                          0.22      88.26 r
+  aes_top/oneround/sub96/genblk1[11].s0/U422/O (ND2S)     0.21      88.47 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/in[4] (MultiplyM_0)
+                                                          0.00      88.47 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U16/O (MOAI1S)
+                                                          0.27      88.75 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/out[0] (MultiplyM_0)
+                                                          0.00      88.75 r
+  aes_top/oneround/sub96/genblk1[11].s0/c1/in[0] (AddC_0)
+                                                          0.00      88.75 r
+  aes_top/oneround/sub96/genblk1[11].s0/c1/U1/O (INV1S)
+                                                          0.09      88.83 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/out[0] (AddC_0)
+                                                          0.00      88.83 f
+  aes_top/oneround/sub96/genblk1[11].s0/U427/O (MUX2)     0.29      89.12 f
+  aes_top/oneround/sub96/genblk1[11].s0/out[0] (SubOneByte_0)
+                                                          0.00      89.12 f
+  aes_top/oneround/sub96/out[0] (SubByte_96)              0.00      89.12 f
+  aes_top/oneround/U860/O (AO222)                         0.40      89.52 f
+  aes_top/oneround/add/in[0] (AddRoundKey_0)              0.00      89.52 f
+  aes_top/oneround/add/U117/O (MAOI1)                     0.23      89.75 f
+  aes_top/oneround/add/out[0] (AddRoundKey_0)             0.00      89.75 f
+  aes_top/oneround/U510/O (INV1S)                         0.21      89.97 r
+  aes_top/oneround/U788/O (MOAI1S)                        0.15      90.12 f
+  aes_top/oneround/U789/O (MUX2)                          0.38      90.50 f
+  aes_top/oneround/sub96/in[0] (SubByte_96)               0.00      90.50 f
+  aes_top/oneround/sub96/genblk1[11].s0/in[0] (SubOneByte_0)
+                                                          0.00      90.50 f
+  aes_top/oneround/sub96/genblk1[11].s0/U222/O (MUX2)     0.33      90.83 f
+  aes_top/oneround/sub96/genblk1[11].s0/U223/O (ND2S)     0.24      91.07 r
+  aes_top/oneround/sub96/genblk1[11].s0/U45/O (OR2)       0.29      91.35 r
+  aes_top/oneround/sub96/genblk1[11].s0/U365/O (NR2)      0.12      91.48 f
+  aes_top/oneround/sub96/genblk1[11].s0/U366/O (NR2)      0.15      91.63 r
+  aes_top/oneround/sub96/genblk1[11].s0/U368/O (ND3)      0.10      91.73 f
+  aes_top/oneround/sub96/genblk1[11].s0/U417/O (AOI22S)
+                                                          0.22      91.94 r
+  aes_top/oneround/sub96/genblk1[11].s0/U405/O (ND2S)     0.21      92.16 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/in[0] (MultiplyM_0)
+                                                          0.00      92.16 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U5/O (MOAI1S)
+                                                          0.60      92.76 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U8/O (MOAI1S)
+                                                          0.21      92.97 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/out[1] (MultiplyM_0)
+                                                          0.00      92.97 r
+  aes_top/oneround/sub96/genblk1[11].s0/c1/in[1] (AddC_0)
+                                                          0.00      92.97 r
+  aes_top/oneround/sub96/genblk1[11].s0/c1/U2/O (INV1S)
+                                                          0.09      93.06 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/out[1] (AddC_0)
+                                                          0.00      93.06 f
+  aes_top/oneround/sub96/genblk1[11].s0/U410/O (MUX2)     0.29      93.35 f
+  aes_top/oneround/sub96/genblk1[11].s0/out[1] (SubOneByte_0)
+                                                          0.00      93.35 f
+  aes_top/oneround/sub96/out[1] (SubByte_96)              0.00      93.35 f
+  aes_top/oneround/U863/O (AO222)                         0.34      93.69 f
+  aes_top/oneround/add/in[1] (AddRoundKey_0)              0.00      93.69 f
+  aes_top/oneround/add/U118/O (MAOI1)                     0.18      93.87 r
+  aes_top/oneround/add/out[1] (AddRoundKey_0)             0.00      93.87 r
+  aes_top/oneround/U441/O (INV1S)                         0.19      94.06 f
+  aes_top/oneround/U442/O (MOAI1S)                        0.29      94.35 r
+  aes_top/oneround/U444/O (MUX2)                          0.38      94.73 r
+  aes_top/oneround/sub96/in[1] (SubByte_96)               0.00      94.73 r
+  aes_top/oneround/sub96/genblk1[11].s0/in[1] (SubOneByte_0)
+                                                          0.00      94.73 r
+  aes_top/oneround/sub96/genblk1[11].s0/U218/O (MUX2)     0.30      95.03 r
+  aes_top/oneround/sub96/genblk1[11].s0/U219/O (INV1S)
+                                                          0.17      95.20 f
+  aes_top/oneround/sub96/genblk1[11].s0/U224/O (NR2)      0.48      95.69 r
+  aes_top/oneround/sub96/genblk1[11].s0/U225/O (INV1S)
+                                                          0.30      95.99 f
+  aes_top/oneround/sub96/genblk1[11].s0/U226/O (NR2)      0.43      96.42 r
+  aes_top/oneround/sub96/genblk1[11].s0/U306/O (AN4B1S)
+                                                          0.28      96.70 f
+  aes_top/oneround/sub96/genblk1[11].s0/U307/O (AN3S)     0.32      97.02 f
+  aes_top/oneround/sub96/genblk1[11].s0/U312/O (ND3)      0.14      97.16 r
+  aes_top/oneround/sub96/genblk1[11].s0/U399/O (AOI22S)
+                                                          0.11      97.27 f
+  aes_top/oneround/sub96/genblk1[11].s0/U412/O (ND2S)     0.30      97.56 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/in[1] (MultiplyM_0)
+                                                          0.00      97.56 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U10/O (MOAI1S)
+                                                          0.23      97.79 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/out[5] (MultiplyM_0)
+                                                          0.00      97.79 r
+  aes_top/oneround/sub96/genblk1[11].s0/c1/in[5] (AddC_0)
+                                                          0.00      97.79 r
+  aes_top/oneround/sub96/genblk1[11].s0/c1/U3/O (INV1S)
+                                                          0.09      97.88 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/out[5] (AddC_0)
+                                                          0.00      97.88 f
+  aes_top/oneround/sub96/genblk1[11].s0/U301/O (MUX2)     0.29      98.17 f
+  aes_top/oneround/sub96/genblk1[11].s0/out[5] (SubOneByte_0)
+                                                          0.00      98.17 f
+  aes_top/oneround/sub96/out[5] (SubByte_96)              0.00      98.17 f
+  aes_top/oneround/U871/O (AO222)                         0.34      98.51 f
+  aes_top/oneround/add/in[5] (AddRoundKey_0)              0.00      98.51 f
+  aes_top/oneround/add/U111/O (MAOI1)                     0.24      98.74 f
+  aes_top/oneround/add/out[5] (AddRoundKey_0)             0.00      98.74 f
+  aes_top/oneround/U411/O (INV1S)                         0.21      98.96 r
+  aes_top/oneround/U414/O (MOAI1S)                        0.15      99.11 f
+  aes_top/oneround/U418/O (MUX2)                          0.38      99.49 f
+  aes_top/oneround/sub96/in[5] (SubByte_96)               0.00      99.49 f
+  aes_top/oneround/sub96/genblk1[11].s0/in[5] (SubOneByte_0)
+                                                          0.00      99.49 f
+  aes_top/oneround/sub96/genblk1[11].s0/U428/O (MUX2)     0.31      99.80 f
+  aes_top/oneround/sub96/genblk1[11].s0/U3/O (NR2)        0.13      99.93 r
+  aes_top/oneround/sub96/genblk1[11].s0/U21/O (INV1S)     0.12     100.05 f
+  aes_top/oneround/sub96/genblk1[11].s0/U25/O (INV1S)     0.35     100.40 r
+  aes_top/oneround/sub96/genblk1[11].s0/U392/O (AOI22S)
+                                                          0.09     100.49 f
+  aes_top/oneround/sub96/genblk1[11].s0/U394/O (ND2S)     0.32     100.81 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/in[6] (MultiplyM_0)
+                                                          0.00     100.81 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U11/O (MOAI1S)
+                                                          0.23     101.04 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/out[6] (MultiplyM_0)
+                                                          0.00     101.04 r
+  aes_top/oneround/sub96/genblk1[11].s0/c1/in[6] (AddC_0)
+                                                          0.00     101.04 r
+  aes_top/oneround/sub96/genblk1[11].s0/c1/U4/O (INV1S)
+                                                          0.09     101.13 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/out[6] (AddC_0)
+                                                          0.00     101.13 f
+  aes_top/oneround/sub96/genblk1[11].s0/U446/O (MUX2)     0.29     101.42 f
+  aes_top/oneround/sub96/genblk1[11].s0/out[6] (SubOneByte_0)
+                                                          0.00     101.42 f
+  aes_top/oneround/sub96/out[6] (SubByte_96)              0.00     101.42 f
+  aes_top/oneround/U872/O (AO222)                         0.34     101.76 f
+  aes_top/oneround/add/in[6] (AddRoundKey_0)              0.00     101.76 f
+  aes_top/oneround/add/U107/O (MAOI1)                     0.18     101.94 r
+  aes_top/oneround/add/out[6] (AddRoundKey_0)             0.00     101.94 r
+  aes_top/oneround/U181/O (INV1S)                         0.19     102.13 f
+  aes_top/oneround/U183/O (MOAI1S)                        1.24     103.37 r
+  aes_top/oneround/mix/in[6] (MixColumn)                  0.00     103.37 r
+  aes_top/oneround/mix/U839/O (MOAI1S)                    0.51     103.88 f
+  aes_top/oneround/mix/U725/O (MOAI1S)                    0.47     104.35 f
+  aes_top/oneround/mix/U628/O (MOAI1S)                    0.67     105.02 r
+  aes_top/oneround/mix/U817/O (MOAI1S)                    0.18     105.20 f
+  aes_top/oneround/mix/out_inv[7] (MixColumn)             0.00     105.20 f
+  aes_top/oneround/U767/O (MOAI1S)                        0.32     105.52 f
+  aes_top/oneround/invshift/in[7] (InvShiftRow)           0.00     105.52 f
+  aes_top/oneround/invshift/U21/O (BUF1)                  0.18     105.71 f
+  aes_top/oneround/invshift/out[39] (InvShiftRow)         0.00     105.71 f
+  aes_top/oneround/U792/O (MUX2)                          0.34     106.05 f
+  aes_top/oneround/sub96/in[7] (SubByte_96)               0.00     106.05 f
+  aes_top/oneround/sub96/genblk1[11].s0/in[7] (SubOneByte_0)
+                                                          0.00     106.05 f
+  aes_top/oneround/sub96/genblk1[11].s0/U425/O (MUX2)     0.31     106.36 f
+  aes_top/oneround/sub96/genblk1[11].s0/U426/O (INV1S)
+                                                          0.19     106.55 r
+  aes_top/oneround/sub96/genblk1[11].s0/U31/O (NR2)       0.19     106.74 f
+  aes_top/oneround/sub96/genblk1[11].s0/U436/O (AOI22S)
+                                                          0.19     106.93 r
+  aes_top/oneround/sub96/genblk1[11].s0/U445/O (ND2S)     0.21     107.14 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/in[5] (MultiplyM_0)
+                                                          0.00     107.14 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U2/O (MOAI1S)
+                                                          0.84     107.98 r
+  aes_top/oneround/sub96/genblk1[11].s0/m0/U17/O (MOAI1S)
+                                                          0.14     108.12 f
+  aes_top/oneround/sub96/genblk1[11].s0/m0/out[7] (MultiplyM_0)
+                                                          0.00     108.12 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/in[7] (AddC_0)
+                                                          0.00     108.12 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/U8/O (BUF1)
+                                                          0.22     108.34 f
+  aes_top/oneround/sub96/genblk1[11].s0/c1/out[7] (AddC_0)
+                                                          0.00     108.34 f
+  aes_top/oneround/sub96/genblk1[11].s0/U448/O (MUX2)     0.27     108.62 f
+  aes_top/oneround/sub96/genblk1[11].s0/out[7] (SubOneByte_0)
+                                                          0.00     108.62 f
+  aes_top/oneround/sub96/out[7] (SubByte_96)              0.00     108.62 f
+  aes_top/oneround/U873/O (AO222)                         0.34     108.96 f
+  aes_top/oneround/add/in[7] (AddRoundKey_0)              0.00     108.96 f
+  aes_top/oneround/add/U12/O (MAOI1)                      0.18     109.13 r
+  aes_top/oneround/add/out[7] (AddRoundKey_0)             0.00     109.13 r
+  aes_top/oneround/U505/O (INV1S)                         0.19     109.33 f
+  aes_top/oneround/U22/O (MOAI1S)                         1.11     110.43 r
+  aes_top/oneround/mix/in[7] (MixColumn)                  0.00     110.43 r
+  aes_top/oneround/mix/U626/O (MOAI1S)                    0.39     110.82 f
+  aes_top/oneround/mix/U627/O (MOAI1S)                    0.53     111.35 f
+  aes_top/oneround/mix/U858/O (MOAI1S)                    0.42     111.77 f
+  aes_top/oneround/mix/U859/O (MOAI1S)                    0.35     112.13 f
+  aes_top/oneround/mix/U860/O (MOAI1S)                    0.34     112.47 f
+  aes_top/oneround/mix/out_inv[26] (MixColumn)            0.00     112.47 f
+  aes_top/oneround/U748/O (MOAI1S)                        0.35     112.82 f
+  aes_top/oneround/invshift/in[26] (InvShiftRow)          0.00     112.82 f
+  aes_top/oneround/invshift/U26/O (BUF1)                  0.19     113.01 f
+  aes_top/oneround/invshift/out[26] (InvShiftRow)         0.00     113.01 f
+  aes_top/oneround/U459/O (AO222)                         0.49     113.50 f
+  aes_top/oneround/sub32/in[26] (SubByte_32)              0.00     113.50 f
+  aes_top/oneround/sub32/genblk1[0].s0/in[2] (SubOneByte_15)
+                                                          0.00     113.50 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/in[2] (MultiplyMinv_15)
+                                                          0.00     113.50 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/U4/O (MOAI1S)
+                                                          0.59     114.09 r
+  aes_top/oneround/sub32/genblk1[0].s0/m1/U5/O (MOAI1S)
+                                                          0.15     114.24 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/out[3] (MultiplyMinv_15)
+                                                          0.00     114.24 f
+  aes_top/oneround/sub32/genblk1[0].s0/c0/in[3] (AddCinv_15)
+                                                          0.00     114.24 f
+  aes_top/oneround/sub32/genblk1[0].s0/c0/U3/O (BUF1)     0.21     114.45 f
+  aes_top/oneround/sub32/genblk1[0].s0/c0/out[3] (AddCinv_15)
+                                                          0.00     114.45 f
+  aes_top/oneround/sub32/genblk1[0].s0/U7/O (AOI22S)      0.37     114.82 r
+  aes_top/oneround/sub32/genblk1[0].s0/U18/O (ND2S)       0.27     115.09 f
+  aes_top/oneround/sub32/genblk1[0].s0/U19/O (NR2)        0.48     115.58 r
+  aes_top/oneround/sub32/genblk1[0].s0/U79/O (INV1S)      0.10     115.68 f
+  aes_top/oneround/sub32/genblk1[0].s0/U31/O (INV1S)      0.14     115.82 r
+  aes_top/oneround/sub32/genblk1[0].s0/U33/O (INV1S)      0.08     115.90 f
+  aes_top/oneround/sub32/genblk1[0].s0/U218/O (NR2)       0.42     116.32 r
+  aes_top/oneround/sub32/genblk1[0].s0/U219/O (INV1S)     0.22     116.54 f
+  aes_top/oneround/sub32/genblk1[0].s0/U97/O (ND3)        0.21     116.75 r
+  aes_top/oneround/sub32/genblk1[0].s0/U392/O (INV1S)     0.13     116.87 f
+  aes_top/oneround/sub32/genblk1[0].s0/U397/O (AN4B1S)
+                                                          0.27     117.15 f
+  aes_top/oneround/sub32/genblk1[0].s0/U398/O (ND3)       0.11     117.26 r
+  aes_top/oneround/sub32/genblk1[0].s0/U100/O (AN4B1S)
+                                                          0.11     117.37 f
+  aes_top/oneround/sub32/genblk1[0].s0/U109/O (ND3)       0.12     117.48 r
+  aes_top/oneround/sub32/genblk1[0].s0/U155/O (AOI22S)
+                                                          0.11     117.59 f
+  aes_top/oneround/sub32/genblk1[0].s0/U111/O (ND2S)      0.29     117.88 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/in[7] (MultiplyM_15)
+                                                          0.00     117.88 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U1/O (MOAI1S)
+                                                          0.31     118.19 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U7/O (MOAI1S)
+                                                          0.32     118.51 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/out[2] (MultiplyM_15)
+                                                          0.00     118.51 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/in[2] (AddC_15)
+                                                          0.00     118.51 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/U5/O (BUF1)     0.20     118.71 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/out[2] (AddC_15)
+                                                          0.00     118.71 f
+  aes_top/oneround/sub32/genblk1[0].s0/U393/O (MUX2)      0.36     119.07 f
+  aes_top/oneround/sub32/genblk1[0].s0/out[2] (SubOneByte_15)
+                                                          0.00     119.07 f
+  aes_top/oneround/sub32/out[26] (SubByte_32)             0.00     119.07 f
+  aes_top/oneround/U900/O (AO222)                         0.37     119.44 f
+  aes_top/oneround/add/in[26] (AddRoundKey_0)             0.00     119.44 f
+  aes_top/oneround/add/U112/O (MAOI1)                     0.18     119.62 r
+  aes_top/oneround/add/out[26] (AddRoundKey_0)            0.00     119.62 r
+  aes_top/oneround/U506/O (INV1S)                         0.19     119.81 f
+  aes_top/oneround/U5/O (MOAI1S)                          1.15     120.96 r
+  aes_top/oneround/mix/in[26] (MixColumn)                 0.00     120.96 r
+  aes_top/oneround/mix/U2/O (INV1S)                       0.10     121.06 f
+  aes_top/oneround/mix/U3/O (INV1S)                       0.21     121.26 r
+  aes_top/oneround/mix/U863/O (MOAI1S)                    0.19     121.46 f
+  aes_top/oneround/mix/U865/O (MOAI1S)                    0.34     121.80 f
+  aes_top/oneround/mix/U866/O (MOAI1S)                    0.33     122.13 f
+  aes_top/oneround/mix/U867/O (MOAI1S)                    0.32     122.46 f
+  aes_top/oneround/mix/out_inv[28] (MixColumn)            0.00     122.46 f
+  aes_top/oneround/U746/O (MOAI1S)                        0.30     122.75 f
+  aes_top/oneround/invshift/in[28] (InvShiftRow)          0.00     122.75 f
+  aes_top/oneround/invshift/U27/O (BUF1)                  0.19     122.94 f
+  aes_top/oneround/invshift/out[28] (InvShiftRow)         0.00     122.94 f
+  aes_top/oneround/U456/O (AO222)                         0.50     123.44 f
+  aes_top/oneround/sub32/in[28] (SubByte_32)              0.00     123.44 f
+  aes_top/oneround/sub32/genblk1[0].s0/in[4] (SubOneByte_15)
+                                                          0.00     123.44 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/in[4] (MultiplyMinv_15)
+                                                          0.00     123.44 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/U1/O (MOAI1S)
+                                                          0.58     124.02 r
+  aes_top/oneround/sub32/genblk1[0].s0/m1/U3/O (MOAI1S)
+                                                          0.16     124.19 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/out[2] (MultiplyMinv_15)
+                                                          0.00     124.19 f
+  aes_top/oneround/sub32/genblk1[0].s0/c0/in[2] (AddCinv_15)
+                                                          0.00     124.19 f
+  aes_top/oneround/sub32/genblk1[0].s0/c0/U2/O (INV1S)
+                                                          0.12     124.30 r
+  aes_top/oneround/sub32/genblk1[0].s0/c0/out[2] (AddCinv_15)
+                                                          0.00     124.30 r
+  aes_top/oneround/sub32/genblk1[0].s0/U470/O (MUX2)      0.28     124.58 r
+  aes_top/oneround/sub32/genblk1[0].s0/U475/O (INV1S)     0.17     124.75 f
+  aes_top/oneround/sub32/genblk1[0].s0/U47/O (ND2S)       0.13     124.88 r
+  aes_top/oneround/sub32/genblk1[0].s0/U1/O (INV1S)       0.11     124.99 f
+  aes_top/oneround/sub32/genblk1[0].s0/U2/O (INV1S)       0.09     125.08 r
+  aes_top/oneround/sub32/genblk1[0].s0/U254/O (INV1S)     0.14     125.22 f
+  aes_top/oneround/sub32/genblk1[0].s0/U256/O (ND2S)      0.36     125.58 r
+  aes_top/oneround/sub32/genblk1[0].s0/U257/O (INV1S)     0.17     125.74 f
+  aes_top/oneround/sub32/genblk1[0].s0/U163/O (NR2)       0.18     125.92 r
+  aes_top/oneround/sub32/genblk1[0].s0/U355/O (AN4B1S)
+                                                          0.35     126.27 r
+  aes_top/oneround/sub32/genblk1[0].s0/U377/O (AN2)       0.21     126.48 r
+  aes_top/oneround/sub32/genblk1[0].s0/U405/O (AN4B1S)
+                                                          0.23     126.71 r
+  aes_top/oneround/sub32/genblk1[0].s0/U406/O (ND3)       0.10     126.81 f
+  aes_top/oneround/sub32/genblk1[0].s0/U382/O (AOI22S)
+                                                          0.22     127.03 r
+  aes_top/oneround/sub32/genblk1[0].s0/U456/O (ND2S)      0.21     127.25 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/in[2] (MultiplyM_15)
+                                                          0.00     127.25 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U6/O (MOAI1S)
+                                                          0.85     128.10 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U15/O (MOAI1S)
+                                                          0.14     128.24 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/out[4] (MultiplyM_15)
+                                                          0.00     128.24 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/in[4] (AddC_15)
+                                                          0.00     128.24 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/U7/O (BUF1)     0.22     128.46 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/out[4] (AddC_15)
+                                                          0.00     128.46 f
+  aes_top/oneround/sub32/genblk1[0].s0/U342/O (MUX2)      0.36     128.81 f
+  aes_top/oneround/sub32/genblk1[0].s0/out[4] (SubOneByte_15)
+                                                          0.00     128.81 f
+  aes_top/oneround/sub32/out[28] (SubByte_32)             0.00     128.81 f
+  aes_top/oneround/U902/O (AO222)                         0.37     129.18 f
+  aes_top/oneround/add/in[28] (AddRoundKey_0)             0.00     129.18 f
+  aes_top/oneround/add/U102/O (MAOI1)                     0.18     129.36 r
+  aes_top/oneround/add/out[28] (AddRoundKey_0)            0.00     129.36 r
+  aes_top/oneround/U405/O (INV1S)                         0.19     129.55 f
+  aes_top/oneround/U408/O (MOAI1S)                        1.11     130.66 r
+  aes_top/oneround/mix/in[28] (MixColumn)                 0.00     130.66 r
+  aes_top/oneround/mix/U471/O (INV1S)                     0.10     130.76 f
+  aes_top/oneround/mix/U472/O (INV1S)                     0.35     131.11 r
+  aes_top/oneround/mix/U983/O (MOAI1S)                    0.16     131.27 f
+  aes_top/oneround/mix/out_inv[14] (MixColumn)            0.00     131.27 f
+  aes_top/oneround/U760/O (MOAI1S)                        0.29     131.56 f
+  aes_top/oneround/invshift/in[14] (InvShiftRow)          0.00     131.56 f
+  aes_top/oneround/invshift/U23/O (BUF1)                  0.18     131.74 f
+  aes_top/oneround/invshift/out[78] (InvShiftRow)         0.00     131.74 f
+  aes_top/oneround/U445/O (MUX2)                          0.34     132.08 f
+  aes_top/oneround/sub96/in[46] (SubByte_96)              0.00     132.08 f
+  aes_top/oneround/sub96/genblk1[6].s0/in[6] (SubOneByte_5)
+                                                          0.00     132.08 f
+  aes_top/oneround/sub96/genblk1[6].s0/m1/in[6] (MultiplyMinv_5)
+                                                          0.00     132.08 f
+  aes_top/oneround/sub96/genblk1[6].s0/m1/U7/O (MOAI1S)
+                                                          0.58     132.67 r
+  aes_top/oneround/sub96/genblk1[6].s0/m1/U9/O (MOAI1S)
+                                                          0.15     132.82 f
+  aes_top/oneround/sub96/genblk1[6].s0/m1/out[4] (MultiplyMinv_5)
+                                                          0.00     132.82 f
+  aes_top/oneround/sub96/genblk1[6].s0/c0/in[4] (AddCinv_5)
+                                                          0.00     132.82 f
+  aes_top/oneround/sub96/genblk1[6].s0/c0/U3/O (BUF1)     0.21     133.03 f
+  aes_top/oneround/sub96/genblk1[6].s0/c0/out[4] (AddCinv_5)
+                                                          0.00     133.03 f
+  aes_top/oneround/sub96/genblk1[6].s0/U453/O (AOI22S)
+                                                          0.35     133.38 r
+  aes_top/oneround/sub96/genblk1[6].s0/U454/O (AN2)       0.34     133.72 r
+  aes_top/oneround/sub96/genblk1[6].s0/U455/O (ND2S)      0.22     133.94 f
+  aes_top/oneround/sub96/genblk1[6].s0/U76/O (NR2)        0.39     134.34 r
+  aes_top/oneround/sub96/genblk1[6].s0/U274/O (NR2)       0.16     134.50 f
+  aes_top/oneround/sub96/genblk1[6].s0/U308/O (AN4B1S)
+                                                          0.30     134.80 f
+  aes_top/oneround/sub96/genblk1[6].s0/U309/O (AN4B1S)
+                                                          0.28     135.08 f
+  aes_top/oneround/sub96/genblk1[6].s0/U310/O (ND3)       0.15     135.23 r
+  aes_top/oneround/sub96/genblk1[6].s0/U359/O (AOI22S)
+                                                          0.11     135.34 f
+  aes_top/oneround/sub96/genblk1[6].s0/U406/O (ND2S)      0.28     135.62 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/in[3] (MultiplyM_5)
+                                                          0.00     135.62 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U12/O (MOAI1S)
+                                                          0.19     135.81 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U13/O (MOAI1S)
+                                                          0.28     136.10 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/out[3] (MultiplyM_5)
+                                                          0.00     136.10 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/in[3] (AddC_5)
+                                                          0.00     136.10 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/U6/O (BUF1)     0.21     136.31 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/out[3] (AddC_5)
+                                                          0.00     136.31 f
+  aes_top/oneround/sub96/genblk1[6].s0/U407/O (MUX2)      0.27     136.58 f
+  aes_top/oneround/sub96/genblk1[6].s0/out[3] (SubOneByte_5)
+                                                          0.00     136.58 f
+  aes_top/oneround/sub96/out[43] (SubByte_96)             0.00     136.58 f
+  aes_top/oneround/U881/O (AO222)                         0.34     136.92 f
+  aes_top/oneround/add/in[11] (AddRoundKey_0)             0.00     136.92 f
+  aes_top/oneround/add/U119/O (MAOI1)                     0.23     137.15 f
+  aes_top/oneround/add/out[11] (AddRoundKey_0)            0.00     137.15 f
+  aes_top/oneround/U512/O (INV1S)                         0.20     137.35 r
+  aes_top/oneround/U818/O (MOAI1S)                        0.15     137.50 f
+  aes_top/oneround/U819/O (MUX2)                          0.39     137.89 f
+  aes_top/oneround/sub96/in[43] (SubByte_96)              0.00     137.89 f
+  aes_top/oneround/sub96/genblk1[6].s0/in[3] (SubOneByte_5)
+                                                          0.00     137.89 f
+  aes_top/oneround/sub96/genblk1[6].s0/m1/in[3] (MultiplyMinv_5)
+                                                          0.00     137.89 f
+  aes_top/oneround/sub96/genblk1[6].s0/m1/U10/O (MOAI1S)
+                                                          0.58     138.47 r
+  aes_top/oneround/sub96/genblk1[6].s0/m1/U11/O (MOAI1S)
+                                                          0.21     138.68 r
+  aes_top/oneround/sub96/genblk1[6].s0/m1/out[6] (MultiplyMinv_5)
+                                                          0.00     138.68 r
+  aes_top/oneround/sub96/genblk1[6].s0/c0/in[6] (AddCinv_5)
+                                                          0.00     138.68 r
+  aes_top/oneround/sub96/genblk1[6].s0/c0/U7/O (BUF1)     0.14     138.82 r
+  aes_top/oneround/sub96/genblk1[6].s0/c0/out[6] (AddCinv_5)
+                                                          0.00     138.82 r
+  aes_top/oneround/sub96/genblk1[6].s0/U287/O (MUX2)      0.26     139.08 r
+  aes_top/oneround/sub96/genblk1[6].s0/U458/O (INV1S)     0.15     139.23 f
+  aes_top/oneround/sub96/genblk1[6].s0/U22/O (AN2)        0.25     139.48 f
+  aes_top/oneround/sub96/genblk1[6].s0/U71/O (ND2S)       0.39     139.86 r
+  aes_top/oneround/sub96/genblk1[6].s0/U31/O (INV1S)      0.21     140.07 f
+  aes_top/oneround/sub96/genblk1[6].s0/U34/O (ND2S)       0.41     140.49 r
+  aes_top/oneround/sub96/genblk1[6].s0/U66/O (ND2S)       0.14     140.63 f
+  aes_top/oneround/sub96/genblk1[6].s0/U88/O (NR3)        0.37     140.99 r
+  aes_top/oneround/sub96/genblk1[6].s0/U151/O (ND3)       0.12     141.11 f
+  aes_top/oneround/sub96/genblk1[6].s0/U323/O (AOI22S)
+                                                          0.22     141.33 r
+  aes_top/oneround/sub96/genblk1[6].s0/U415/O (ND2S)      0.21     141.55 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/in[4] (MultiplyM_5)
+                                                          0.00     141.55 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U15/O (MOAI1S)
+                                                          0.27     141.82 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/out[0] (MultiplyM_5)
+                                                          0.00     141.82 r
+  aes_top/oneround/sub96/genblk1[6].s0/c1/in[0] (AddC_5)
+                                                          0.00     141.82 r
+  aes_top/oneround/sub96/genblk1[6].s0/c1/U1/O (INV1S)
+                                                          0.09     141.91 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/out[0] (AddC_5)
+                                                          0.00     141.91 f
+  aes_top/oneround/sub96/genblk1[6].s0/U427/O (MUX2)      0.29     142.20 f
+  aes_top/oneround/sub96/genblk1[6].s0/out[0] (SubOneByte_5)
+                                                          0.00     142.20 f
+  aes_top/oneround/sub96/out[40] (SubByte_96)             0.00     142.20 f
+  aes_top/oneround/U875/O (AO222)                         0.34     142.54 f
+  aes_top/oneround/add/in[8] (AddRoundKey_0)              0.00     142.54 f
+  aes_top/oneround/add/U115/O (MAOI1)                     0.23     142.77 f
+  aes_top/oneround/add/out[8] (AddRoundKey_0)             0.00     142.77 f
+  aes_top/oneround/U425/O (INV1S)                         0.20     142.97 r
+  aes_top/oneround/U427/O (MOAI1S)                        0.15     143.12 f
+  aes_top/oneround/U429/O (MUX2)                          0.38     143.51 f
+  aes_top/oneround/sub96/in[40] (SubByte_96)              0.00     143.51 f
+  aes_top/oneround/sub96/genblk1[6].s0/in[0] (SubOneByte_5)
+                                                          0.00     143.51 f
+  aes_top/oneround/sub96/genblk1[6].s0/U288/O (MUX2)      0.33     143.83 f
+  aes_top/oneround/sub96/genblk1[6].s0/U289/O (ND2S)      0.24     144.07 r
+  aes_top/oneround/sub96/genblk1[6].s0/U45/O (OR2)        0.32     144.39 r
+  aes_top/oneround/sub96/genblk1[6].s0/U91/O (NR2)        0.13     144.52 f
+  aes_top/oneround/sub96/genblk1[6].s0/U120/O (NR2)       0.15     144.67 r
+  aes_top/oneround/sub96/genblk1[6].s0/U121/O (ND3)       0.10     144.77 f
+  aes_top/oneround/sub96/genblk1[6].s0/U417/O (AOI22S)
+                                                          0.22     144.99 r
+  aes_top/oneround/sub96/genblk1[6].s0/U398/O (ND2S)      0.21     145.21 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/in[0] (MultiplyM_5)
+                                                          0.00     145.21 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U5/O (MOAI1S)
+                                                          0.60     145.81 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U8/O (MOAI1S)
+                                                          0.21     146.02 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/out[1] (MultiplyM_5)
+                                                          0.00     146.02 r
+  aes_top/oneround/sub96/genblk1[6].s0/c1/in[1] (AddC_5)
+                                                          0.00     146.02 r
+  aes_top/oneround/sub96/genblk1[6].s0/c1/U2/O (INV1S)
+                                                          0.09     146.11 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/out[1] (AddC_5)
+                                                          0.00     146.11 f
+  aes_top/oneround/sub96/genblk1[6].s0/U410/O (MUX2)      0.29     146.40 f
+  aes_top/oneround/sub96/genblk1[6].s0/out[1] (SubOneByte_5)
+                                                          0.00     146.40 f
+  aes_top/oneround/sub96/out[41] (SubByte_96)             0.00     146.40 f
+  aes_top/oneround/U876/O (AO222)                         0.34     146.74 f
+  aes_top/oneround/add/in[9] (AddRoundKey_0)              0.00     146.74 f
+  aes_top/oneround/add/U116/O (MAOI1)                     0.18     146.92 r
+  aes_top/oneround/add/out[9] (AddRoundKey_0)             0.00     146.92 r
+  aes_top/oneround/U430/O (INV1S)                         0.19     147.11 f
+  aes_top/oneround/U432/O (MOAI1S)                        0.29     147.40 r
+  aes_top/oneround/U434/O (MUX2)                          0.38     147.78 r
+  aes_top/oneround/sub96/in[41] (SubByte_96)              0.00     147.78 r
+  aes_top/oneround/sub96/genblk1[6].s0/in[1] (SubOneByte_5)
+                                                          0.00     147.78 r
+  aes_top/oneround/sub96/genblk1[6].s0/U283/O (MUX2)      0.30     148.08 r
+  aes_top/oneround/sub96/genblk1[6].s0/U285/O (INV1S)     0.17     148.26 f
+  aes_top/oneround/sub96/genblk1[6].s0/U290/O (NR2)       0.48     148.74 r
+  aes_top/oneround/sub96/genblk1[6].s0/U291/O (INV1S)     0.30     149.04 f
+  aes_top/oneround/sub96/genblk1[6].s0/U292/O (NR2)       0.43     149.47 r
+  aes_top/oneround/sub96/genblk1[6].s0/U296/O (AN4B1S)
+                                                          0.28     149.75 f
+  aes_top/oneround/sub96/genblk1[6].s0/U297/O (AN4B1S)
+                                                          0.32     150.07 f
+  aes_top/oneround/sub96/genblk1[6].s0/U304/O (AN4B1S)
+                                                          0.28     150.35 f
+  aes_top/oneround/sub96/genblk1[6].s0/U305/O (ND3)       0.15     150.50 r
+  aes_top/oneround/sub96/genblk1[6].s0/U399/O (AOI22S)
+                                                          0.12     150.62 f
+  aes_top/oneround/sub96/genblk1[6].s0/U403/O (ND2S)      0.28     150.90 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/in[1] (MultiplyM_5)
+                                                          0.00     150.90 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U7/O (MOAI1S)
+                                                          0.23     151.12 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/out[5] (MultiplyM_5)
+                                                          0.00     151.12 r
+  aes_top/oneround/sub96/genblk1[6].s0/c1/in[5] (AddC_5)
+                                                          0.00     151.12 r
+  aes_top/oneround/sub96/genblk1[6].s0/c1/U3/O (INV1S)
+                                                          0.09     151.21 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/out[5] (AddC_5)
+                                                          0.00     151.21 f
+  aes_top/oneround/sub96/genblk1[6].s0/U301/O (MUX2)      0.29     151.50 f
+  aes_top/oneround/sub96/genblk1[6].s0/out[5] (SubOneByte_5)
+                                                          0.00     151.50 f
+  aes_top/oneround/sub96/out[45] (SubByte_96)             0.00     151.50 f
+  aes_top/oneround/U883/O (AO222)                         0.34     151.84 f
+  aes_top/oneround/add/in[13] (AddRoundKey_0)             0.00     151.84 f
+  aes_top/oneround/add/U109/O (MAOI1)                     0.18     152.02 r
+  aes_top/oneround/add/out[13] (AddRoundKey_0)            0.00     152.02 r
+  aes_top/oneround/U513/O (INV1S)                         0.19     152.21 f
+  aes_top/oneround/U820/O (MOAI1S)                        0.29     152.50 r
+  aes_top/oneround/U821/O (MUX2)                          0.39     152.89 r
+  aes_top/oneround/sub96/in[45] (SubByte_96)              0.00     152.89 r
+  aes_top/oneround/sub96/genblk1[6].s0/in[5] (SubOneByte_5)
+                                                          0.00     152.89 r
+  aes_top/oneround/sub96/genblk1[6].s0/U428/O (AOI22S)
+                                                          0.16     153.05 f
+  aes_top/oneround/sub96/genblk1[6].s0/U177/O (NR2)       0.56     153.61 r
+  aes_top/oneround/sub96/genblk1[6].s0/U4/O (INV1S)       0.11     153.71 f
+  aes_top/oneround/sub96/genblk1[6].s0/U5/O (INV1S)       0.21     153.92 r
+  aes_top/oneround/sub96/genblk1[6].s0/U387/O (AOI22S)
+                                                          0.12     154.04 f
+  aes_top/oneround/sub96/genblk1[6].s0/U388/O (ND2S)      0.30     154.34 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/in[5] (MultiplyM_5)
+                                                          0.00     154.34 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U2/O (MOAI1S)
+                                                          0.40     154.74 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U17/O (MOAI1S)
+                                                          0.38     155.13 f
+  aes_top/oneround/sub96/genblk1[6].s0/m0/out[7] (MultiplyM_5)
+                                                          0.00     155.13 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/in[7] (AddC_5)
+                                                          0.00     155.13 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/U8/O (BUF1)     0.22     155.35 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/out[7] (AddC_5)
+                                                          0.00     155.35 f
+  aes_top/oneround/sub96/genblk1[6].s0/U449/O (MUX2)      0.27     155.62 f
+  aes_top/oneround/sub96/genblk1[6].s0/out[7] (SubOneByte_5)
+                                                          0.00     155.62 f
+  aes_top/oneround/sub96/out[47] (SubByte_96)             0.00     155.62 f
+  aes_top/oneround/U885/O (AO222)                         0.34     155.96 f
+  aes_top/oneround/add/in[15] (AddRoundKey_0)             0.00     155.96 f
+  aes_top/oneround/add/U110/O (MAOI1)                     0.23     156.19 f
+  aes_top/oneround/add/out[15] (AddRoundKey_0)            0.00     156.19 f
+  aes_top/oneround/U514/O (INV1S)                         0.20     156.39 r
+  aes_top/oneround/U822/O (MOAI1S)                        0.15     156.54 f
+  aes_top/oneround/U823/O (MUX2)                          0.39     156.93 f
+  aes_top/oneround/sub96/in[47] (SubByte_96)              0.00     156.93 f
+  aes_top/oneround/sub96/genblk1[6].s0/in[7] (SubOneByte_5)
+                                                          0.00     156.93 f
+  aes_top/oneround/sub96/genblk1[6].s0/U425/O (AOI22S)
+                                                          0.31     157.24 r
+  aes_top/oneround/sub96/genblk1[6].s0/U426/O (INV1S)     0.21     157.45 f
+  aes_top/oneround/sub96/genblk1[6].s0/U19/O (NR2)        0.41     157.86 r
+  aes_top/oneround/sub96/genblk1[6].s0/U437/O (AOI22S)
+                                                          0.14     158.00 f
+  aes_top/oneround/sub96/genblk1[6].s0/U446/O (ND2S)      0.31     158.31 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/in[6] (MultiplyM_5)
+                                                          0.00     158.31 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/U10/O (MOAI1S)
+                                                          0.23     158.54 r
+  aes_top/oneround/sub96/genblk1[6].s0/m0/out[6] (MultiplyM_5)
+                                                          0.00     158.54 r
+  aes_top/oneround/sub96/genblk1[6].s0/c1/in[6] (AddC_5)
+                                                          0.00     158.54 r
+  aes_top/oneround/sub96/genblk1[6].s0/c1/U4/O (INV1S)
+                                                          0.09     158.63 f
+  aes_top/oneround/sub96/genblk1[6].s0/c1/out[6] (AddC_5)
+                                                          0.00     158.63 f
+  aes_top/oneround/sub96/genblk1[6].s0/U447/O (MUX2)      0.29     158.91 f
+  aes_top/oneround/sub96/genblk1[6].s0/out[6] (SubOneByte_5)
+                                                          0.00     158.91 f
+  aes_top/oneround/sub96/out[46] (SubByte_96)             0.00     158.91 f
+  aes_top/oneround/U884/O (AO222)                         0.34     159.25 f
+  aes_top/oneround/add/in[14] (AddRoundKey_0)             0.00     159.25 f
+  aes_top/oneround/add/U108/O (MAOI1)                     0.18     159.43 r
+  aes_top/oneround/add/out[14] (AddRoundKey_0)            0.00     159.43 r
+  aes_top/oneround/U401/O (INV1S)                         0.19     159.62 f
+  aes_top/oneround/U403/O (MOAI1S)                        1.10     160.72 r
+  aes_top/oneround/mix/in[14] (MixColumn)                 0.00     160.72 r
+  aes_top/oneround/mix/U474/O (INV1S)                     0.10     160.82 f
+  aes_top/oneround/mix/U475/O (INV1S)                     0.33     161.16 r
+  aes_top/oneround/mix/U1008/O (MOAI1S)                   0.26     161.42 r
+  aes_top/oneround/mix/U1009/O (MOAI1S)                   0.20     161.62 f
+  aes_top/oneround/mix/U1010/O (MOAI1S)                   0.32     161.94 f
+  aes_top/oneround/mix/out_inv[30] (MixColumn)            0.00     161.94 f
+  aes_top/oneround/U744/O (MOAI1S)                        0.30     162.24 f
+  aes_top/oneround/invshift/in[30] (InvShiftRow)          0.00     162.24 f
+  aes_top/oneround/invshift/U14/O (BUF1)                  0.19     162.43 f
+  aes_top/oneround/invshift/out[30] (InvShiftRow)         0.00     162.43 f
+  aes_top/oneround/U454/O (AO222)                         0.49     162.92 f
+  aes_top/oneround/sub32/in[30] (SubByte_32)              0.00     162.92 f
+  aes_top/oneround/sub32/genblk1[0].s0/in[6] (SubOneByte_15)
+                                                          0.00     162.92 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/in[6] (MultiplyMinv_15)
+                                                          0.00     162.92 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/U7/O (MOAI1S)
+                                                          0.58     163.50 r
+  aes_top/oneround/sub32/genblk1[0].s0/m1/U9/O (MOAI1S)
+                                                          0.15     163.65 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/out[4] (MultiplyMinv_15)
+                                                          0.00     163.65 f
+  aes_top/oneround/sub32/genblk1[0].s0/c0/in[4] (AddCinv_15)
+                                                          0.00     163.65 f
+  aes_top/oneround/sub32/genblk1[0].s0/c0/U5/O (BUF1)     0.21     163.86 f
+  aes_top/oneround/sub32/genblk1[0].s0/c0/out[4] (AddCinv_15)
+                                                          0.00     163.86 f
+  aes_top/oneround/sub32/genblk1[0].s0/U468/O (AOI22S)
+                                                          0.35     164.21 r
+  aes_top/oneround/sub32/genblk1[0].s0/U469/O (AN2)       0.35     164.57 r
+  aes_top/oneround/sub32/genblk1[0].s0/U471/O (ND2S)      0.22     164.79 f
+  aes_top/oneround/sub32/genblk1[0].s0/U76/O (NR2)        0.30     165.09 r
+  aes_top/oneround/sub32/genblk1[0].s0/U137/O (NR2)       0.13     165.22 f
+  aes_top/oneround/sub32/genblk1[0].s0/U274/O (AN4B1S)
+                                                          0.27     165.50 f
+  aes_top/oneround/sub32/genblk1[0].s0/U409/O (ND3)       0.15     165.65 r
+  aes_top/oneround/sub32/genblk1[0].s0/U359/O (AOI22S)
+                                                          0.11     165.76 f
+  aes_top/oneround/sub32/genblk1[0].s0/U215/O (ND2S)      0.28     166.04 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/in[3] (MultiplyM_15)
+                                                          0.00     166.04 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U12/O (MOAI1S)
+                                                          0.19     166.24 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U13/O (MOAI1S)
+                                                          0.28     166.52 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/out[3] (MultiplyM_15)
+                                                          0.00     166.52 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/in[3] (AddC_15)
+                                                          0.00     166.52 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/U6/O (BUF1)     0.21     166.74 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/out[3] (AddC_15)
+                                                          0.00     166.74 f
+  aes_top/oneround/sub32/genblk1[0].s0/U217/O (MUX2)      0.36     167.10 f
+  aes_top/oneround/sub32/genblk1[0].s0/out[3] (SubOneByte_15)
+                                                          0.00     167.10 f
+  aes_top/oneround/sub32/out[27] (SubByte_32)             0.00     167.10 f
+  aes_top/oneround/U901/O (AO222)                         0.37     167.47 f
+  aes_top/oneround/add/in[27] (AddRoundKey_0)             0.00     167.47 f
+  aes_top/oneround/add/U103/O (MAOI1)                     0.23     167.70 f
+  aes_top/oneround/add/out[27] (AddRoundKey_0)            0.00     167.70 f
+  aes_top/oneround/U516/O (INV1S)                         0.20     167.90 r
+  aes_top/oneround/U1035/O (MOAI1S)                       0.16     168.06 f
+  aes_top/oneround/U1036/O (AO222)                        0.53     168.59 f
+  aes_top/oneround/sub32/in[27] (SubByte_32)              0.00     168.59 f
+  aes_top/oneround/sub32/genblk1[0].s0/in[3] (SubOneByte_15)
+                                                          0.00     168.59 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/in[3] (MultiplyMinv_15)
+                                                          0.00     168.59 f
+  aes_top/oneround/sub32/genblk1[0].s0/m1/U10/O (MOAI1S)
+                                                          0.58     169.17 r
+  aes_top/oneround/sub32/genblk1[0].s0/m1/U11/O (MOAI1S)
+                                                          0.21     169.38 r
+  aes_top/oneround/sub32/genblk1[0].s0/m1/out[6] (MultiplyMinv_15)
+                                                          0.00     169.38 r
+  aes_top/oneround/sub32/genblk1[0].s0/c0/in[6] (AddCinv_15)
+                                                          0.00     169.38 r
+  aes_top/oneround/sub32/genblk1[0].s0/c0/U7/O (BUF1)     0.14     169.53 r
+  aes_top/oneround/sub32/genblk1[0].s0/c0/out[6] (AddCinv_15)
+                                                          0.00     169.53 r
+  aes_top/oneround/sub32/genblk1[0].s0/U285/O (MUX2)      0.26     169.78 r
+  aes_top/oneround/sub32/genblk1[0].s0/U473/O (INV1S)     0.15     169.94 f
+  aes_top/oneround/sub32/genblk1[0].s0/U22/O (AN2)        0.25     170.18 f
+  aes_top/oneround/sub32/genblk1[0].s0/U71/O (ND2S)       0.39     170.57 r
+  aes_top/oneround/sub32/genblk1[0].s0/U221/O (INV1S)     0.21     170.78 f
+  aes_top/oneround/sub32/genblk1[0].s0/U222/O (ND2S)      0.43     171.21 r
+  aes_top/oneround/sub32/genblk1[0].s0/U356/O (ND2S)      0.13     171.34 f
+  aes_top/oneround/sub32/genblk1[0].s0/U358/O (AN4B1S)
+                                                          0.28     171.63 r
+  aes_top/oneround/sub32/genblk1[0].s0/U364/O (ND3)       0.11     171.74 f
+  aes_top/oneround/sub32/genblk1[0].s0/U323/O (AOI22S)
+                                                          0.22     171.96 r
+  aes_top/oneround/sub32/genblk1[0].s0/U461/O (ND2S)      0.21     172.18 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/in[4] (MultiplyM_15)
+                                                          0.00     172.18 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U16/O (MOAI1S)
+                                                          0.27     172.45 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/out[0] (MultiplyM_15)
+                                                          0.00     172.45 r
+  aes_top/oneround/sub32/genblk1[0].s0/c1/in[0] (AddC_15)
+                                                          0.00     172.45 r
+  aes_top/oneround/sub32/genblk1[0].s0/c1/U1/O (INV1S)
+                                                          0.09     172.54 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/out[0] (AddC_15)
+                                                          0.00     172.54 f
+  aes_top/oneround/sub32/genblk1[0].s0/U427/O (MUX2)      0.38     172.91 f
+  aes_top/oneround/sub32/genblk1[0].s0/out[0] (SubOneByte_15)
+                                                          0.00     172.91 f
+  aes_top/oneround/sub32/out[24] (SubByte_32)             0.00     172.91 f
+  aes_top/oneround/U897/O (AO222)                         0.37     173.28 f
+  aes_top/oneround/add/in[24] (AddRoundKey_0)             0.00     173.28 f
+  aes_top/oneround/add/U123/O (MAOI1)                     0.23     173.52 f
+  aes_top/oneround/add/out[24] (AddRoundKey_0)            0.00     173.52 f
+  aes_top/oneround/U515/O (INV1S)                         0.21     173.73 r
+  aes_top/oneround/U1037/O (MOAI1S)                       0.16     173.89 f
+  aes_top/oneround/U1038/O (AO222)                        0.53     174.42 f
+  aes_top/oneround/sub32/in[24] (SubByte_32)              0.00     174.42 f
+  aes_top/oneround/sub32/genblk1[0].s0/in[0] (SubOneByte_15)
+                                                          0.00     174.42 f
+  aes_top/oneround/sub32/genblk1[0].s0/U286/O (MUX2)      0.33     174.75 f
+  aes_top/oneround/sub32/genblk1[0].s0/U287/O (ND2S)      0.24     174.99 r
+  aes_top/oneround/sub32/genblk1[0].s0/U45/O (OR2)        0.29     175.27 r
+  aes_top/oneround/sub32/genblk1[0].s0/U400/O (NR2)       0.12     175.40 f
+  aes_top/oneround/sub32/genblk1[0].s0/U401/O (NR2)       0.15     175.55 r
+  aes_top/oneround/sub32/genblk1[0].s0/U403/O (ND3)       0.10     175.65 f
+  aes_top/oneround/sub32/genblk1[0].s0/U417/O (AOI22S)
+                                                          0.22     175.86 r
+  aes_top/oneround/sub32/genblk1[0].s0/U451/O (ND2S)      0.21     176.08 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/in[0] (MultiplyM_15)
+                                                          0.00     176.08 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U5/O (MOAI1S)
+                                                          0.60     176.68 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U8/O (MOAI1S)
+                                                          0.21     176.89 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/out[1] (MultiplyM_15)
+                                                          0.00     176.89 r
+  aes_top/oneround/sub32/genblk1[0].s0/c1/in[1] (AddC_15)
+                                                          0.00     176.89 r
+  aes_top/oneround/sub32/genblk1[0].s0/c1/U2/O (INV1S)
+                                                          0.09     176.98 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/out[1] (AddC_15)
+                                                          0.00     176.98 f
+  aes_top/oneround/sub32/genblk1[0].s0/U410/O (MUX2)      0.38     177.36 f
+  aes_top/oneround/sub32/genblk1[0].s0/out[1] (SubOneByte_15)
+                                                          0.00     177.36 f
+  aes_top/oneround/sub32/out[25] (SubByte_32)             0.00     177.36 f
+  aes_top/oneround/U898/O (AO222)                         0.37     177.73 f
+  aes_top/oneround/add/in[25] (AddRoundKey_0)             0.00     177.73 f
+  aes_top/oneround/add/U124/O (MAOI1)                     0.18     177.91 r
+  aes_top/oneround/add/out[25] (AddRoundKey_0)            0.00     177.91 r
+  aes_top/oneround/U450/O (INV1S)                         0.19     178.10 f
+  aes_top/oneround/U452/O (MOAI1S)                        0.32     178.41 r
+  aes_top/oneround/U453/O (AO222)                         0.52     178.93 r
+  aes_top/oneround/sub32/in[25] (SubByte_32)              0.00     178.93 r
+  aes_top/oneround/sub32/genblk1[0].s0/in[1] (SubOneByte_15)
+                                                          0.00     178.93 r
+  aes_top/oneround/sub32/genblk1[0].s0/U282/O (MUX2)      0.30     179.23 r
+  aes_top/oneround/sub32/genblk1[0].s0/U283/O (INV1S)     0.17     179.41 f
+  aes_top/oneround/sub32/genblk1[0].s0/U288/O (NR2)       0.48     179.89 r
+  aes_top/oneround/sub32/genblk1[0].s0/U289/O (INV1S)     0.30     180.19 f
+  aes_top/oneround/sub32/genblk1[0].s0/U290/O (NR2)       0.43     180.62 r
+  aes_top/oneround/sub32/genblk1[0].s0/U366/O (AN4B1S)
+                                                          0.28     180.90 f
+  aes_top/oneround/sub32/genblk1[0].s0/U367/O (AN3S)      0.32     181.22 f
+  aes_top/oneround/sub32/genblk1[0].s0/U372/O (ND3)       0.14     181.36 r
+  aes_top/oneround/sub32/genblk1[0].s0/U399/O (AOI22S)
+                                                          0.11     181.47 f
+  aes_top/oneround/sub32/genblk1[0].s0/U455/O (ND2S)      0.28     181.75 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/in[1] (MultiplyM_15)
+                                                          0.00     181.75 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U10/O (MOAI1S)
+                                                          0.23     181.97 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/out[5] (MultiplyM_15)
+                                                          0.00     181.97 r
+  aes_top/oneround/sub32/genblk1[0].s0/c1/in[5] (AddC_15)
+                                                          0.00     181.97 r
+  aes_top/oneround/sub32/genblk1[0].s0/c1/U3/O (INV1S)
+                                                          0.09     182.06 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/out[5] (AddC_15)
+                                                          0.00     182.06 f
+  aes_top/oneround/sub32/genblk1[0].s0/U301/O (MUX2)      0.38     182.44 f
+  aes_top/oneround/sub32/genblk1[0].s0/out[5] (SubOneByte_15)
+                                                          0.00     182.44 f
+  aes_top/oneround/sub32/out[29] (SubByte_32)             0.00     182.44 f
+  aes_top/oneround/U905/O (AO222)                         0.37     182.81 f
+  aes_top/oneround/add/in[29] (AddRoundKey_0)             0.00     182.81 f
+  aes_top/oneround/add/U106/O (MAOI1)                     0.24     183.04 f
+  aes_top/oneround/add/out[29] (AddRoundKey_0)            0.00     183.04 f
+  aes_top/oneround/U393/O (INV1S)                         0.21     183.26 r
+  aes_top/oneround/U395/O (MOAI1S)                        0.16     183.42 f
+  aes_top/oneround/U397/O (AO222)                         0.53     183.95 f
+  aes_top/oneround/sub32/in[29] (SubByte_32)              0.00     183.95 f
+  aes_top/oneround/sub32/genblk1[0].s0/in[5] (SubOneByte_15)
+                                                          0.00     183.95 f
+  aes_top/oneround/sub32/genblk1[0].s0/U421/O (MUX2)      0.31     184.25 f
+  aes_top/oneround/sub32/genblk1[0].s0/U3/O (NR2)         0.52     184.78 r
+  aes_top/oneround/sub32/genblk1[0].s0/U51/O (INV1S)      0.11     184.88 f
+  aes_top/oneround/sub32/genblk1[0].s0/U54/O (INV1S)      0.21     185.10 r
+  aes_top/oneround/sub32/genblk1[0].s0/U211/O (AOI22S)
+                                                          0.08     185.18 f
+  aes_top/oneround/sub32/genblk1[0].s0/U213/O (ND2S)      0.30     185.48 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/in[6] (MultiplyM_15)
+                                                          0.00     185.48 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U11/O (MOAI1S)
+                                                          0.23     185.71 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/out[6] (MultiplyM_15)
+                                                          0.00     185.71 r
+  aes_top/oneround/sub32/genblk1[0].s0/c1/in[6] (AddC_15)
+                                                          0.00     185.71 r
+  aes_top/oneround/sub32/genblk1[0].s0/c1/U4/O (INV1S)
+                                                          0.09     185.80 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/out[6] (AddC_15)
+                                                          0.00     185.80 f
+  aes_top/oneround/sub32/genblk1[0].s0/U214/O (MUX2)      0.32     186.12 f
+  aes_top/oneround/sub32/genblk1[0].s0/out[6] (SubOneByte_15)
+                                                          0.00     186.12 f
+  aes_top/oneround/sub32/out[30] (SubByte_32)             0.00     186.12 f
+  aes_top/oneround/U906/O (AO222)                         0.35     186.46 f
+  aes_top/oneround/add/in[30] (AddRoundKey_0)             0.00     186.46 f
+  aes_top/oneround/add/U1/O (MAOI1)                       0.18     186.64 r
+  aes_top/oneround/add/out[30] (AddRoundKey_0)            0.00     186.64 r
+  aes_top/oneround/U176/O (INV1S)                         0.19     186.83 f
+  aes_top/oneround/U179/O (MOAI1S)                        1.10     187.94 r
+  aes_top/oneround/mix/in[30] (MixColumn)                 0.00     187.94 r
+  aes_top/oneround/mix/U355/O (INV1S)                     0.10     188.03 f
+  aes_top/oneround/mix/U356/O (INV1S)                     0.33     188.36 r
+  aes_top/oneround/mix/U595/O (MOAI1S)                    0.26     188.63 r
+  aes_top/oneround/mix/U597/O (MOAI1S)                    0.34     188.97 f
+  aes_top/oneround/mix/U833/O (MOAI1S)                    0.35     189.33 f
+  aes_top/oneround/mix/out_inv[31] (MixColumn)            0.00     189.33 f
+  aes_top/oneround/U743/O (MOAI1S)                        0.32     189.65 f
+  aes_top/oneround/invshift/in[31] (InvShiftRow)          0.00     189.65 f
+  aes_top/oneround/invshift/U28/O (BUF1)                  0.19     189.84 f
+  aes_top/oneround/invshift/out[31] (InvShiftRow)         0.00     189.84 f
+  aes_top/oneround/U1034/O (AO222)                        0.49     190.33 f
+  aes_top/oneround/sub32/in[31] (SubByte_32)              0.00     190.33 f
+  aes_top/oneround/sub32/genblk1[0].s0/in[7] (SubOneByte_15)
+                                                          0.00     190.33 f
+  aes_top/oneround/sub32/genblk1[0].s0/U418/O (MUX2)      0.31     190.64 f
+  aes_top/oneround/sub32/genblk1[0].s0/U419/O (INV1S)     0.19     190.83 r
+  aes_top/oneround/sub32/genblk1[0].s0/U61/O (NR2)        0.19     191.02 f
+  aes_top/oneround/sub32/genblk1[0].s0/U434/O (AOI22S)
+                                                          0.19     191.21 r
+  aes_top/oneround/sub32/genblk1[0].s0/U443/O (ND2S)      0.21     191.42 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/in[5] (MultiplyM_15)
+                                                          0.00     191.42 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U2/O (MOAI1S)
+                                                          0.84     192.26 r
+  aes_top/oneround/sub32/genblk1[0].s0/m0/U17/O (MOAI1S)
+                                                          0.14     192.40 f
+  aes_top/oneround/sub32/genblk1[0].s0/m0/out[7] (MultiplyM_15)
+                                                          0.00     192.40 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/in[7] (AddC_15)
+                                                          0.00     192.40 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/U8/O (BUF1)     0.22     192.62 f
+  aes_top/oneround/sub32/genblk1[0].s0/c1/out[7] (AddC_15)
+                                                          0.00     192.62 f
+  aes_top/oneround/sub32/genblk1[0].s0/U115/O (MUX2)      0.36     192.98 f
+  aes_top/oneround/sub32/genblk1[0].s0/out[7] (SubOneByte_15)
+                                                          0.00     192.98 f
+  aes_top/oneround/sub32/out[31] (SubByte_32)             0.00     192.98 f
+  aes_top/oneround/U907/O (AO222)                         0.37     193.35 f
+  aes_top/oneround/add/in[31] (AddRoundKey_0)             0.00     193.35 f
+  aes_top/oneround/add/U105/O (MAOI1)                     0.18     193.53 r
+  aes_top/oneround/add/out[31] (AddRoundKey_0)            0.00     193.53 r
+  aes_top/oneround/U504/O (INV1S)                         0.19     193.72 f
+  aes_top/oneround/U25/O (MOAI1S)                         1.26     194.98 r
+  aes_top/oneround/mix/in[31] (MixColumn)                 0.00     194.98 r
+  aes_top/oneround/mix/U193/O (INV1S)                     0.10     195.07 f
+  aes_top/oneround/mix/U194/O (INV1S)                     0.21     195.28 r
+  aes_top/oneround/mix/U623/O (MOAI1S)                    0.15     195.43 f
+  aes_top/oneround/mix/U624/O (MOAI1S)                    0.66     196.09 r
+  aes_top/oneround/mix/out[23] (MixColumn)                0.00     196.09 r
+  aes_top/oneround/U143/O (AO222)                         0.30     196.40 r
+  aes_top/oneround/add/in[23] (AddRoundKey_0)             0.00     196.40 r
+  aes_top/oneround/add/U104/O (MAOI1)                     0.21     196.60 r
+  aes_top/oneround/add/out[23] (AddRoundKey_0)            0.00     196.60 r
+  aes_top/oneround/U378/O (INV1S)                         0.19     196.80 f
+  aes_top/oneround/U381/O (MOAI1S)                        0.29     197.09 r
+  aes_top/oneround/U382/O (MUX2)                          0.38     197.47 r
+  aes_top/oneround/sub96/in[87] (SubByte_96)              0.00     197.47 r
+  aes_top/oneround/sub96/genblk1[1].s0/in[7] (SubOneByte_10)
+                                                          0.00     197.47 r
+  aes_top/oneround/sub96/genblk1[1].s0/U352/O (MUX2)      0.27     197.73 r
+  aes_top/oneround/sub96/genblk1[1].s0/U353/O (INV1S)     0.17     197.90 f
+  aes_top/oneround/sub96/genblk1[1].s0/U24/O (NR2)        0.39     198.29 r
+  aes_top/oneround/sub96/genblk1[1].s0/U376/O (AOI22S)
+                                                          0.09     198.38 f
+  aes_top/oneround/sub96/genblk1[1].s0/U377/O (ND2S)      0.31     198.70 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/in[5] (MultiplyM_10)
+                                                          0.00     198.70 r
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U2/O (MOAI1S)
+                                                          0.40     199.09 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/U17/O (MOAI1S)
+                                                          0.39     199.48 f
+  aes_top/oneround/sub96/genblk1[1].s0/m0/out[7] (MultiplyM_10)
+                                                          0.00     199.48 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/in[7] (AddC_10)
+                                                          0.00     199.48 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/U8/O (BUF1)     0.22     199.70 f
+  aes_top/oneround/sub96/genblk1[1].s0/c1/out[7] (AddC_10)
+                                                          0.00     199.70 f
+  aes_top/oneround/sub96/genblk1[1].s0/U449/O (MUX2)      0.24     199.94 f
+  aes_top/oneround/sub96/genblk1[1].s0/out[7] (SubOneByte_10)
+                                                          0.00     199.94 f
+  aes_top/oneround/sub96/out[87] (SubByte_96)             0.00     199.94 f
+  aes_top/oneround/U175/O (MOAI1S)                        0.27     200.22 f
+  aes_top/oneround/out[119] (AESOneRound)                 0.00     200.22 f
+  U7892/O (AOI22S)                                        0.24     200.45 r
+  U7894/O (ND2S)                                          0.10     200.55 f
+  aes_top/temp_out_r_reg[119]/D (QDFFN)                   0.00     200.55 f
+  data arrival time                                                200.55
+
+  clock clk (rise edge)                                 400.00     400.00
+  clock network delay (ideal)                             0.50     400.50
+  clock uncertainty                                      -0.10     400.40
+  aes_top/temp_out_r_reg[119]/CK (QDFFN)                  0.00     400.40 r
+  library setup time                                     -0.08     400.32
+  data required time                                               400.32
+  --------------------------------------------------------------------------
+  data required time                                               400.32
+  data arrival time                                               -200.55
+  --------------------------------------------------------------------------
+  slack (MET)                                                      199.77
+
+
+1

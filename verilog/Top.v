@@ -31,17 +31,20 @@ module Top (
 
     wire [1087:0] passward;
     wire [127:0] salt;
-    wire [1087:0] hmac_key, hmac_msg;
+    wire [127:0] hmac_key;
+    wire [1087:0] hmac_msg;
 
     wire [127:0] cipher, cipher_rev, aes_msg;
     wire pbk_ready, hmac_ready, aes_ready;
     wire [255:0] mac_value, keys;
     wire [1087:0] pbkdf2_hamc_msg;
     wire pbkdf2_hmac_start;
+    wire hmac_start;
 
     assign salt = in_buf_r[255:128];
     // assign passward = {in_buf_r[127:0], 960'd0};
-    assign hmac_key = (state_r==GET_KEY) ? {in_buf_r[127:0], 960'd0} :{hmac_key_r, 960'd0};
+    // assign hmac_key = (state_r==GET_KEY) ? {in_buf_r[127:0], 960'd0} :{hmac_key_r, 960'd0};
+    assign hmac_key = (state_r==GET_KEY) ? {in_buf_r[127:0]} :{hmac_key_r};
     assign hmac_msg = (state_r==GET_KEY) ? pbkdf2_hamc_msg : {cipher_rev, 3'b011, 956'd0, 1'b1};
     assign aes_msg = in_buf_r[127:0];
     assign hmac_start = (state_r==GET_KEY) ? pbkdf2_hmac_start : hmac_start_r;
