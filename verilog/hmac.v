@@ -25,10 +25,12 @@ module HMAC (
     wire hash_ready, hash_next;
     wire [255:0] hash_out;
 
-    reg [543:0] xor_in_a, xor_in_b;
-    wire [543:0] flip_res;
+    reg [271:0] xor_in_a, xor_in_b;
+    wire [271:0] flip_res;
     wire [255:0] flip_out;
-    wire [543:0] xor_res;
+    wire [271:0] xor_res;
+
+    reg [1:0] cnt_r, cnt_w;
 
     assign ready = ready_r;
     assign mac_value = hash_out_r;
@@ -47,7 +49,7 @@ module HMAC (
         .out_valid(hash_ready)
     );
 
-    ShiftBytes#(544) sb0(.in(xor_res), .out(flip_res));
+    ShiftBytes#(272) sb0(.in(xor_res), .out(flip_res));
     ShiftBytes#(256) sb1(.in(hash_out), .out(flip_out));
 
     // always @(*) begin
@@ -65,6 +67,7 @@ module HMAC (
         ready_w = ready_r;
         more_w = more_r;
         hash_out_w = hash_out_r;
+        cnt_w = cnt_r;
         xor_in_a = IPAD;
         xor_in_b = IPAD;
         case (state_r)
@@ -72,26 +75,51 @@ module HMAC (
                 ready_w = 0;
                 if (start) begin
                     state_w = XOR_S1;
-                    xor_in_a = IPAD[543:0];
-                    xor_in_b = key[543:0];
-                    k_w[543:0] = flip_res;
+                    xor_in_a = IPAD[271:0];
+                    xor_in_b = key[271:0];
+                    k_w[271:0] = flip_res;
+                    cnt_w = 1;
                 end
             end
             XOR_S1: begin
-                xor_in_a = IPAD[1087:544];
-                xor_in_b = key[1087:544];
-                k_w[1087:544] = flip_res;
-                state_w = HASH_S1;
-                hash_start_w = 1;
-                more_w = 1;
+                if (cnt_r == 2'd3) begin
+                    state_w = HASH_S1;
+                    hash_start_w = 1;
+                    more_w = 1;
+                end
+                cnt_w = cnt_r + 1;
+                case (cnt_r)
+                    2'd1: begin
+                        xor_in_a = IPAD[543:272];
+                        xor_in_b = key[543:272];
+                        k_w[543:272] = flip_res;
+                    end
+                    2'd2: begin
+                        xor_in_a = IPAD[815:544];
+                        xor_in_b = key[815:544];
+                        k_w[815:544] = flip_res;
+                    end
+                    2'd3: begin
+                        xor_in_a = IPAD[1087:816];
+                        xor_in_b = key[1087:816];
+                        k_w[1087:816] = flip_res;
+                    end
+                    default: begin
+                        xor_in_a = IPAD[543:0];
+                        xor_in_b = key[543:0];
+                        k_w[543:0] = flip_res;
+                    end
+                endcase
+                
             end
             HASH_S1: begin
                 if (hash_ready) begin
                     state_w = XOR_S2;
-                    xor_in_a = OPAD[543:0];
-                    xor_in_b = key[543:0];
-                    k_w[543:0] = flip_res;
+                    xor_in_a = OPAD[271:0];
+                    xor_in_b = key[271:0];
+                    k_w[271:0] = flip_res;
                     hash_out_w = flip_out;
+                    cnt_w = 1;
                 end
                 else if (hash_next) begin
                     k_w = message;
@@ -102,12 +130,35 @@ module HMAC (
             end
             
             XOR_S2: begin
-                state_w = HASH_S2;
-                xor_in_a = OPAD[1087:544];
-                xor_in_b = key[1087:544];
-                k_w[1087:544] = flip_res;
-                hash_start_w = 1;
-                more_w = 1;
+                if (cnt_r == 2'd3) begin
+                    state_w = HASH_S2;
+                    hash_start_w = 1;
+                    more_w = 1;
+                end
+                cnt_w = cnt_w + 1;
+                case (cnt_r)
+                    2'd1: begin
+                        xor_in_a = OPAD[543:272];
+                        xor_in_b = key[543:272];
+                        k_w[543:272] = flip_res;
+                    end
+                    2'd2: begin
+                        xor_in_a = OPAD[815:544];
+                        xor_in_b = key[815:544];
+                        k_w[815:544] = flip_res;
+                    end
+                    2'd3: begin
+                        xor_in_a = OPAD[1087:816];
+                        xor_in_b = key[1087:816];
+                        k_w[1087:816] = flip_res;
+                    end
+                    default: begin
+                        xor_in_a = OPAD[543:0];
+                        xor_in_b = key[543:0];
+                        k_w[543:0] = flip_res;
+                    end
+                endcase
+                
             end
 
             HASH_S2: begin
@@ -143,6 +194,7 @@ module HMAC (
             state_r <= IDLE;
             more_r <= 0;
             hash_out_r <= 0;
+            cnt_r <= 0;
         end
         else begin
             hash_start_r <= hash_start_w;
@@ -151,6 +203,7 @@ module HMAC (
             state_r <= state_w;
             more_r <= more_w;
             hash_out_r <= hash_out_w;
+            cnt_r <= cnt_w;
         end
     end
 
