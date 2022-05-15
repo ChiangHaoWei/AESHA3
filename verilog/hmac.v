@@ -7,6 +7,8 @@ module HMAC (
     localparam IDLE = 0;
     localparam HASH_S1 = 1;
     localparam HASH_S2 = 2;
+    localparam XOR_S1 = 3;
+    localparam XOR_S2 = 4;
     
     input [1087:0] key;
     input [1087:0] message; 
@@ -15,7 +17,7 @@ module HMAC (
     output ready;
 
     reg [1087:0] k_r, k_w;
-    reg [1:0] state_r, state_w;
+    reg [2:0] state_r, state_w;
     reg hash_start_r, hash_start_w;
     reg ready_r, ready_w, more_r, more_w;
     reg [255:0] hash_out_r, hash_out_w;
@@ -23,13 +25,14 @@ module HMAC (
     wire hash_ready, hash_next;
     wire [255:0] hash_out;
 
-    reg [1087:0] xor_in, flip_res;
-    reg [255:0]  flip_out;
-    wire [1087:0] xor_res;
+    reg [543:0] xor_in_a, xor_in_b;
+    wire [543:0] flip_res;
+    wire [255:0] flip_out;
+    wire [543:0] xor_res;
 
     assign ready = ready_r;
     assign mac_value = hash_out_r;
-    assign xor_res = key ^ xor_in;
+    assign xor_res = xor_in_b ^ xor_in_a;
 
     integer i, j;
 
@@ -44,21 +47,16 @@ module HMAC (
         .out_valid(hash_ready)
     );
 
-    always @(*) begin
-        for (i=135; i>=0; i=i-1) begin
-            for (j=0; j<8; j=j+1) begin
-                flip_res[i*8+7-j] = xor_res[i*8+j];
-            end
-        end
-    end
+    ShiftBytes#(544) sb0(.in(xor_res), .out(flip_res));
+    ShiftBytes#(256) sb1(.in(hash_out), .out(flip_out));
 
-    always @(*) begin
-        for (i=31; i>=0; i=i-1) begin
-            for (j=0; j<8; j=j+1) begin
-                flip_out[i*8+7-j] = hash_out[i*8+j];
-            end
-        end
-    end
+    // always @(*) begin
+    //     for (i=31; i>=0; i=i-1) begin
+    //         for (j=0; j<8; j=j+1) begin
+    //             flip_out[i*8+7-j] = hash_out[i*8+j];
+    //         end
+    //     end
+    // end
 
     always @(*) begin
         k_w = k_r;
@@ -67,25 +65,32 @@ module HMAC (
         ready_w = ready_r;
         more_w = more_r;
         hash_out_w = hash_out_r;
-        xor_in = IPAD;
+        xor_in_a = IPAD;
+        xor_in_b = IPAD;
         case (state_r)
             IDLE: begin
                 ready_w = 0;
                 if (start) begin
-                    state_w = HASH_S1;
-                    xor_in = IPAD;
-                    k_w = flip_res;
-                    hash_start_w = 1;
-                    more_w = 1;
+                    state_w = XOR_S1;
+                    xor_in_a = IPAD[543:0];
+                    xor_in_b = key[543:0];
+                    k_w[543:0] = flip_res;
                 end
+            end
+            XOR_S1: begin
+                xor_in_a = IPAD[1087:544];
+                xor_in_b = key[1087:544];
+                k_w[1087:544] = flip_res;
+                state_w = HASH_S1;
+                hash_start_w = 1;
+                more_w = 1;
             end
             HASH_S1: begin
                 if (hash_ready) begin
-                    state_w = HASH_S2;
-                    xor_in = OPAD;
-                    k_w = flip_res;
-                    hash_start_w = 1;
-                    more_w = 1;
+                    state_w = XOR_S2;
+                    xor_in_a = OPAD[543:0];
+                    xor_in_b = key[543:0];
+                    k_w[543:0] = flip_res;
                     hash_out_w = flip_out;
                 end
                 else if (hash_next) begin
@@ -94,6 +99,15 @@ module HMAC (
                     more_w = 0;
                 end
                 else hash_start_w = 0;
+            end
+            
+            XOR_S2: begin
+                state_w = HASH_S2;
+                xor_in_a = OPAD[1087:544];
+                xor_in_b = key[1087:544];
+                k_w[1087:544] = flip_res;
+                hash_start_w = 1;
+                more_w = 1;
             end
 
             HASH_S2: begin

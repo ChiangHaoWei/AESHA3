@@ -11,11 +11,5 @@ sha3/Pi.v \
 sha3/Rho.v \
 sha3/Chi.v \
 sha3/Iota.v \
-aes/AESOneRound_noloop.v \
-aes/AddRoundKey.v \
-aes/KeySchedule.v \
-aes/AESTOP.v \
-aes/MixColumn.v \
-aes/ShiftRow.v \
-aes/SubByte.v \
+aes/AESFull.v \
 +access+r
