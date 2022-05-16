@@ -12,13 +12,10 @@ module Top (
     localparam READ_MSG = 4;
     localparam AES = 5;
     localparam HMAC = 6;
-    localparam OUT = 7;
+    localparam OUT_S2 = 7;
     localparam HASH_S1 = 8;
     localparam HASH_S2 = 9;
-    localparam HASH_S3 = 10;
-    localparam HASH_S4 = 11;
     localparam OUT_S1 = 12;
-    localparam BUBBLE = 13;
 
     localparam OPAD = 128'h5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c;
     localparam IPAD = 128'h36363636363636363636363636363636;
@@ -30,17 +27,12 @@ module Top (
 
     reg [127:0] aes_key_r, aes_key_w;
     reg [127:0] hmac_key_r, hmac_key_w;
-    // reg [127:0] cipher_r, cipher_w;
     reg [3:0] state_r, state_w;
     reg [4:0] counter_r, counter_w;
     reg input_enable_r, input_enable_w;
     reg output_valid_r, output_valid_w;
     reg hmac_flag_r, hmac_flag_w;
-
-    // reg pbk_start_r, pbk_start_w;
     reg aes_start_r, aes_start_w;
-
-
 
     reg [4:0] sha3_round_r, sha3_round_w;
     reg [1599:0] sha3_buf_r, sha3_buf_w;
@@ -57,21 +49,16 @@ module Top (
     wire [1087:0] hmac_msg;
 
     wire [127:0] cipher, cipher_rev, aes_msg;
-    // wire pbk_ready, hmac_ready;
     wire aes_ready;
     wire [255:0] mac_value, keys;
     wire [1087:0] pbkdf2_hmac_msg;
     wire [255:0] in_buf_rev;
-    wire pbkdf2_hmac_start;
-    // wire hmac_start;
 
     assign salt = in_buf_r[255:128];
-    // assign hmac_key = (state_r==GET_KEY) ? {in_buf_r[127:0], 960'd0} :{hmac_key_r, 960'd0};
     assign hmac_key = hmac_key_r;
     assign hmac_msg = (hmac_flag_r==0) ? pbkdf2_hmac_msg : {cipher_rev, 3'b011, 956'd0, 1'b1};
     assign pbkdf2_hmac_msg = (counter_r==0) ? {salt_rev, 32'h0000_0080, 3'b011, 924'd0, 1'b1} : {in_buf_r, 3'b011, 828'd0, 1'b1};
     assign aes_msg = in_buf_r[127:0];
-    assign hmac_start = pbkdf2_hmac_start;
     assign hmac_xor_in = (state_r==AES || state_r==PBKDF2) ? IPAD : OPAD;
     assign hmac_xor_out = hmac_key ^ hmac_xor_in;
 
@@ -86,30 +73,6 @@ module Top (
     ShiftBytes#(256) sb2(.in(sha3_fout[1599:1344]), .out(sha3_flip_out));
     Ffunction f0(.in(sha3_buf_r), .out(sha3_fout), .round(sha3_round_r));
     
-
-    // PBKDF2 pbkdf2(
-    //     .clk(clk),
-    //     .rst_n(rst_n),
-    //     .i_start(pbk_start_r),
-    //     .i_salt(salt),
-    //     .i_hmac_out(mac_value),
-    //     .i_hmac_ready(hmac_ready),
-    //     .o_key(keys),
-    //     .o_ready(pbk_ready),
-    //     .o_hmac_start(pbkdf2_hmac_start),
-    //     .o_hmac_msg(pbkdf2_hmac_msg)
-    // );
-
-    // HMAC hmac(
-    //     .clk(clk),
-    //     .rst_n(rst_n),
-    //     .start(hmac_start),
-    //     .key(hmac_key),
-    //     .message(hmac_msg),
-    //     .mac_value(mac_value),
-    //     .ready(hmac_ready)
-    // );
-
     AESTOP aes_top(
         .clk(clk),
         .rst_n(rst_n),
@@ -126,13 +89,10 @@ module Top (
         out_buf_w      = out_buf_r;
         aes_key_w      = aes_key_r;
         hmac_key_w     = hmac_key_r;
-        // cipher_w       = cipher_r;
         state_w        = state_r;
         counter_w      = counter_r;
         input_enable_w = input_enable_r;
         output_valid_w = output_valid_r;
-        // pbk_start_w    = pbk_start_r;
-        // hmac_start_w   = hmac_start_r;
         aes_start_w    = aes_start_r;
         sha3_buf_w = sha3_buf_r;
         sha3_round_w = sha3_round_r;
@@ -152,7 +112,6 @@ module Top (
                     in_buf_w = {in_buf_r[247:0], i_data};
                     if (counter_r==5'd31) begin
                         state_w = PBKDF2;
-                        // pbk_start_w = 1;
                         input_enable_w = 1;
                         hmac_key_w = {in_buf_r[119:0], i_data};
                         counter_w = 0;
@@ -163,7 +122,6 @@ module Top (
                     in_buf_w = {in_buf_r[247:0], 8'd0};
                     if (counter_r==5'd31) begin
                         state_w = PBKDF2;
-                        // pbk_start_w = 1;
                         hmac_key_w = {in_buf_r[119:0], 8'd0};
                         counter_w = 0;
                     end
@@ -178,6 +136,16 @@ module Top (
             //     end
             // end
             HASH_S1: begin
+                if (hmac_flag_r) begin
+                    if (counter_r != 5'd16) begin
+                        counter_w = counter_r + 1;
+                        if (counter_r==5'd15) begin
+                            output_valid_w = 0;
+                        end
+                        else out_buf_w = {out_buf_r[7:0], out_buf_r[255:8]};
+                    end
+                end
+                
                 if (sha3_round_r==23 && sha3_more_r) begin
                     sha3_round_w = 0;
                     sha3_buf_w[1599:512] = sha3_fout[1599:512] ^ hmac_msg;
@@ -207,9 +175,16 @@ module Top (
                 else if (sha3_round_r==23) begin
                     sha3_round_w = 0;
                     in_buf_w = sha3_fout[1599:1344];
-                    state_w = (hmac_flag_r) ? OUT_S1 : PBKDF2;
-                    counter_w = (hmac_flag_r) ? 0 : (counter_r + 1);
-                    output_valid_w = (hmac_flag_r) ? 1 : 0;
+                    if (hmac_flag_r) begin
+                        state_w = HMAC;
+                        counter_w = 0;
+                        output_valid_w = 0;
+                    end
+                    else begin
+                        state_w = PBKDF2;
+                        counter_w = counter_r + 1;
+                        output_valid_w = 0;
+                    end
                 end
                 else begin
                     sha3_round_w = sha3_round_r + 1;
@@ -219,7 +194,6 @@ module Top (
 
             
             PBKDF2: begin
-                // pbk_start_w = 0;
                 hmac_flag_w = 0;
                 sha3_buf_w = {hmac_flip_out, {120{8'h6c}}, 512'd0};
                 sha3_more_w = 1;
@@ -259,7 +233,7 @@ module Top (
                     out_buf_w = {128'd0, cipher};
                     state_w = HASH_S1;
                     counter_w = 0;
-                    // output_valid_w = 1;
+                    output_valid_w = 1;
                     sha3_buf_w = {hmac_flip_out, {120{8'h6c}}, 512'd0};
                     sha3_more_w = 1;
                     sha3_round_w = 0;
@@ -267,69 +241,14 @@ module Top (
                 end
             end
 
-            HASH_S3: begin
-
-                if (sha3_round_r==23 && sha3_more_r) begin
-                    sha3_round_w = 0;
-                    sha3_buf_w[1599:512] = sha3_fout[1599:512] ^ hmac_msg;
-                    sha3_buf_w[511:0] = sha3_fout[511:0];
-                    sha3_more_w = 0;
-                end
-                else if (sha3_round_r==23) begin
-                    sha3_round_w = 0;
-                    sha3_more_w = 1;
-                    in_buf_w = sha3_fout[1599:1344];
-                    sha3_buf_w = {hmac_flip_out, {120{8'h3a}}, 512'd0};
-                    state_w = HASH_S4;
-                end
-                else begin
-                    sha3_round_w = sha3_round_r + 1;
-                    sha3_buf_w = sha3_fout;
-                end
-            end
-
-            HASH_S4: begin
-                if (sha3_round_r==23 && sha3_more_r) begin
-                    sha3_round_w = 0;
-                    sha3_buf_w[1599:512] = sha3_fout[1599:512] ^ {in_buf_r, 3'b011, 828'd0, 1'b1};
-                    sha3_buf_w[511:0] = sha3_fout[511:0];
-                    sha3_more_w = 0;
-                end
-                else if (sha3_round_r==23) begin
-                    sha3_round_w = 0;
-                    in_buf_w = sha3_fout[1599:1344];
-                    state_w = (hmac_flag_r) ? OUT_S1 : PBKDF2;
-                    counter_w = (hmac_flag_r) ? 0 : (counter_r + 1);
-                    output_valid_w = (hmac_flag_r) ? 1 : 0;
-                end
-                else begin
-                    sha3_round_w = sha3_round_r + 1;
-                    sha3_buf_w = sha3_fout;
-                end
-            end
-
-            OUT_S1: begin
-                if (counter_r != 5'd16) begin
-                    counter_w = counter_r + 1;
-                    if (counter_r==5'd15) begin
-                        output_valid_w = 0;
-                        state_w = HMAC;
-                    end
-                    else out_buf_w = {out_buf_r[7:0], out_buf_r[255:8]};
-                end
-                
-            end
-
             HMAC: begin
                 counter_w = 0;
                 out_buf_w = in_buf_rev;
-                state_w = OUT;
+                state_w = OUT_S2;
                 output_valid_w = 1;
             end
 
-
-
-            OUT: begin
+            OUT_S2: begin
                 counter_w = counter_r + 1;
                 out_buf_w = {out_buf_r[7:0], out_buf_r[255:8]};
                 if (counter_r==31) begin
@@ -349,13 +268,10 @@ module Top (
             out_buf_r      <= 0;
             aes_key_r      <= 0;
             hmac_key_r     <= 0;
-            // cipher_r       <= 0;
             state_r        <= IDLE;
             counter_r      <= 0;
             input_enable_r <= 0;
             output_valid_r <= 0;
-            // pbk_start_r    <= 0;
-            // hmac_start_r   <= 0;
             aes_start_r    <= 0;
             sha3_more_r <= 0;
             sha3_round_r <= 0;
@@ -367,13 +283,10 @@ module Top (
             out_buf_r      <= out_buf_w;
             aes_key_r      <= aes_key_w;
             hmac_key_r     <= hmac_key_w;
-            // cipher_r       <= cipher_w;
             state_r        <= state_w;
             counter_r      <= counter_w;
             input_enable_r <= input_enable_w;
             output_valid_r <= output_valid_w;
-            // pbk_start_r    <= pbk_start_w;
-            // hmac_start_r   <= hmac_start_w;
             aes_start_r    <= aes_start_w;
             sha3_more_r <= sha3_more_w;
             sha3_round_r <= sha3_round_w;

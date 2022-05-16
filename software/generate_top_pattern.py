@@ -4,7 +4,7 @@ from aes_ebc import AES, hmac_sha3_256
 import os
 
 
-def generate_top_pattern(dir_path,pw_size=15, n_pattern=20, mode=0):
+def generate_top_pattern(dir_path,pw_size=15, n_pattern=20, mode=2):
   assert mode==0 or mode==1 or mode==2
   fsalt = open(os.path.join(dir_path, "input_salt.dat"), 'w')
   fpw = open(os.path.join(dir_path, "input_password.dat"), 'w')
@@ -75,11 +75,11 @@ if __name__ == "__main__":
   import argparse
   parser = argparse.ArgumentParser()
   parser.add_argument('-d', '--dir_path', help="path to output directory", required=False, default="../top_patterns")
-  parser.add_argument('-m', '--mode', help="encrypt(0) or decrypt(1) or hybrid(0)", required=False, default=0)
+  parser.add_argument('-m', '--mode', help="encrypt(0) or decrypt(1) or hybrid(2)", required=False, default=2)
   args = parser.parse_args()
   try:
     mode = int(args.mode)
   except:
-    mode = 0
+    mode = 2
   os.makedirs(args.dir_path, exist_ok=True)
-  generate_top_pattern(args.dir_path,10, 20, mode)
+  generate_top_pattern(args.dir_path,15, 20, mode)

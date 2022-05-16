@@ -1,19 +1,19 @@
 `timescale 1ns/10ps
-`define CYCLE	15
-`define HCYCLE	7.5
+`define CYCLE	500
+`define HCYCLE	250
 
 `define SALT_IN "top_patterns/input_salt.dat"
 `define PASSWARD_IN "top_patterns/input_password.dat"
 `define MSG_IN "top_patterns/input_msg.dat"
 `define CIPHER_GOLDEN "top_patterns/golden_cipher.dat"
 `define MAC_GOLDEN "top_patterns/golden_hmac_value.dat"
-`define SDFFILE    "./Top_syn.sdf"
+`define SDFFILE    "./synthesis/Top_syn.sdf"
 
 
 module tb_top;
 
     localparam DataLength = 20;
-    localparam PwLength = 10;
+    localparam PwLength = 15;
     localparam INPUT_SALT_KEY = 0;
     localparam INPUT_MSG = 1;
     localparam OUTPUT_CIPHER = 0;
@@ -68,7 +68,11 @@ module tb_top;
     initial begin
         $fsdbDumpfile("top.fsdb");
         $fsdbDumpvars;
+        // $dumpfile("top.vcd");
+		// $dumpvars();
     end
+
+    
 
     initial begin
         input_state = INPUT_SALT_KEY;
