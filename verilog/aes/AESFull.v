@@ -214,7 +214,6 @@ end
 endmodule
 module AESOneRound (
     in,out,roundkey,dec,nomix,subbyteonly,sub_in,sub_out,//nomix = 1 when no mixcolumn
-    clk
 );
 input [127:0] in,roundkey;
 input dec;
@@ -223,7 +222,7 @@ input [31:0] sub_in;
 output [31:0] sub_out;
 output reg [127:0] out;
 input nomix;
-input clk;
+// input clk;
 
 
 reg [127:0]  key_in ,inv_sh_in ,mix_in ,sh_in;
@@ -367,12 +366,17 @@ always @(*) begin
         out_inv[127-32*i -: 32] = out_inv_col[i];
     end
 end
-genvar j;
-generate
-    for (j=0;j<4;j=j+1) begin
-        MixOneColumn m0(.in(in_col[j]),.out(out_col[j]),.out_inv(out_inv_col[j]));
-    end
-endgenerate
+// genvar j;
+// generate
+//     for (j=0;j<4;j=j+1) begin
+//         MixOneColumn m0(.in(in_col[j]),.out(out_col[j]),.out_inv(out_inv_col[j]));
+//     end
+// endgenerate
+
+MixOneColumn m0(.in(in_col[0]), .out(out_col[0]), .out_inv(out_inv_col[0]));
+MixOneColumn m1(.in(in_col[1]), .out(out_col[1]), .out_inv(out_inv_col[1]));
+MixOneColumn m2(.in(in_col[2]), .out(out_col[2]), .out_inv(out_inv_col[2]));
+MixOneColumn m3(.in(in_col[3]), .out(out_col[3]), .out_inv(out_inv_col[3]));
 
 endmodule
 
@@ -403,12 +407,18 @@ always @(*) begin
     end
 end
 //two_sumx2
-genvar j;
-generate
-    for(j=0;j<4;j=j+1)begin
-        Xtime x0(.in(two_sum[j]),.out(two_sumx2[j]));
-    end
-endgenerate
+// genvar j;
+// generate
+//     for(j=0;j<4;j=j+1)begin
+//         Xtime x0(.in(two_sum[j]),.out(two_sumx2[j]));
+//     end
+// endgenerate
+
+Xtime x5(.in(two_sum[0]), .out(two_sumx2[0]));
+Xtime x6(.in(two_sum[1]), .out(two_sumx2[1]));
+Xtime x7(.in(two_sum[2]), .out(two_sumx2[2]));
+Xtime x8(.in(two_sum[3]), .out(two_sumx2[3]));
+
 //out_w
 always @(*) begin
     for(i=0;i<4;i=i+1)begin
@@ -467,12 +477,30 @@ always @(*) begin
         out[127-8*i -: 8] = sub[i];
     end
 end
-genvar j;
-generate
-    for (j=0;j<16;j=j+1)begin
-        SubOneByte s0(.in(byte[j]),.out(sub[j]),.dec(dec));
-    end
-endgenerate
+// genvar j;
+// generate
+//     for (j=0;j<16;j=j+1)begin
+//         SubOneByte s0(.in(byte[j]),.out(sub[j]),.dec(dec));
+//     end
+// endgenerate
+
+SubOneByte s0(.in(byte[0]), .out(sub[0]), .dec(dec));
+SubOneByte s1(.in(byte[1]), .out(sub[1]), .dec(dec));
+SubOneByte s2(.in(byte[2]), .out(sub[2]), .dec(dec));
+SubOneByte s3(.in(byte[3]), .out(sub[3]), .dec(dec));
+SubOneByte s4(.in(byte[4]), .out(sub[4]), .dec(dec));
+SubOneByte s5(.in(byte[5]), .out(sub[5]), .dec(dec));
+SubOneByte s6(.in(byte[6]), .out(sub[6]), .dec(dec));
+SubOneByte s7(.in(byte[7]), .out(sub[7]), .dec(dec));
+SubOneByte s8(.in(byte[8]), .out(sub[8]), .dec(dec));
+SubOneByte s9(.in(byte[9]), .out(sub[9]), .dec(dec));
+SubOneByte s10(.in(byte[10]), .out(sub[10]), .dec(dec));
+SubOneByte s11(.in(byte[11]), .out(sub[11]), .dec(dec));
+SubOneByte s12(.in(byte[12]), .out(sub[12]), .dec(dec));
+SubOneByte s13(.in(byte[13]), .out(sub[13]), .dec(dec));
+SubOneByte s14(.in(byte[14]), .out(sub[14]), .dec(dec));
+SubOneByte s15(.in(byte[15]), .out(sub[15]), .dec(dec));
+
 endmodule
 
 module SubByte_32 (
@@ -491,12 +519,18 @@ always @(*) begin
         out[31-8*i -: 8] = sub[i];
     end
 end
-genvar j;
-generate
-    for (j=0;j<4;j=j+1)begin
-        SubOneByte s0(.in(byte[j]),.out(sub[j]),.dec(dec));
-    end
-endgenerate
+// genvar j;
+// generate
+//     for (j=0;j<4;j=j+1)begin
+//         SubOneByte s0(.in(byte[j]),.out(sub[j]),.dec(dec));
+//     end
+// endgenerate
+
+SubOneByte s0(.in(byte[0]), .out(sub[0]), .dec(dec));
+SubOneByte s1(.in(byte[1]), .out(sub[1]), .dec(dec));
+SubOneByte s2(.in(byte[2]), .out(sub[2]), .dec(dec));
+SubOneByte s3(.in(byte[3]), .out(sub[3]), .dec(dec));
+
 endmodule
 
 module SubByte_96 (
@@ -515,12 +549,26 @@ always @(*) begin
         out[95-8*i -: 8] = sub[i];
     end
 end
-genvar j;
-generate
-    for (j=0;j<12;j=j+1)begin
-        SubOneByte s0(.in(byte[j]),.out(sub[j]),.dec(dec));
-    end
-endgenerate
+// genvar j;
+// generate
+//     for (j=0;j<12;j=j+1)begin
+//         SubOneByte s0(.in(byte[j]),.out(sub[j]),.dec(dec));
+//     end
+// endgenerate
+
+SubOneByte s0(.in(byte[0]), .out(sub[0]), .dec(dec));
+SubOneByte s1(.in(byte[1]), .out(sub[1]), .dec(dec));
+SubOneByte s2(.in(byte[2]), .out(sub[2]), .dec(dec));
+SubOneByte s3(.in(byte[3]), .out(sub[3]), .dec(dec));
+SubOneByte s4(.in(byte[4]), .out(sub[4]), .dec(dec));
+SubOneByte s5(.in(byte[5]), .out(sub[5]), .dec(dec));
+SubOneByte s6(.in(byte[6]), .out(sub[6]), .dec(dec));
+SubOneByte s7(.in(byte[7]), .out(sub[7]), .dec(dec));
+SubOneByte s8(.in(byte[8]), .out(sub[8]), .dec(dec));
+SubOneByte s9(.in(byte[9]), .out(sub[9]), .dec(dec));
+SubOneByte s10(.in(byte[10]), .out(sub[10]), .dec(dec));
+SubOneByte s11(.in(byte[11]), .out(sub[11]), .dec(dec));
+
 endmodule
 
 

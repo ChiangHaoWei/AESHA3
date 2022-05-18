@@ -13,7 +13,7 @@ sha3_patterns/
 hmac_patterns/
 pbkdf2_patterns/
 top_patterns/
-*patterns/
+*patterns*/
 
 # synthesis file
 .synopsys_dc.setup

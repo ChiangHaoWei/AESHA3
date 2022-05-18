@@ -1,6 +1,6 @@
 `timescale 1ns/10ps
-`define CYCLE	500
-`define HCYCLE	250
+`define CYCLE	15
+`define HCYCLE	7.5
 
 `define SALT_IN "top_patterns/input_salt.dat"
 `define PASSWARD_IN "top_patterns/input_password.dat"
@@ -66,8 +66,8 @@ module tb_top;
     always #(`HCYCLE) clk = ~clk;
 
     initial begin
-        $fsdbDumpfile("top.fsdb");
-        $fsdbDumpvars;
+        // $fsdbDumpfile("top.fsdb");
+        // $fsdbDumpvars;
         // $dumpfile("top.vcd");
 		// $dumpvars();
     end

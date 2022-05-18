@@ -25,7 +25,6 @@ module Top (
     reg [255:0] in_buf_r, in_buf_w;
     reg [255:0] out_buf_r, out_buf_w;
 
-    reg [127:0] aes_key_r, aes_key_w;
     reg [127:0] hmac_key_r, hmac_key_w;
     reg [3:0] state_r, state_w;
     reg [4:0] counter_r, counter_w;
@@ -49,6 +48,7 @@ module Top (
     wire [1087:0] hmac_msg;
 
     wire [127:0] cipher, cipher_rev, aes_msg;
+    wire [127:0] aes_key;
     wire aes_ready;
     wire [255:0] mac_value, keys;
     wire [1087:0] pbkdf2_hmac_msg;
@@ -59,6 +59,7 @@ module Top (
     assign hmac_msg = (hmac_flag_r==0) ? pbkdf2_hmac_msg : {cipher_rev, 3'b011, 956'd0, 1'b1};
     assign pbkdf2_hmac_msg = (counter_r==0) ? {salt_rev, 32'h0000_0080, 3'b011, 924'd0, 1'b1} : {in_buf_r, 3'b011, 828'd0, 1'b1};
     assign aes_msg = in_buf_r[127:0];
+    assign aes_key = out_buf_r[127:0];
     assign hmac_xor_in = (state_r==AES || state_r==PBKDF2) ? IPAD : OPAD;
     assign hmac_xor_out = hmac_key ^ hmac_xor_in;
 
@@ -68,7 +69,7 @@ module Top (
 
     ShiftBytes#(128) sb3(.in(salt), .out(salt_rev));
     ShiftBytes#(256) sb4(.in(in_buf_r), .out(in_buf_rev));
-    ShiftBytes#(128) sb0(.in(aes_key_r), .out(cipher_rev));
+    ShiftBytes#(128) sb0(.in(out_buf_r[127:0]), .out(cipher_rev));
     ShiftBytes#(128) sb1(.in(hmac_xor_out), .out(hmac_flip_out));
     ShiftBytes#(256) sb2(.in(sha3_fout[1599:1344]), .out(sha3_flip_out));
     Ffunction f0(.in(sha3_buf_r), .out(sha3_fout), .round(sha3_round_r));
@@ -78,7 +79,7 @@ module Top (
         .rst_n(rst_n),
         .mode(i_mode),
         .i_start(aes_start_r),
-        .i_key(aes_key_r),
+        .i_key(aes_key),
         .i_in(aes_msg),
         .o_cipher(cipher),
         .o_ready(aes_ready)
@@ -87,7 +88,6 @@ module Top (
     always @(*) begin
         in_buf_w       = in_buf_r;
         out_buf_w      = out_buf_r;
-        aes_key_w      = aes_key_r;
         hmac_key_w     = hmac_key_r;
         state_w        = state_r;
         counter_w      = counter_r;
@@ -128,16 +128,6 @@ module Top (
                 end
             end
             HASH_S1: begin
-                if (hmac_flag_r) begin
-                    if (counter_r != 5'd16) begin
-                        counter_w = counter_r + 1;
-                        if (counter_r==5'd15) begin
-                            output_valid_w = 0;
-                        end
-                        else out_buf_w = {out_buf_r[7:0], out_buf_r[255:8]};
-                    end
-                end
-                
                 if (sha3_round_r==23 && sha3_more_r) begin
                     sha3_round_w = 0;
                     sha3_buf_w[1599:512] = sha3_fout[1599:512] ^ hmac_msg;
@@ -168,9 +158,9 @@ module Top (
                     sha3_round_w = 0;
                     in_buf_w = sha3_fout[1599:1344];
                     if (hmac_flag_r) begin
-                        state_w = HMAC;
+                        state_w = OUT_S1;
                         counter_w = 0;
-                        output_valid_w = 0;
+                        output_valid_w = 1;
                     end
                     else begin
                         state_w = PBKDF2;
@@ -205,7 +195,6 @@ module Top (
 
             end
             READ_MSG: begin
-                aes_key_w = out_buf_r[127:0];
                 hmac_key_w = out_buf_r[255:128];
                 if (i_start) begin
                     counter_w = counter_r + 1;
@@ -221,16 +210,24 @@ module Top (
             AES: begin
                 aes_start_w = 0;
                 if (aes_ready) begin
-                    aes_key_w = cipher;
                     out_buf_w = {128'd0, cipher};
                     state_w = HASH_S1;
                     counter_w = 0;
-                    output_valid_w = 1;
+                    output_valid_w = 0;
                     sha3_buf_w = {hmac_flip_out, {120{8'h6c}}, 512'd0};
                     sha3_more_w = 1;
                     sha3_round_w = 0;
                     hmac_flag_w = 1;
                 end
+            end
+
+            OUT_S1: begin
+                counter_w = counter_r + 1;
+                if (counter_r==5'd15) begin
+                    state_w = HMAC;
+                    output_valid_w = 0;
+                end
+                else out_buf_w = {out_buf_r[7:0], out_buf_r[255:8]};
             end
 
             HMAC: begin
@@ -258,7 +255,6 @@ module Top (
         if (!rst_n) begin
             in_buf_r       <= 0;
             out_buf_r      <= 0;
-            // aes_key_r      <= 0;
             // hmac_key_r     <= 0;
             state_r        <= IDLE;
             counter_r      <= 0;
@@ -273,7 +269,6 @@ module Top (
         else begin
             in_buf_r       <= in_buf_w;
             out_buf_r      <= out_buf_w;
-            aes_key_r      <= aes_key_w;
             hmac_key_r     <= hmac_key_w;
             state_r        <= state_w;
             counter_r      <= counter_w;
