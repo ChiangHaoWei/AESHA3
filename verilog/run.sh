@@ -1,10 +1,7 @@
 ncverilog \
-tb_Top.v \
-Top.v \
-pbkdf2.v \
-hmac.v \
+top/version05/tb_Top_long.v \
+top/version05/Top_long.v \
 ShiftBytes.v \
-sha3/sha_top.v \
 sha3/Ffunction.v \
 sha3/Theta.v \
 sha3/Pi.v \
