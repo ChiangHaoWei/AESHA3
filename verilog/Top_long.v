@@ -7,52 +7,56 @@ module Top (
     output o_valid, o_ien;
     localparam IDLE = 0;
     localparam READ_SALT_KEY = 1;
-    localparam PAD = 2;
-    localparam PBKDF2 = 3;
+    localparam PBKDF2 = 2;
+    localparam READ_LEN = 3;
     localparam READ_MSG = 4;
     localparam AES = 5;
     localparam HMAC = 6;
-    localparam OUT_S2 = 7;
-    localparam HASH_S1 = 8;
-    localparam HASH_S2 = 9;
-    localparam OUT_S1 = 12;
+    localparam OUT_S1 = 7;
+    localparam OUT_S2 = 8;
+    localparam HASH_S1 = 9;
+    localparam HASH_S2 = 10;
 
     localparam OPAD = 128'h5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c;
     localparam IPAD = 128'h36363636363636363636363636363636;
 
     localparam ITER_TIMES = 16;
-
+    reg [127:0] hmac_key_r, hmac_key_w;
     reg [255:0] in_buf_r, in_buf_w;
     reg [255:0] out_buf_r, out_buf_w;
+    reg [1599:0] sha3_buf_r, sha3_buf_w;
 
-    reg [127:0] hmac_key_r, hmac_key_w;
     reg [3:0] state_r, state_w;
     reg [4:0] counter_r, counter_w;
+    reg [4:0] sha3_round_r, sha3_round_w;
+    // reg [7:0] msg_len_r, msg_len_w;
+
     reg input_enable_r, input_enable_w;
     reg output_valid_r, output_valid_w;
     reg hmac_flag_r, hmac_flag_w;
     reg aes_start_r, aes_start_w;
-
-    reg [4:0] sha3_round_r, sha3_round_w;
-    reg [1599:0] sha3_buf_r, sha3_buf_w;
     reg sha3_more_r, sha3_more_w;
-    wire [1599:0] sha3_fout;
 
-    wire [127:0] hmac_flip_out;
+    // PBKDF2 & HMAC
+    wire [127:0] hmac_flip_out, salt_rev, cipher_rev;
     wire [255:0] sha3_flip_out;
+    wire [255:0] in_buf_rev;
+
     wire [127:0] hmac_xor_in;
     wire [127:0] hmac_xor_out;
 
-    wire [127:0] salt, salt_rev;
-    wire [127:0] hmac_key;
-    wire [1087:0] hmac_msg;
-
-    wire [127:0] cipher, cipher_rev, aes_msg;
-    wire [127:0] aes_key;
-    wire aes_ready;
-    wire [255:0] mac_value, keys;
     wire [1087:0] pbkdf2_hmac_msg;
-    wire [255:0] in_buf_rev;
+    wire [1087:0] hmac_msg;
+    wire [127:0] salt;
+    wire [127:0] hmac_key;
+
+    wire [127:0] aes_msg;
+    wire [127:0] aes_key;
+
+    // submodule output
+    wire [1599:0] sha3_fout;
+    wire aes_ready;
+    wire [127:0] cipher;
 
     assign salt = in_buf_r[255:128];
     assign hmac_key = hmac_key_r;
@@ -98,6 +102,7 @@ module Top (
         sha3_round_w = sha3_round_r;
         sha3_more_w = sha3_more_r;
         hmac_flag_w = hmac_flag_r;
+        // msg_len_w = msg_len_r;
         case (state_r)
             IDLE: begin
                 if (i_start) begin
@@ -186,20 +191,37 @@ module Top (
                 end
 
                 if (counter_r==ITER_TIMES) begin
-                    state_w = READ_MSG;
-                    input_enable_w = 0;
-                    counter_w = 0;
-                    sha3_more_w = 0;
-                    sha3_round_w = 0;
+                    state_w = READ_LEN;
+                    // hmac_key_w = out_buf_w[255:128];
+                    // input_enable_w = 0;
+                    // counter_w = 0;
+                    // sha3_more_w = 0;
+                    // sha3_round_w = 0;
                 end
 
             end
-            READ_MSG: begin
+
+            READ_LEN: begin
                 hmac_key_w = out_buf_r[255:128];
+                state_w = READ_MSG;
+                input_enable_w = 0;
+                counter_w = 0;
+                sha3_more_w = 0;
+                sha3_round_w = 0;
+                // if (i_start) begin
+                //     msg_len_w = i_data;
+                //     counter_w = 0;
+                //     state_w = READ_MSG;
+                // end
+            end
+            
+            READ_MSG: begin
                 if (i_start) begin
-                    counter_w = counter_r + 1;
+                    counter_w = 1;
                     in_buf_w = {in_buf_r[247:0], i_data};
-                    if (counter_r==5'd15) begin
+                end
+                else begin
+                    if (counter_r[0]) begin
                         state_w = AES;
                         input_enable_w = 1;
                         aes_start_w = 1;
@@ -210,7 +232,7 @@ module Top (
             AES: begin
                 aes_start_w = 0;
                 if (aes_ready) begin
-                    out_buf_w = {128'd0, cipher};
+                    out_buf_w = {out_buf_r[127:0], cipher};
                     state_w = HASH_S1;
                     counter_w = 0;
                     output_valid_w = 0;
@@ -223,16 +245,17 @@ module Top (
 
             OUT_S1: begin
                 counter_w = counter_r + 1;
+                out_buf_w = {out_buf_r[7:0], out_buf_r[255:8]};
                 if (counter_r==5'd15) begin
                     state_w = HMAC;
                     output_valid_w = 0;
                 end
-                else out_buf_w = {out_buf_r[7:0], out_buf_r[255:8]};
             end
 
             HMAC: begin
                 counter_w = 0;
                 out_buf_w = in_buf_rev;
+                in_buf_w[127:0] = out_buf_r[127:0];
                 state_w = OUT_S2;
                 output_valid_w = 1;
             end
@@ -241,10 +264,11 @@ module Top (
                 counter_w = counter_r + 1;
                 out_buf_w = {out_buf_r[7:0], out_buf_r[255:8]};
                 if (counter_r==31) begin
-                    state_w = IDLE;
+                    state_w = READ_MSG;
                     output_valid_w = 0;
                     counter_w = 0;
                     input_enable_w = 0;
+                    out_buf_w[127:0] = in_buf_r[127:0];
                 end
             end
         endcase
@@ -265,6 +289,7 @@ module Top (
             sha3_round_r <= 0;
             sha3_buf_r <= 0;
             hmac_flag_r <= 0;
+            // msg_len_r <= 0;
         end
         else begin
             in_buf_r       <= in_buf_w;
@@ -279,6 +304,7 @@ module Top (
             sha3_round_r <= sha3_round_w;
             sha3_buf_r <= sha3_buf_w;
             hmac_flag_r <= hmac_flag_w;
+            // msg_len_r <= msg_len_w;
         end
     end
 

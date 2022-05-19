@@ -2,11 +2,11 @@
 `define CYCLE	20
 `define HCYCLE	10
 
-`define SALT_IN "top_patterns/input_salt.dat"
-`define PASSWARD_IN "top_patterns/input_password.dat"
-`define MSG_IN "top_patterns/input_msg.dat"
-`define CIPHER_GOLDEN "top_patterns/golden_cipher.dat"
-`define MAC_GOLDEN "top_patterns/golden_hmac_value.dat"
+`define SALT_IN "top_long_patterns/input_salt.dat"
+`define PASSWARD_IN "top_long_patterns/input_password.dat"
+`define MSG_IN "top_long_patterns/input_msg.dat"
+`define CIPHER_GOLDEN "top_long_patterns/golden_cipher.dat"
+`define MAC_GOLDEN "top_long_patterns/golden_hmac_value.dat"
 `define SDFFILE    "./synthesis/Top_syn.sdf"
 
 
@@ -28,6 +28,7 @@ module tb_top;
     reg [127:0] cipher_golden, cipher_out;
     reg [255:0] hmac_golden, hmac_out;
     reg has_error, start_flag;
+    reg next_msg;
 
     reg [PwLength*8-1:0]    pw_mem     [0:DataLength-1];         
     reg [MsgLength*128-1:0] cipher_mem [0:DataLength-1];
@@ -35,9 +36,8 @@ module tb_top;
     reg [MsgLength*256-1:0] hmac_mem   [0:DataLength-1];
     reg [127:0]             salt_mem   [0:DataLength-1];
 
-    reg [31:0] msg_cnt;
 
-    integer i, j, cipher_err, hmac_err;
+    integer i, j, cipher_err, hmac_err, msg_cnt;
 
     Top top(
         .clk(clk),
@@ -69,8 +69,8 @@ module tb_top;
     always #(`HCYCLE) clk = ~clk;
 
     initial begin
-        // $fsdbDumpfile("top_long.fsdb");
-        // $fsdbDumpvars;
+        $fsdbDumpfile("top_long.fsdb");
+        $fsdbDumpvars;
         // $dumpfile("top.vcd");
 		// $dumpvars();
     end
@@ -84,14 +84,14 @@ module tb_top;
         start = 0; mode = 0; data_in = 0;
         stop = 0; i = 0; j=0;
         has_error = 0; cipher_err = 0; hmac_err = 0;
-        start_flag = 0; msg_cnt = 0;
+        start_flag = 0; msg_cnt = 0; next_msg = 0;
         #(`CYCLE);
         rst_n = 0;
         #(`CYCLE);
         rst_n = 1;
         #(`CYCLE);
         start_flag = 1;
-        #(`HCYCLE);
+        // #(`HCYCLE);
         start = 1;
         for (j=15; j>=0; j=j-1) begin
             data_in = salt_mem[i][j*8+:8];
@@ -103,16 +103,17 @@ module tb_top;
             #(`CYCLE);
         end
         start = 0;
-        #(`HCYCLE);
+        // #(`HCYCLE);
         $display("# %02dth pattern is generated successfully", i);
         #(`CYCLE*2);
 
     end
 
-    always @(negedge running) begin
+    always @(posedge next_msg) begin
+        next_msg = 0;
         if (start_flag) begin
-            if (input_state == INPUT_SALT_KEY) begin
-                #(`HCYCLE);
+            if (input_state == INPUT_SALT_KEY && msg_cnt<MsgLength) begin
+                // #(`HCYCLE);
                 input_state = INPUT_MSG;
                 start = 1;
                 for (j=15; j>=0; j=j-1) begin
@@ -120,16 +121,32 @@ module tb_top;
                     #(`CYCLE);
                 end
                 start = 0;
-                #(`HCYCLE);
+                // #(`HCYCLE);
+            end
+        end
+    end
+
+    always @(negedge running) begin
+        if (start_flag) begin
+            if (input_state == INPUT_SALT_KEY && msg_cnt==0) begin
+                // #(`HCYCLE);
+                input_state = INPUT_MSG;
+                start = 1;
+                for (j=15; j>=0; j=j-1) begin
+                    data_in = msg_mem[i][(msg_cnt*128+j*8)+:8];
+                    #(`CYCLE);
+                end
+                start = 0;
+                // #(`HCYCLE);
             end
         end
     end
 
     always @(posedge out_valid) begin
         if (output_state == OUTPUT_CIPHER) begin
+            cipher_golden = cipher_mem[i][msg_cnt*128+:128];
             #(`HCYCLE);
             output_state = OUTPUT_MAC;
-            cipher_golden = cipher_mem[i][msg_cnt*128+:128];
             for (j=0; j<16; j=j+1) begin
                 cipher_out[j*8+:8] = data_out;
                 #(`CYCLE);
@@ -140,10 +157,11 @@ module tb_top;
             end
         end
         else begin
+            hmac_golden = hmac_mem[i][msg_cnt*256+:256];
+            msg_cnt = msg_cnt + 1;
             #(`HCYCLE);
             output_state = OUTPUT_CIPHER;
-            hmac_golden = hmac_mem[i][msg_cnt*256+:256];
-            if (msg_cnt < MsgLength-1) input_state = INPUT_SALT_KEY;
+            input_state = INPUT_SALT_KEY;
             for (j=0; j<32; j=j+1) begin
                 hmac_out[j*8+:8] = data_out;
                 #(`CYCLE);
@@ -152,8 +170,8 @@ module tb_top;
                 hmac_err = hmac_err + 1;
                 $display("Error at %d-%d:\nsalt=%h\npassward=%h\nmsg=%h\nhmac=%h\nexpect=%h", i,msg_cnt, salt_mem[i], pw_mem[i], msg_mem[i][msg_cnt*128+:128], hmac_out, hmac_golden);
             end
-            msg_cnt = msg_cnt + 1;
             #(`CYCLE*2);
+            
             if (msg_cnt == MsgLength) begin
                 input_state = INPUT_SALT_KEY;
                 output_state = OUTPUT_CIPHER;
@@ -170,7 +188,7 @@ module tb_top;
                     #(`CYCLE);
                     rst_n = 1;
                     #(`CYCLE);
-                    #(`HCYCLE);
+                    // #(`HCYCLE);
                     start = 1;
                     for (j=15; j>=0; j=j-1) begin
                         data_in = salt_mem[i][j*8+:8];
@@ -182,10 +200,13 @@ module tb_top;
                         #(`CYCLE);
                     end
                     start = 0;
-                    #(`HCYCLE);
+                    // #(`HCYCLE);
                     $display("# %02dth pattern is generated successfully", i);
                     #(`CYCLE*2);
                 end
+            end
+            else begin
+                next_msg = 1;
             end
         end
     end

@@ -3,7 +3,7 @@ set DESIGN "Top"
 #sh mkdir $DIR
 
 # Read Design
-read_file -format verilog "../Top_ungroup.v"
+read_file -format verilog "../Top_long.v"
 #read_file -format verilog "../Top.v"
 #read_file -format verilog "../pbkdf2.v"
 #read_file -format verilog "../hmac.v"
@@ -31,6 +31,7 @@ check_design
 compile_ultra -retime
 # Analyze and debug the design
 report_area > area_$DESIGN\.out
+report_area > area_$DESIGN\.out
 report_power > power_$DESIGN.out
 report_timing -path full -delay max > timing_$DESIGN\.out
 
@@ -50,5 +51,6 @@ report_timing -path full -delay max > timing_$DESIGN\.out
 write -format ddc -hierarchy -output $DESIGN\_syn.ddc
 write -format verilog -hierarchy -output $DESIGN\_syn.v
 write_sdf -version 2.1 -context verilog $DESIGN\_syn.sdf
-report_area
+write_sdc $DESIGN\_syn.sdc
 report_timing
+report_area

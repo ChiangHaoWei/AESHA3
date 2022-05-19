@@ -82,7 +82,7 @@ def generate_top_pattern(dir_path, pw_size=15, msg_len=1, n_pattern=20, mode=2):
 if __name__ == "__main__":
   import argparse
   parser = argparse.ArgumentParser()
-  parser.add_argument('-d', '--dir_path', help="path to output directory", required=False, default="../top_patterns")
+  parser.add_argument('-d', '--dir_path', help="path to output directory", required=False, default="../top_long_patterns")
   parser.add_argument('-m', '--mode', help="encrypt(0) or decrypt(1) or hybrid(2)", required=False, default=2)
   parser.add_argument('-l', '--msg_len', help="number of msg blocks", required=False, default=1)
   args = parser.parse_args()
