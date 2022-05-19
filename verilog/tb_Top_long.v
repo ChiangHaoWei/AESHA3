@@ -14,6 +14,7 @@ module tb_top;
 
     localparam DataLength = 20;
     localparam PwLength = 15;
+    localparam MsgLength = 5;
     localparam INPUT_SALT_KEY = 0;
     localparam INPUT_MSG = 1;
     localparam OUTPUT_CIPHER = 0;
@@ -28,11 +29,13 @@ module tb_top;
     reg [255:0] hmac_golden, hmac_out;
     reg has_error, start_flag;
 
-    reg [127:0]         salt_mem   [0:DataLength-1];
-    reg [PwLength*8-1:0]  pw_mem     [0:DataLength-1];         
-    reg [127:0]         cipher_mem [0:DataLength-1];
-    reg [255:0]         hmac_mem   [0:DataLength-1];
-    reg [127:0]         msg_mem    [0:DataLength-1];
+    reg [PwLength*8-1:0]    pw_mem     [0:DataLength-1];         
+    reg [MsgLength*128-1:0] cipher_mem [0:DataLength-1];
+    reg [MsgLength*128-1:0] msg_mem    [0:DataLength-1];
+    reg [MsgLength*256-1:0] hmac_mem   [0:DataLength-1];
+    reg [127:0]             salt_mem   [0:DataLength-1];
+
+    reg [31:0] msg_cnt;
 
     integer i, j, cipher_err, hmac_err;
 
@@ -66,7 +69,7 @@ module tb_top;
     always #(`HCYCLE) clk = ~clk;
 
     initial begin
-        // $fsdbDumpfile("top.fsdb");
+        // $fsdbDumpfile("top_long.fsdb");
         // $fsdbDumpvars;
         // $dumpfile("top.vcd");
 		// $dumpvars();
@@ -81,7 +84,7 @@ module tb_top;
         start = 0; mode = 0; data_in = 0;
         stop = 0; i = 0; j=0;
         has_error = 0; cipher_err = 0; hmac_err = 0;
-        start_flag = 0;
+        start_flag = 0; msg_cnt = 0;
         #(`CYCLE);
         rst_n = 0;
         #(`CYCLE);
@@ -101,6 +104,7 @@ module tb_top;
         end
         start = 0;
         #(`HCYCLE);
+        $display("# %02dth pattern is generated successfully", i);
         #(`CYCLE*2);
 
     end
@@ -112,7 +116,7 @@ module tb_top;
                 input_state = INPUT_MSG;
                 start = 1;
                 for (j=15; j>=0; j=j-1) begin
-                    data_in = msg_mem[i][j*8+:8];
+                    data_in = msg_mem[i][(msg_cnt*128+j*8)+:8];
                     #(`CYCLE);
                 end
                 start = 0;
@@ -125,56 +129,63 @@ module tb_top;
         if (output_state == OUTPUT_CIPHER) begin
             #(`HCYCLE);
             output_state = OUTPUT_MAC;
-            cipher_golden = cipher_mem[i];
+            cipher_golden = cipher_mem[i][msg_cnt*128+:128];
             for (j=0; j<16; j=j+1) begin
                 cipher_out[j*8+:8] = data_out;
                 #(`CYCLE);
             end
             if (cipher_out !== cipher_golden) begin
                 cipher_err = cipher_err + 1;
-                $display("Error at %d:\nsalt=%h\npassward=%h\nmsg=%h\ncipher=%h\nexpect=%h", i, salt_mem[i], pw_mem[i], msg_mem[i], cipher_out, cipher_golden);
+                $display("Error at %d-%d:\nsalt=%h\npassward=%h\nmsg=%h\ncipher=%h\nexpect=%h", i, msg_cnt, salt_mem[i], pw_mem[i], msg_mem[i][msg_cnt*128+:128], cipher_out, cipher_golden);
             end
         end
         else begin
             #(`HCYCLE);
             output_state = OUTPUT_CIPHER;
-            hmac_golden = hmac_mem[i];
+            hmac_golden = hmac_mem[i][msg_cnt*256+:256];
+            if (msg_cnt < MsgLength-1) input_state = INPUT_SALT_KEY;
             for (j=0; j<32; j=j+1) begin
                 hmac_out[j*8+:8] = data_out;
                 #(`CYCLE);
             end
             if (hmac_out !== hmac_golden) begin
                 hmac_err = hmac_err + 1;
-                $display("Error at %d:\nsalt=%h\npassward=%h\nmsg=%h\nhmac=%h\nexpect=%h", i, salt_mem[i], pw_mem[i], msg_mem[i], hmac_out, hmac_golden);
+                $display("Error at %d-%d:\nsalt=%h\npassward=%h\nmsg=%h\nhmac=%h\nexpect=%h", i,msg_cnt, salt_mem[i], pw_mem[i], msg_mem[i][msg_cnt*128+:128], hmac_out, hmac_golden);
             end
+            msg_cnt = msg_cnt + 1;
             #(`CYCLE*2);
-            input_state = INPUT_SALT_KEY;
-            $display("# %02dth pattern is generated successfully", i);
-            i = i+1;
-            if (i==DataLength) stop = 1;
-            else begin
+            if (msg_cnt == MsgLength) begin
+                input_state = INPUT_SALT_KEY;
+                output_state = OUTPUT_CIPHER;
+                msg_cnt = 0;
+                i = i+1;
                 #(`CYCLE);
-                if (i==DataLength>>1) mode = 1;
-                // TODO: start next pattern
-                #(`CYCLE*2);
-                rst_n = 0;
-                #(`CYCLE);
-                rst_n = 1;
-                #(`CYCLE);
-                #(`HCYCLE);
-                start = 1;
-                for (j=15; j>=0; j=j-1) begin
-                    data_in = salt_mem[i][j*8+:8];
+                if (i==DataLength) stop = 1;
+                else begin
                     #(`CYCLE);
-                end
+                    if (i==DataLength>>1) mode = 1;
+                    // TODO: start next pattern
+                    #(`CYCLE*2);
+                    rst_n = 0;
+                    #(`CYCLE);
+                    rst_n = 1;
+                    #(`CYCLE);
+                    #(`HCYCLE);
+                    start = 1;
+                    for (j=15; j>=0; j=j-1) begin
+                        data_in = salt_mem[i][j*8+:8];
+                        #(`CYCLE);
+                    end
 
-                for (j=PwLength-1; j>=0; j=j-1) begin
-                    data_in = pw_mem[i][j*8+:8];
-                    #(`CYCLE);
+                    for (j=PwLength-1; j>=0; j=j-1) begin
+                        data_in = pw_mem[i][j*8+:8];
+                        #(`CYCLE);
+                    end
+                    start = 0;
+                    #(`HCYCLE);
+                    $display("# %02dth pattern is generated successfully", i);
+                    #(`CYCLE*2);
                 end
-                start = 0;
-                #(`HCYCLE);
-                #(`CYCLE*2);
             end
         end
     end
