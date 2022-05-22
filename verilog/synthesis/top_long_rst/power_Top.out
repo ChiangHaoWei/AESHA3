@@ -1,0 +1,143 @@
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : Top
+Version: R-2020.09-SP5
+Date   : Fri May 20 01:52:24 2022
+****************************************
+
+
+Library(s) Used:
+
+    fsa0m_a_generic_core_tt1p8v25c (File: /home/raid7_2/userb08/b08065/ICDLAB/Final/verilog/synthesis/fsa0m_a_generic_core_tt1p8v25c.db)
+
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: enclosed
+
+Design        Wire Load Model            Library
+------------------------------------------------
+Top                    G200K             fsa0m_a_generic_core_tt1p8v25c
+rc_table               enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddRoundKey_1          enG5K             fsa0m_a_generic_core_tt1p8v25c
+AESOneRound            enG30K            fsa0m_a_generic_core_tt1p8v25c
+KeySchedule            enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubByte_32             enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubByte_96             enG10K            fsa0m_a_generic_core_tt1p8v25c
+ShiftRow               enG5K             fsa0m_a_generic_core_tt1p8v25c
+InvShiftRow            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MixColumn              enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_15          enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_15           enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_15        enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_15             enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_15                enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_0           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_1           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_2           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_3           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_4           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_5           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_6           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_7           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_8           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_9           enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_10          enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_11          enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_12          enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_13          enG5K             fsa0m_a_generic_core_tt1p8v25c
+SubOneByte_14          enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddRoundKey_0          enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_0            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_1            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_2            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_3            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_4            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_5            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_6            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_7            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_8            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_9            enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_10           enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_11           enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_12           enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_13           enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyM_14           enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_0         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_1         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_2         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_3         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_4         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_5         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_6         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_7         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_8         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_9         enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_10        enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_11        enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_12        enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_13        enG5K             fsa0m_a_generic_core_tt1p8v25c
+MultiplyMinv_14        enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_0                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_1                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_2                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_3                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_4                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_5                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_6                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_7                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_8                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_9                 enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_10                enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_11                enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_12                enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_13                enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddC_14                enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_0              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_1              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_2              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_3              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_4              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_5              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_6              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_7              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_8              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_9              enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_10             enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_11             enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_12             enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_13             enG5K             fsa0m_a_generic_core_tt1p8v25c
+AddCinv_14             enG5K             fsa0m_a_generic_core_tt1p8v25c
+
+
+Global Operating Voltage = 1.62 
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  = 393.9476 uW   (75%)
+  Net Switching Power  = 128.7650 uW   (25%)
+                         ---------
+Total Dynamic Power    = 522.7126 uW  (100%)
+
+Cell Leakage Power     =   2.1073 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register           0.3036        3.5965e-03        5.3027e+05            0.3077  (  58.64%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational  9.0331e-02            0.1252        1.5770e+06            0.2171  (  41.36%)
+--------------------------------------------------------------------------------------------------
+Total              0.3939 mW         0.1288 mW     2.1073e+06 pW         0.5248 mW
+1

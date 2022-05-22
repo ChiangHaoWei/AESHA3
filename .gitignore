@@ -20,6 +20,9 @@ top_patterns/
 fsa0m*
 *.sdf
 
+# APR
+APR/
+
 # others
 progress.txt
 test.py

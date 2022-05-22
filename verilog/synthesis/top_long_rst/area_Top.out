@@ -1,0 +1,30 @@
+ 
+****************************************
+Report : area
+Design : Top
+Version: R-2020.09-SP5
+Date   : Fri May 20 02:05:12 2022
+****************************************
+
+Library(s) Used:
+
+    fsa0m_a_generic_core_tt1p8v25c (File: /home/raid7_2/userb08/b08065/ICDLAB/Final/verilog/synthesis/fsa0m_a_generic_core_tt1p8v25c.db)
+
+Number of ports:                         3776
+Number of nets:                         34513
+Number of cells:                        30838
+Number of combinational cells:          28226
+Number of sequential cells:              2522
+Number of macros/black boxes:               0
+Number of buf/inv:                       6751
+Number of references:                      42
+
+Combinational area:             407964.515685
+Buf/Inv area:                    58490.005782
+Noncombinational area:          149762.291008
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                557726.806693
+Total area:                 undefined
+1

@@ -16,6 +16,7 @@ module Top (
     localparam OUT_S2 = 8;
     localparam HASH_S1 = 9;
     localparam HASH_S2 = 10;
+    localparam WAIT = 11;
 
     localparam OPAD = 128'h5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c;
     localparam IPAD = 128'h36363636363636363636363636363636;
@@ -203,7 +204,7 @@ module Top (
 
             READ_LEN: begin
                 hmac_key_w = out_buf_r[255:128];
-                state_w = READ_MSG;
+                state_w = WAIT;
                 input_enable_w = 0;
                 counter_w = 0;
                 sha3_more_w = 0;
@@ -214,19 +215,34 @@ module Top (
                 //     state_w = READ_MSG;
                 // end
             end
-            
-            READ_MSG: begin
+
+            WAIT: begin
                 if (i_start) begin
                     counter_w = 1;
+                    state_w = READ_MSG;
                     in_buf_w = {in_buf_r[247:0], i_data};
                 end
-                else begin
-                    if (counter_r[0]) begin
-                        state_w = AES;
-                        input_enable_w = 1;
-                        aes_start_w = 1;
-                    end
+            end
+            
+            READ_MSG: begin
+                counter_w = counter_r + 1;
+                in_buf_w = {in_buf_r[247:0], i_data};
+                if (counter_r==15) begin
+                    state_w = AES;
+                    input_enable_w = 1;
+                    aes_start_w = 1;
                 end
+                // if (i_start) begin
+                //     counter_w = 1;
+                //     in_buf_w = {in_buf_r[247:0], i_data};
+                // end
+                // else begin
+                //     if (counter_r[0]) begin
+                //         state_w = AES;
+                //         input_enable_w = 1;
+                //         aes_start_w = 1;
+                //     end
+                // end
             end
 
             AES: begin
@@ -264,7 +280,7 @@ module Top (
                 counter_w = counter_r + 1;
                 out_buf_w = {out_buf_r[7:0], out_buf_r[255:8]};
                 if (counter_r==31) begin
-                    state_w = READ_MSG;
+                    state_w = WAIT;
                     output_valid_w = 0;
                     counter_w = 0;
                     input_enable_w = 0;

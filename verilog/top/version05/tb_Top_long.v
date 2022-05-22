@@ -14,7 +14,7 @@ module tb_top;
 
     localparam DataLength = 20;
     localparam PwLength = 15;
-    localparam MsgLength = 5;
+    localparam MsgLength = 3;
     localparam INPUT_SALT_KEY = 0;
     localparam INPUT_MSG = 1;
     localparam OUTPUT_CIPHER = 0;
@@ -91,7 +91,7 @@ module tb_top;
         rst_n = 1;
         #(`CYCLE);
         start_flag = 1;
-        // #(`HCYCLE);
+        #(`HCYCLE);
         start = 1;
         for (j=15; j>=0; j=j-1) begin
             data_in = salt_mem[i][j*8+:8];
@@ -103,7 +103,7 @@ module tb_top;
             #(`CYCLE);
         end
         start = 0;
-        // #(`HCYCLE);
+        #(`HCYCLE);
         $display("# %02dth pattern is generated successfully", i);
         #(`CYCLE*2);
 
@@ -113,7 +113,7 @@ module tb_top;
         next_msg = 0;
         if (start_flag) begin
             if (input_state == INPUT_SALT_KEY && msg_cnt<MsgLength) begin
-                // #(`HCYCLE);
+                #(`HCYCLE);
                 input_state = INPUT_MSG;
                 start = 1;
                 for (j=15; j>=0; j=j-1) begin
@@ -121,7 +121,7 @@ module tb_top;
                     #(`CYCLE);
                 end
                 start = 0;
-                // #(`HCYCLE);
+                #(`HCYCLE);
             end
         end
     end
@@ -129,7 +129,7 @@ module tb_top;
     always @(negedge running) begin
         if (start_flag) begin
             if (input_state == INPUT_SALT_KEY && msg_cnt==0) begin
-                // #(`HCYCLE);
+                #(`HCYCLE);
                 input_state = INPUT_MSG;
                 start = 1;
                 for (j=15; j>=0; j=j-1) begin
@@ -137,7 +137,7 @@ module tb_top;
                     #(`CYCLE);
                 end
                 start = 0;
-                // #(`HCYCLE);
+                #(`HCYCLE);
             end
         end
     end
@@ -170,6 +170,7 @@ module tb_top;
                 hmac_err = hmac_err + 1;
                 $display("Error at %d-%d:\nsalt=%h\npassward=%h\nmsg=%h\nhmac=%h\nexpect=%h", i,msg_cnt, salt_mem[i], pw_mem[i], msg_mem[i][msg_cnt*128+:128], hmac_out, hmac_golden);
             end
+            #(`HCYCLE);
             #(`CYCLE*2);
             
             if (msg_cnt == MsgLength) begin
@@ -188,7 +189,7 @@ module tb_top;
                     #(`CYCLE);
                     rst_n = 1;
                     #(`CYCLE);
-                    // #(`HCYCLE);
+                    #(`HCYCLE);
                     start = 1;
                     for (j=15; j>=0; j=j-1) begin
                         data_in = salt_mem[i][j*8+:8];
@@ -200,7 +201,7 @@ module tb_top;
                         #(`CYCLE);
                     end
                     start = 0;
-                    // #(`HCYCLE);
+                    #(`HCYCLE);
                     $display("# %02dth pattern is generated successfully", i);
                     #(`CYCLE*2);
                 end

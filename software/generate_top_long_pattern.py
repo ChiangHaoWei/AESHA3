@@ -93,4 +93,4 @@ if __name__ == "__main__":
     mode = 2
     msg_len = 1
   os.makedirs(args.dir_path, exist_ok=True)
-  generate_top_pattern(args.dir_path, pw_size=15, msg_len=5, n_pattern=20, mode=mode)
+  generate_top_pattern(args.dir_path, pw_size=15, msg_len=msg_len, n_pattern=20, mode=mode)

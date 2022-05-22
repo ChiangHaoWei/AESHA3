@@ -1,13 +1,14 @@
 //module AESTOP(plain,key,cipher,clk,rst,start,finish,dec);
 module AESTOP(  
     clk,
-                rst_n,
-                mode, //mode = 1 --> decode?
-                i_start,
-                i_key,
-                i_in,
-                o_cipher,
-                o_ready);
+    rst_n,
+    mode, //mode = 1 --> decode?
+    i_start,
+    i_key,
+    i_in,
+    o_cipher,
+    o_ready
+);
 input clk,rst_n;
 input i_start,mode;
 input [127:0] i_key,i_in;
@@ -129,6 +130,7 @@ always @(*) begin
         end
         S_FIN:begin
             state_w = S_IDLE;
+            counter_w = 0;
         end
     endcase
 end
@@ -178,6 +180,8 @@ always @(posedge clk or negedge rst_n) begin
     if(!rst_n)begin
         counter_r <= 0;
         state_r <= S_IDLE;
+        temp_out_r <= 0;
+        roundkey_r <= 0;
     end
     else begin
         counter_r <= counter_w;
