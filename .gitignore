@@ -17,11 +17,17 @@ top_patterns/
 
 # synthesis file
 .synopsys_dc.setup
+U18/
 fsa0m*
 *.sdf
 
 # APR
 APR/
+DRC/
+LVS/
+
+# Export
+Export/
 
 # others
 progress.txt
